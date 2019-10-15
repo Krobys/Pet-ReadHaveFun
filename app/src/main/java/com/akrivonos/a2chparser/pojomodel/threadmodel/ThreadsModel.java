@@ -1,11 +1,11 @@
-package com.akrivonos.a2chparser.pojomodels;
+package com.akrivonos.a2chparser.pojomodel.threadmodel;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class DvachModel {
+public class ThreadsModel {
 
     @SerializedName("board")
     @Expose
