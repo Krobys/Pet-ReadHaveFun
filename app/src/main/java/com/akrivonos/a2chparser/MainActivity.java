@@ -8,9 +8,12 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.akrivonos.a2chparser.interfaces.OpenBoardListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+import static com.akrivonos.a2chparser.fragments.BoardsFragment.BOARD_ID;
+
+public class MainActivity extends AppCompatActivity implements OpenBoardListener {
 
     private Toolbar toolbar;
     private NavController navController;
@@ -31,4 +34,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 
+    @Override
+    public void openBoard(String boardId) {
+        Bundle bundle = new Bundle();
+        bundle.putString(BOARD_ID, boardId);
+        navController.navigate(R.id.concreteBoardFragment, bundle);
+    }
 }

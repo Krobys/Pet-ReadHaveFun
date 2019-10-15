@@ -1,7 +1,6 @@
 package com.akrivonos.a2chparser.retrofit;
 
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel;
-import com.akrivonos.a2chparser.pojomodel.threadmodel.ThreadsModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,7 +1,6 @@
 package com.akrivonos.a2chparser.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ public class BoardThemeAdapter extends RecyclerView.Adapter<ThemeBoardViewHolder
     private OpenDetailsBoardsBottomSheetListener bottomSheetListener;
 
     public void setBoardThemes(List<BoardTheme> boardThemes){
-        Log.d("test", "setBoardThemes: ");
         themesBoardList = new ArrayList<>(boardThemes);
     }
 

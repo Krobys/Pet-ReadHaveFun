@@ -9,5 +9,14 @@
         android:id="@+id/boardsFragment"
         android:name="com.akrivonos.a2chparser.fragments.BoardsFragment"
         android:label="fragment_boards"
-        tools:layout="@layout/fragment_boards" />
+        tools:layout="@layout/fragment_boards" >
+        <action
+            android:id="@+id/action_boardsFragment_to_concreteBoardFragment"
+            app:destination="@id/concreteBoardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/concreteBoardFragment"
+        android:name="com.akrivonos.a2chparser.fragments.ConcreteBoardFragment"
+        android:label="fragment_concrete_board"
+        tools:layout="@layout/fragment_concrete_board" />
 </navigation>

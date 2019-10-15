@@ -1,6 +1,7 @@
 package com.akrivonos.a2chparser.fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,13 +30,14 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomSheetListener ,
-        OpenBoardListener {
+public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomSheetListener {
 
     private RecyclerView recyclerViewBoards;
     private BottomSheetBehavior sheetBehavior;
     private FrameLayout bottomSheet;
     private BoardThemeAdapter boardAdapter;
+
+    public static final String BOARD_ID = "board_id";
 
     private Observer<BoardModel> observer = new Observer<BoardModel>() {
         Disposable disposable;
@@ -45,9 +48,9 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
 
         @Override
         public void onNext(BoardModel boardModel) {
-            Log.d("test", "onNext: ");
-            final List<BoardTheme> boardThemes = boardModel.getBoardsThemes();
+            final List<BoardTheme> boardThemes = boardModel.getBoardThemes();
             if(boardThemes != null){
+                if(boardAdapter == null) Log.d("test", "adapter null: ");
                 boardAdapter.setBoardThemes(boardThemes);
                 boardAdapter.notifyDataSetChanged();
             }
@@ -66,6 +69,12 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
     };
 
     public BoardsFragment() {
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setUpAdapterAndListeners();
     }
 
@@ -73,7 +82,8 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
         Context context = getContext();
         if(context != null){
             OpenDetailsBoardsBottomSheetListener boardsBottomSheetListener = this;
-            boardAdapter = new BoardThemeAdapter(context,boardsBottomSheetListener);
+            boardAdapter = new BoardThemeAdapter(context, boardsBottomSheetListener);
+            Log.d("test", "setUpAdapterAndListeners: ");
         }
     }
 
@@ -95,6 +105,7 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
 
             bottomSheet = view.findViewById(R.id.bottom_sheet_detailed_boards);
             sheetBehavior = BottomSheetBehavior.from(bottomSheet);
+            sheetBehavior.setHideable(true);
             sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
     }
@@ -104,16 +115,17 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
     }
 
     private void setUpBottomSheetCurrent(BoardTheme boardTheme){
-        Context context = getContext();
-        if(context!=null){
-            OpenBoardListener openBoardListener = this;
-            BoardConcreteAdapter boardConcreteAdapter = new BoardConcreteAdapter(context, openBoardListener);
+        Activity activity = getActivity();
+        if(activity!=null){
+            OpenBoardListener openBoardListener = (OpenBoardListener) activity;
+            BoardConcreteAdapter boardConcreteAdapter = new BoardConcreteAdapter(activity, openBoardListener);
             boardConcreteAdapter.setBoardConcretes(boardTheme.getBoardConcretes());
-
+            Log.d("test", "setUpBottomSheetCurrent: "+boardTheme.getBoardConcretes().get(0).getName());
             RecyclerView bottomSheetBoardsRecView = bottomSheet.findViewById(R.id.rec_view_boards_for_theme);
-            bottomSheetBoardsRecView.setLayoutManager(new LinearLayoutManager(context));
+            bottomSheetBoardsRecView.setLayoutManager(new LinearLayoutManager(activity));
             bottomSheetBoardsRecView.setAdapter(boardConcreteAdapter);
             sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            Log.d("test", "setUpBottomSheetCurrent: expand");
         }
     }
 
@@ -122,8 +134,4 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
         setUpBottomSheetCurrent(boardTheme);
     }
 
-    @Override
-    public void openBoard(String boardId) {
-
-    }
 }

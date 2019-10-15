@@ -11,6 +11,13 @@ public class BoardTheme {
     @Expose
     private List<BoardConcrete> boardConcretes = null;
 
+    public BoardTheme(List<BoardConcrete> boardConcretes){
+        if(boardConcretes != null && boardConcretes.size() > 0){
+            boardThemeName = boardConcretes.get(0).getCategory();
+            this.boardConcretes = boardConcretes;
+        }
+    }
+
     public String getBoardThemeName() {
         return boardThemeName;
     }

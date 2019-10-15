@@ -5,8 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel;
-import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread;
-import com.akrivonos.a2chparser.pojomodel.threadmodel.ThreadsModel;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -3,32 +3,83 @@ package com.akrivonos.a2chparser.pojomodel.threadmodel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Thread {
 
+    @SerializedName("banned")
+    @Expose
+    private Integer banned;
+    @SerializedName("closed")
+    @Expose
+    private Integer closed;
     @SerializedName("comment")
     @Expose
     private String comment;
+    @SerializedName("date")
+    @Expose
+    private String date;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("endless")
+    @Expose
+    private Integer endless;
+    @SerializedName("files")
+    @Expose
+    private List<File> files = null;
+    @SerializedName("files_count")
+    @Expose
+    private Integer filesCount;
     @SerializedName("lasthit")
     @Expose
     private Integer lasthit;
+    @SerializedName("name")
+    @Expose
+    private String name;
     @SerializedName("num")
     @Expose
     private String num;
+    @SerializedName("op")
+    @Expose
+    private Integer op;
+    @SerializedName("parent")
+    @Expose
+    private String parent;
     @SerializedName("posts_count")
     @Expose
     private Integer postsCount;
-    @SerializedName("score")
+    @SerializedName("sticky")
     @Expose
-    private Double score;
+    private Integer sticky;
     @SerializedName("subject")
     @Expose
     private String subject;
+    @SerializedName("tags")
+    @Expose
+    private String tags;
     @SerializedName("timestamp")
     @Expose
     private Integer timestamp;
-    @SerializedName("views")
+    @SerializedName("trip")
     @Expose
-    private Integer views;
+    private String trip;
+
+    public Integer getBanned() {
+        return banned;
+    }
+
+    public void setBanned(Integer banned) {
+        this.banned = banned;
+    }
+
+    public Integer getClosed() {
+        return closed;
+    }
+
+    public void setClosed(Integer closed) {
+        this.closed = closed;
+    }
 
     public String getComment() {
         return comment;
@@ -36,6 +87,46 @@ public class Thread {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getEndless() {
+        return endless;
+    }
+
+    public void setEndless(Integer endless) {
+        this.endless = endless;
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
+    }
+
+    public Integer getFilesCount() {
+        return filesCount;
+    }
+
+    public void setFilesCount(Integer filesCount) {
+        this.filesCount = filesCount;
     }
 
     public Integer getLasthit() {
@@ -46,12 +137,36 @@ public class Thread {
         this.lasthit = lasthit;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getNum() {
         return num;
     }
 
     public void setNum(String num) {
         this.num = num;
+    }
+
+    public Integer getOp() {
+        return op;
+    }
+
+    public void setOp(Integer op) {
+        this.op = op;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
     }
 
     public Integer getPostsCount() {
@@ -62,12 +177,12 @@ public class Thread {
         this.postsCount = postsCount;
     }
 
-    public Double getScore() {
-        return score;
+    public Integer getSticky() {
+        return sticky;
     }
 
-    public void setScore(Double score) {
-        this.score = score;
+    public void setSticky(Integer sticky) {
+        this.sticky = sticky;
     }
 
     public String getSubject() {
@@ -78,6 +193,14 @@ public class Thread {
         this.subject = subject;
     }
 
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
     public Integer getTimestamp() {
         return timestamp;
     }
@@ -86,12 +209,12 @@ public class Thread {
         this.timestamp = timestamp;
     }
 
-    public Integer getViews() {
-        return views;
+    public String getTrip() {
+        return trip;
     }
 
-    public void setViews(Integer views) {
-        this.views = views;
+    public void setTrip(String trip) {
+        this.trip = trip;
     }
 
 }

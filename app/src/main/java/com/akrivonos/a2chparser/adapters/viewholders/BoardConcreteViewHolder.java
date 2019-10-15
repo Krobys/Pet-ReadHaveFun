@@ -27,10 +27,6 @@ public class BoardConcreteViewHolder extends RecyclerView.ViewHolder {
         this.idBoard = idBoard;
     }
 
-    public String getIdBoard() {
-        return idBoard;
-    }
-
     public BoardConcreteViewHolder(@NonNull View itemView, final OpenBoardListener openBoardListener) {
         super(itemView);
         nameBoardTextView = itemView.findViewById(R.id.name_board);
