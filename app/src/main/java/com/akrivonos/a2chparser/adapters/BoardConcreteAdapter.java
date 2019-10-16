@@ -41,11 +41,10 @@ public class BoardConcreteAdapter extends RecyclerView.Adapter<BoardConcreteView
     @Override
     public void onBindViewHolder(@NonNull BoardConcreteViewHolder holder, int position) {
         BoardConcrete boardConcrete = boardConcretes.get(position);
-        if(boardConcrete!= null){
-            String id = boardConcrete.getId();
-            holder.setIdBoard(id);
-            holder.setIdBoardTextView(id);
-            holder.setNameBoardTextView(boardConcrete.getName());
+        if(boardConcrete != null){
+            holder.nameBoardTextView.setText(boardConcrete.getName());
+            holder.idBoardTextView.setText("/".concat(boardConcrete.getId()).concat("/"));
+            holder.setBoardConcrete(boardConcrete);
         }
     }
 

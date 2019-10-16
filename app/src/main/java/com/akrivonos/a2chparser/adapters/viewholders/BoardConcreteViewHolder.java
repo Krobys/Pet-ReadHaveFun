@@ -8,23 +8,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener;
+import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardConcrete;
 
 public class BoardConcreteViewHolder extends RecyclerView.ViewHolder {
-    private TextView nameBoardTextView;
-    private TextView idBoardTextView;
-    private String idBoard;
 
-    public void setIdBoard(String idBoard) {
-        this.idBoard = idBoard;
+    public TextView nameBoardTextView;
+    public TextView idBoardTextView;
+
+    private BoardConcrete boardConcrete;
+
+    public BoardConcrete getBoardConcrete() {
+        return boardConcrete;
     }
 
-    public void setNameBoardTextView(String nameBoard) {
-        nameBoardTextView.setText(nameBoard);
-    }
-
-    public void setIdBoardTextView(String idBoard) {
-        idBoardTextView.setText(idBoard);
-        this.idBoard = idBoard;
+    public void setBoardConcrete(BoardConcrete boardConcrete) {
+        this.boardConcrete = boardConcrete;
     }
 
     public BoardConcreteViewHolder(@NonNull View itemView, final OpenBoardListener openBoardListener) {
@@ -34,7 +32,9 @@ public class BoardConcreteViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openBoardListener.openBoard(idBoard);
+                if(boardConcrete != null){
+                    openBoardListener.openBoard(boardConcrete);
+                }
             }
         });
     }

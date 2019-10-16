@@ -1,24 +1,71 @@
 package com.akrivonos.a2chparser.fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
-import com.akrivonos.a2chparser.adapters.BoardConcreteAdapter;
+import com.akrivonos.a2chparser.adapters.ThreadAdapter;
+import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener;
+import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener;
+import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardConcrete;
+import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread;
+import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
+import static com.akrivonos.a2chparser.MainActivity.PAGE_MODE_ONLY_TOOLBAR;
+import static com.akrivonos.a2chparser.MainActivity.TOOLBAR_MODE_FULL;
+import static com.akrivonos.a2chparser.fragments.BoardsFragment.BOARD_INFO;
+
 
 public class ConcreteBoardFragment extends Fragment{
 
-    private RecyclerView recyclerViewBoardThreads;
-    private BoardConcreteAdapter boardConcreteAdapter;
+    private ThreadAdapter threadAdapter;
+    private PageDisplayModeListener pageDisplayModeListener;
+    private SetUpToolbarModeListener toolbarModeListener;
+
+    private Observer<List<Thread>> observer = new Observer<List<Thread>>() {
+        Disposable disposable;
+        @Override
+        public void onSubscribe(Disposable d) {
+            disposable = d;
+        }
+
+        @Override
+        public void onNext(List<Thread> threads) {
+            if(threads != null && threads.size() > 0){
+                threadAdapter.setThreads(threads);
+                threadAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onComplete() {
+            disposable.dispose();
+        }
+    };
 
     public ConcreteBoardFragment() {
         // Required empty public constructor
@@ -27,28 +74,50 @@ public class ConcreteBoardFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Context context = getContext();
-        if(context != null){
+        setUpAdapterAndListeners();
+    }
 
+    private void setUpAdapterAndListeners(){
+        Activity activity = getActivity();
+        if(activity != null){
+            pageDisplayModeListener = (PageDisplayModeListener) activity;
+            toolbarModeListener = (SetUpToolbarModeListener) activity;
+            threadAdapter = new ThreadAdapter(activity);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_concrete_board, container, false);
-        setUpScreen(view);
+        setUpScreen(view, getContext());
+        startLoadThreadsForBoard();
         return view;
     }
 
     private void startLoadThreadsForBoard(){
-
+        Bundle arguments = getArguments();
+        if(arguments != null){
+            BoardConcrete boardConcrete = arguments.getParcelable(BOARD_INFO);
+            if(boardConcrete != null){
+                RetrofitSearchDvach.getInstance().getThreadsForBoard(boardConcrete.getId(), observer);
+                toolbarModeListener.setMode(TOOLBAR_MODE_FULL, boardConcrete.getName());
+            }
+        }
     }
 
-    private void setUpScreen(View view){
-
-        recyclerViewBoardThreads = view.findViewById(R.id.board_threads_rec_view);
-        recyclerViewBoardThreads.setLayoutManager(new LinearLayoutManager(getContext()));
-        //recyclerViewBoardThreads.setAdapter();
+    private void setUpScreen(View view, Context context){
+        if(view != null && context != null){
+            RecyclerView recyclerViewBoardThreads = view.findViewById(R.id.board_threads_rec_view);
+            recyclerViewBoardThreads.setLayoutManager(new LinearLayoutManager(context));
+            recyclerViewBoardThreads.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                    outRect.bottom = 100;
+                }
+            });
+            recyclerViewBoardThreads.setAdapter(threadAdapter);
+        }
+        pageDisplayModeListener.setPageMode(PAGE_MODE_ONLY_TOOLBAR);
     }
 }

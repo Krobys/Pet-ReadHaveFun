@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="135dp"
+    android:layout_weight=".3"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/name_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/size_media"
+        android:layout_alignStart="@+id/imageView"
+        android:paddingBottom="5dp"
+        android:text="name"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/size_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"
+        android:text="0 кб"
+        android:textSize="10sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/width_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageView"
+        android:layout_toEndOf="@+id/comma"
+        android:paddingLeft="3dp"
+        android:text="300"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_media"
+        android:layout_toEndOf="@+id/width_media"
+        android:text="x"
+        android:textSize="10sp" />
+
+
+    <TextView
+        android:id="@+id/height_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageView"
+        android:layout_toEndOf="@+id/separator"
+        android:text="300"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/comma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageView"
+        android:layout_toEndOf="@+id/size_media"
+        android:text=","
+        android:textSize="10sp" />
+</RelativeLayout>

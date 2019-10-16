@@ -20,6 +20,7 @@ import com.akrivonos.a2chparser.adapters.BoardConcreteAdapter;
 import com.akrivonos.a2chparser.adapters.BoardThemeAdapter;
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener;
 import com.akrivonos.a2chparser.interfaces.OpenDetailsBoardsBottomSheetListener;
+import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener;
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel;
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme;
 import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach;
@@ -30,14 +31,17 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+import static com.akrivonos.a2chparser.MainActivity.PAGE_MODE_ONLY_NAVBAR;
+
 public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomSheetListener {
 
     private RecyclerView recyclerViewBoards;
     private BottomSheetBehavior sheetBehavior;
     private FrameLayout bottomSheet;
     private BoardThemeAdapter boardAdapter;
+    private PageDisplayModeListener pageDisplayModeListener;
 
-    public static final String BOARD_ID = "board_id";
+    public static final String BOARD_INFO = "board_info";
 
     private Observer<BoardModel> observer = new Observer<BoardModel>() {
         Disposable disposable;
@@ -50,7 +54,6 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
         public void onNext(BoardModel boardModel) {
             final List<BoardTheme> boardThemes = boardModel.getBoardThemes();
             if(boardThemes != null){
-                if(boardAdapter == null) Log.d("test", "adapter null: ");
                 boardAdapter.setBoardThemes(boardThemes);
                 boardAdapter.notifyDataSetChanged();
             }
@@ -79,10 +82,11 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
     }
 
     private void setUpAdapterAndListeners(){
-        Context context = getContext();
-        if(context != null){
+        Activity activity = getActivity();
+        if(activity != null){
             OpenDetailsBoardsBottomSheetListener boardsBottomSheetListener = this;
-            boardAdapter = new BoardThemeAdapter(context, boardsBottomSheetListener);
+            pageDisplayModeListener = (PageDisplayModeListener) activity;
+            boardAdapter = new BoardThemeAdapter(activity, boardsBottomSheetListener);
             Log.d("test", "setUpAdapterAndListeners: ");
         }
     }
@@ -100,7 +104,7 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
     private void setUpScreen(View view, Context context){
         if (!(view == null || context == null)){
             recyclerViewBoards = view.findViewById(R.id.boards_rec_view);
-            recyclerViewBoards.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerViewBoards.setLayoutManager(new LinearLayoutManager(context));
             recyclerViewBoards.setAdapter(boardAdapter);
 
             bottomSheet = view.findViewById(R.id.bottom_sheet_detailed_boards);
@@ -108,6 +112,7 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
             sheetBehavior.setHideable(true);
             sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
+        pageDisplayModeListener.setPageMode(PAGE_MODE_ONLY_NAVBAR);
     }
 
     private void startLoadBoards(){
