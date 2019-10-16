@@ -96,7 +96,6 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_boards, container, false);
         setUpScreen(fragmentView, getContext());
-
         startLoadBoards();
         return fragmentView;
     }
