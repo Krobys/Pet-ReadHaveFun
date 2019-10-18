@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
 import com.akrivonos.a2chparser.adapters.viewholders.MediaViewHolder;
+import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.File;
 
 import java.util.ArrayList;
@@ -28,9 +29,13 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaViewHolder> {
 
     private ArrayList<File> mediaList = new ArrayList<>();
     private LayoutInflater layoutInflater;
+    private boolean isFullMode;
+    private ShowContentMediaListener contentMediaListener;
 
-    public MediaAdapter(LayoutInflater layoutInflater){
+    public MediaAdapter(LayoutInflater layoutInflater, boolean isFullMode, ShowContentMediaListener contentMediaListener) {
         this.layoutInflater = layoutInflater;
+        this.isFullMode = isFullMode;
+        this.contentMediaListener = contentMediaListener;
     }
 
     public void setMediaList(List<File> mediaListToAdapt){
@@ -61,28 +66,13 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaViewHolder> {
     @NonNull
     @Override
     public MediaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view;
-        switch (viewType){
-            case ITEM_TYPE_GIF:
-                view = layoutInflater.inflate(R.layout.adapteritem_media_photo, parent, false);
-                break;
-            case ITEM_TYPE_IMAGE:
-                view = layoutInflater.inflate(R.layout.adapteritem_media_photo, parent, false);
-                break;
-            case ITEM_TYPE_VIDEO:
-                view = layoutInflater.inflate(R.layout.adapteritem_media_video, parent, false);
-                break;
-                default: view = layoutInflater.inflate(R.layout.adapteritem_media_photo, parent, false);
-
-        }
-
-        return new MediaViewHolder(view);
+        View view = layoutInflater.inflate(R.layout.adapteritem_media_photo, parent, false);
+        return new MediaViewHolder(view, contentMediaListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MediaViewHolder holder, int position) {
-        holder.setUpMediaItem(mediaList.get(position));
+        holder.setUpMediaItem(mediaList.get(position), isFullMode);
     }
 
     @Override

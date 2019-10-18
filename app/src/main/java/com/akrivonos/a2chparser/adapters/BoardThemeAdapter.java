@@ -26,6 +26,9 @@ public class BoardThemeAdapter extends RecyclerView.Adapter<ThemeBoardViewHolder
         themesBoardList = new ArrayList<>(boardThemes);
     }
 
+    public boolean isSet() {
+        return themesBoardList.size() != 0;
+    }
     public BoardThemeAdapter(Context context, OpenDetailsBoardsBottomSheetListener openDetailsBoardsBottomSheetListener){
         layoutInflater = LayoutInflater.from(context);
         bottomSheetListener = openDetailsBoardsBottomSheetListener;

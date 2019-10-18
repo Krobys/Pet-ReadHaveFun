@@ -10,11 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
+import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.File;
 import com.bumptech.glide.Glide;
 
-import static com.akrivonos.a2chparser.adapters.MediaAdapter.ITEM_TYPE_GIF;
-import static com.akrivonos.a2chparser.adapters.MediaAdapter.ITEM_TYPE_IMAGE;
 import static com.akrivonos.a2chparser.adapters.MediaAdapter.ITEM_TYPE_VIDEO;
 
 public class MediaViewHolder extends RecyclerView.ViewHolder {
@@ -24,44 +23,41 @@ public class MediaViewHolder extends RecyclerView.ViewHolder {
     private TextView sizeMediaTextView;
     private VideoView mediaView;
     private ImageView imageView;
+    private String STANDART_PATH = "https://2ch.hk";
+    private String mediaPathHighQuality;
 
-    public void setUpMediaItem(File fileMedia){
-        if(fileMedia != null){
-            nameMediaTextView.setText(String.valueOf(fileMedia.getName()));
-            String size = fileMedia.getSize() + "Кб";
-            sizeMediaTextView.setText(size);
-            heightMediaTextView.setText(String.valueOf(fileMedia.getHeight()));
-            widthMediaTextView.setText(String.valueOf(fileMedia.getWidth()));
-            String mediaPath = "https://2ch.hk".concat(fileMedia.getPath());
-            //String mediaPath = "https://2ch.hk".concat("/mov/src/2429473/15705450454031.gif");
-            int typeMedia = getItemViewType();
-            switch (typeMedia){
-                case ITEM_TYPE_VIDEO:
-                    mediaView.setVideoURI(Uri.parse(mediaPath));
-                    mediaView.seekTo(100);
-                    break;
-                case ITEM_TYPE_IMAGE:
-                    Glide.with(imageView)
-                            .load(mediaPath)
-                            .into(imageView);
-                    break;
-                case ITEM_TYPE_GIF:
-                    Glide.with(imageView)
-                            .asGif()
-                            .load(mediaPath)
-                            .into(imageView);
-                    break;
-            }
-        }
-    }
-
-    public MediaViewHolder(@NonNull View itemView) {
+    public MediaViewHolder(@NonNull View itemView, final ShowContentMediaListener contentMediaListener) {
         super(itemView);
         nameMediaTextView = itemView.findViewById(R.id.name_media);
         widthMediaTextView = itemView.findViewById(R.id.width_media);
         heightMediaTextView = itemView.findViewById(R.id.height_media);
         sizeMediaTextView = itemView.findViewById(R.id.size_media);
-        mediaView = itemView.findViewById(R.id.videoView);
         imageView = itemView.findViewById(R.id.imageView);
+        if (getItemViewType() == ITEM_TYPE_VIDEO) {
+            ImageView playIcon = itemView.findViewById(R.id.play_icon);
+            playIcon.setVisibility(View.VISIBLE);
+        }
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int viewType = getItemViewType();
+                contentMediaListener.showContent(mediaPathHighQuality, viewType);
+            }
+        });
+    }
+
+    public void setUpMediaItem(File fileMedia, boolean modeThreadOpenFull) {
+        if (fileMedia != null) {
+            nameMediaTextView.setText(String.valueOf(fileMedia.getName()));
+            String size = fileMedia.getSize() + "Кб";
+            sizeMediaTextView.setText(size);
+            heightMediaTextView.setText(String.valueOf(fileMedia.getHeight()));
+            widthMediaTextView.setText(String.valueOf(fileMedia.getWidth()));
+            mediaPathHighQuality = STANDART_PATH.concat(fileMedia.getPath());
+            String mediaPathThumbnail = STANDART_PATH.concat(fileMedia.getThumbnail());
+            Glide.with(imageView)
+                    .load(Uri.parse(mediaPathThumbnail))
+                    .into(imageView);
+        }
     }
 }

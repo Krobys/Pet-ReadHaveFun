@@ -1,5 +1,8 @@
 package com.akrivonos.a2chparser.pojomodel.boardmodel;
 
+import android.content.Context;
+
+import com.akrivonos.a2chparser.utils.SharedPreferenceUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -36,9 +39,11 @@ public class BoardModel {
     @Expose
     ArrayList < BoardConcrete > japan = null;
 
-    public List<BoardTheme> getBoardThemes(){
+    public List<BoardTheme> getBoardThemes(Context context) {
         List<BoardTheme> boardThemes = new ArrayList<>();
-        boardThemes.add(new BoardTheme(adult));
+        boolean isAdult = SharedPreferenceUtils.getAdultSetting(context);
+        if (isAdult)
+            boardThemes.add(new BoardTheme(adult));
         boardThemes.add(new BoardTheme(games));
         boardThemes.add(new BoardTheme(politic));
         boardThemes.add(new BoardTheme(custom));

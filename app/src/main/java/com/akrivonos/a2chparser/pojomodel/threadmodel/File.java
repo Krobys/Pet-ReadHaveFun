@@ -44,6 +44,12 @@ public class File {
     @SerializedName("width")
     @Expose
     private Integer width;
+    @SerializedName("duration")
+    @Expose
+    private String duration;
+    @SerializedName("duration_secs")
+    @Expose
+    private Integer durationSecs;
 
     public String getDisplayname() {
         return displayname;
@@ -147,6 +153,22 @@ public class File {
 
     public void setWidth(Integer width) {
         this.width = width;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public Integer getDurationSecs() {
+        return durationSecs;
+    }
+
+    public void setDurationSecs(Integer durationSecs) {
+        this.durationSecs = durationSecs;
     }
 
 }

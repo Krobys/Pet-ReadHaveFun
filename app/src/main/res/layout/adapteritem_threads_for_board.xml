@@ -42,7 +42,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/media_content_rec_view"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/date_thread">
 
         </androidx.recyclerview.widget.RecyclerView>

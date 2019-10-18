@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
 import com.akrivonos.a2chparser.adapters.viewholders.ThreadViewHolder;
+import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.File;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread;
 
@@ -25,10 +26,14 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadViewHolder>{
     private RecyclerView.LayoutManager layoutManager;
     private final static int TYPE_WITH_MEDIA = 1;
     private final static int TYPE_WITHOUT_MEDIA = 2;
+    private boolean isFullMode;
+    private ShowContentMediaListener contentMediaListener;
 
-    public ThreadAdapter(Context context){
+    public ThreadAdapter(Context context, boolean isFullMode, ShowContentMediaListener contentMediaListener) {
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
+        this.isFullMode = isFullMode;
+        this.contentMediaListener = contentMediaListener;
     }
 
     public void setThreads(List<Thread> threads){
@@ -51,7 +56,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadViewHolder>{
     public ThreadViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.adapteritem_threads_for_board, parent, false);
         return (viewType == TYPE_WITH_MEDIA)
-                ? new ThreadViewHolder(view, context, layoutInflater)
+                ? new ThreadViewHolder(view, context, layoutInflater, isFullMode, contentMediaListener)
                 : new ThreadViewHolder(view);
 
 }

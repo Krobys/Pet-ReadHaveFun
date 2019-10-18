@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="135dp"
-    android:layout_weight=".3"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/name_media"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/size_media"
         android:layout_alignStart="@+id/imageView"
-        android:paddingBottom="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
+        android:paddingBottom="3dp"
         android:text="name"
         android:textSize="10sp" />
 
@@ -19,23 +21,25 @@
         android:id="@+id/size_media"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView"
+        android:layout_below="@id/name_media"
         android:layout_alignStart="@+id/imageView"
         android:text="0 кб"
         android:textSize="10sp" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="105dp"
-        android:layout_height="105dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/comma"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:foregroundGravity="center" />
 
     <TextView
         android:id="@+id/width_media"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView"
+        android:layout_below="@+id/name_media"
         android:layout_toEndOf="@+id/comma"
         android:paddingLeft="3dp"
         android:text="300"
@@ -55,7 +59,7 @@
         android:id="@+id/height_media"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView"
+        android:layout_below="@+id/name_media"
         android:layout_toEndOf="@+id/separator"
         android:text="300"
         android:textSize="10sp" />
@@ -64,8 +68,18 @@
         android:id="@+id/comma"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView"
+        android:layout_below="@id/name_media"
         android:layout_toEndOf="@+id/size_media"
         android:text=","
         android:textSize="10sp" />
+
+    <ImageView
+        android:id="@+id/play_icon"
+        android:layout_width="46dp"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="64dp"
+        android:visibility="gone"
+        app:srcCompat="@android:drawable/ic_media_play" />
 </RelativeLayout>

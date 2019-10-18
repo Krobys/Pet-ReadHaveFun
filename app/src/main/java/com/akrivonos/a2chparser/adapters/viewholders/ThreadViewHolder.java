@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
 import com.akrivonos.a2chparser.adapters.MediaAdapter;
+import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread;
 
 public class ThreadViewHolder extends RecyclerView.ViewHolder {
@@ -37,7 +38,7 @@ public class ThreadViewHolder extends RecyclerView.ViewHolder {
         mediaContentThreadRecView.setVisibility(View.GONE);
     }
 
-    public ThreadViewHolder(@NonNull View itemView, Context context, LayoutInflater layoutInflater) {
+    public ThreadViewHolder(@NonNull View itemView, Context context, LayoutInflater layoutInflater, boolean isFullMode, ShowContentMediaListener contentMediaListener) {
         super(itemView);
 
         nameThreadTextView = itemView.findViewById(R.id.name_thread);
@@ -45,7 +46,7 @@ public class ThreadViewHolder extends RecyclerView.ViewHolder {
         dateThreadTextView = itemView.findViewById(R.id.date_thread);
         contentThreadTextView = itemView.findViewById(R.id.text_content);
 
-        mediaAdapter = new MediaAdapter(layoutInflater);
+        mediaAdapter = new MediaAdapter(layoutInflater, isFullMode, contentMediaListener);
 
         mediaContentThreadRecView = itemView.findViewById(R.id.media_content_rec_view);
         mediaContentThreadRecView.setLayoutManager(new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false));

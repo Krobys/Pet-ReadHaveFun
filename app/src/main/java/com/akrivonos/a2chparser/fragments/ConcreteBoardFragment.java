@@ -3,7 +3,9 @@ package com.akrivonos.a2chparser.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
 import com.akrivonos.a2chparser.adapters.ThreadAdapter;
+import com.akrivonos.a2chparser.dialogs.MediaZoomedDialog;
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener;
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener;
+import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener;
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardConcrete;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread;
 import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach;
@@ -26,6 +30,7 @@ import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -35,7 +40,7 @@ import static com.akrivonos.a2chparser.MainActivity.TOOLBAR_MODE_FULL;
 import static com.akrivonos.a2chparser.fragments.BoardsFragment.BOARD_INFO;
 
 
-public class ConcreteBoardFragment extends Fragment{
+public class ConcreteBoardFragment extends Fragment implements ShowContentMediaListener {
 
     private ThreadAdapter threadAdapter;
     private PageDisplayModeListener pageDisplayModeListener;
@@ -82,7 +87,8 @@ public class ConcreteBoardFragment extends Fragment{
         if(activity != null){
             pageDisplayModeListener = (PageDisplayModeListener) activity;
             toolbarModeListener = (SetUpToolbarModeListener) activity;
-            threadAdapter = new ThreadAdapter(activity);
+            ShowContentMediaListener showContentMediaListener = this;
+            threadAdapter = new ThreadAdapter(activity, false, showContentMediaListener);
         }
     }
 
@@ -119,5 +125,16 @@ public class ConcreteBoardFragment extends Fragment{
             recyclerViewBoardThreads.setAdapter(threadAdapter);
         }
         pageDisplayModeListener.setPageMode(PAGE_MODE_ONLY_TOOLBAR);
+    }
+
+    @Override
+    public void showContent(String pathMedia, int mediaType) {
+        Context context = getContext();
+        if (context != null) {
+            MediaZoomedDialog cdd = new MediaZoomedDialog(context, pathMedia, mediaType);
+            Objects.requireNonNull(cdd.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            cdd.setCanceledOnTouchOutside(true);
+            cdd.show();
+        }
     }
 }

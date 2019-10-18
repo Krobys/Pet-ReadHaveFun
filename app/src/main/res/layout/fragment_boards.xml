@@ -3,15 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.BoardsFragment" >
+    android:background="@color/colorGrayLight"
+    tools:context=".fragments.BoardsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/boards_rec_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:duplicateParentState="true" />
+        android:duplicateParentState="true">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <include
         layout="@layout/content_boards_for_theme" />
+
+    <ProgressBar
+        android:id="@+id/progressBarBoardsTheme"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
