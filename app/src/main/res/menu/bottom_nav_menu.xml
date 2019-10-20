@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_search_beer"
+        android:id="@+id/navigation_boards_themes"
         android:icon="@drawable/ch_main_icon_border_only"
         android:title="Boards" />
 
     <item
-        android:id="@+id/navigation_map_search"
+        android:id="@+id/navigation_saved_content"
         android:icon="@drawable/ic_save_and_rest_black_24dp"
         android:title="Saved posts" />
 
