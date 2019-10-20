@@ -5,7 +5,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,7 +47,7 @@ public class ThreadViewHolder extends RecyclerView.ViewHolder {
         mediaAdapter = new MediaAdapter(layoutInflater);
 
         mediaContentThreadRecView = itemView.findViewById(R.id.media_content_rec_view);
-        mediaContentThreadRecView.setLayoutManager(new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false));
+        mediaContentThreadRecView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
         mediaContentThreadRecView.setAdapter(mediaAdapter);
 
     }

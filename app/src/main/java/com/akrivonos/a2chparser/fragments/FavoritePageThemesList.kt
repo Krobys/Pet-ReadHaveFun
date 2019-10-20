@@ -18,19 +18,17 @@ import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.models.SaveTypeModel
 
-class FavoritePage : Fragment() {
+class FavoritePageThemesList : Fragment() {
 
     private lateinit var pageDisplayListener: PageDisplayModeListener
-    private lateinit var adapter: SaveListTypesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setUpAdapterAndListeners()
+        setUpListeners()
     }
 
-    private fun setUpAdapterAndListeners() {
+    private fun setUpListeners() {
         pageDisplayListener = activity as PageDisplayModeListener
-        adapter = SaveListTypesAdapter(context, activity as OpenDetailedSavePage)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +40,7 @@ class FavoritePage : Fragment() {
 
     private fun setUpScreen(view: View) {
         val savesThemesRecView = view.findViewById<RecyclerView>(R.id.rec_view_saved_themes)
+        val adapter = SaveListTypesAdapter(context, activity as OpenDetailedSavePage)
         savesThemesRecView?.layoutManager = LinearLayoutManager(context)
         savesThemesRecView?.adapter = adapter
         pageDisplayListener.setPageMode(PAGE_MODE_ONLY_NAVBAR)

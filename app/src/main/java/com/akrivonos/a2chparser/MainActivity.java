@@ -16,10 +16,14 @@ import com.akrivonos.a2chparser.interfaces.OpenBoardListener;
 import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage;
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener;
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener;
-import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardConcrete;
+import com.akrivonos.a2chparser.models.SaveTypeModel;
+import com.akrivonos.a2chparser.models.database.Board;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.jetbrains.annotations.NotNull;
+
 import static com.akrivonos.a2chparser.fragments.BoardsFragment.BOARD_INFO;
+import static com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.INFO_SAVE_PAGE;
 
 public class MainActivity extends AppCompatActivity implements OpenBoardListener,
         SetUpToolbarModeListener,
@@ -54,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements OpenBoardListener
     }
 
     @Override
-    public void openBoard(BoardConcrete boardConcrete) {
+    public void openBoard(Board board) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BOARD_INFO, boardConcrete);
-        navController.navigate(R.id.concrete_board_fragment, bundle);
+        bundle.putParcelable(BOARD_INFO, board);
+        navController.navigate(R.id.navigation_concrete_board_fragment, bundle);
     }
 
     @Override
@@ -130,7 +134,9 @@ public class MainActivity extends AppCompatActivity implements OpenBoardListener
     }
 
     @Override
-    public void openSavePage(int typePage) {
-
+    public void openSavePage(@NotNull SaveTypeModel saveTypeModel) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(INFO_SAVE_PAGE, saveTypeModel);
+        navController.navigate(R.id.navigation_saved_content, bundle);
     }
 }

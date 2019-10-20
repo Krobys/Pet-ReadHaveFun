@@ -28,7 +28,7 @@ class SaveListTypesAdapter(context: Context?, private val detailedPageListener: 
     override fun onBindViewHolder(holder: TypeSaveViewHolder, position: Int) {
         val saveTypeModel = saveTypes[position]
         holder.typeModel = saveTypeModel
-        holder.nameTypeSaveTextView.text = saveTypeModel.getName()
+        holder.nameTypeSaveTextView.text = saveTypeModel.nameSave
     }
 
     override fun getItemCount(): Int = saveTypes.size
