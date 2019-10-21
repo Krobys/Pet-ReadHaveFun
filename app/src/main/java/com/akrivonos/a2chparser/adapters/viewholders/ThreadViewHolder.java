@@ -29,7 +29,7 @@ public class ThreadViewHolder extends RecyclerView.ViewHolder {
 
     public ThreadViewHolder(@NonNull View itemView) {
         super(itemView);
-
+        Log.d("test", "ThreadViewHolder: 1");
         nameThreadTextView = itemView.findViewById(R.id.name_thread);
         idThreadTextView = itemView.findViewById(R.id.id_thread);
         dateThreadTextView = itemView.findViewById(R.id.date_thread);
@@ -40,16 +40,16 @@ public class ThreadViewHolder extends RecyclerView.ViewHolder {
 
     public ThreadViewHolder(@NonNull View itemView, Context context, LayoutInflater layoutInflater, boolean isFullMode, ShowContentMediaListener contentMediaListener) {
         super(itemView);
-
+        Log.d("test", "ThreadViewHolder: 2");
         nameThreadTextView = itemView.findViewById(R.id.name_thread);
         idThreadTextView = itemView.findViewById(R.id.id_thread);
         dateThreadTextView = itemView.findViewById(R.id.date_thread);
         contentThreadTextView = itemView.findViewById(R.id.text_content);
+        mediaContentThreadRecView = itemView.findViewById(R.id.media_content_rec_view);
+        mediaContentThreadRecView.setLayoutManager(new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false));
 
         mediaAdapter = new MediaAdapter(layoutInflater, isFullMode, contentMediaListener);
 
-        mediaContentThreadRecView = itemView.findViewById(R.id.media_content_rec_view);
-        mediaContentThreadRecView.setLayoutManager(new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false));
         mediaContentThreadRecView.setAdapter(mediaAdapter);
 
     }
@@ -62,6 +62,7 @@ public class ThreadViewHolder extends RecyclerView.ViewHolder {
         dateThreadTextView.setText(thread.getDate());
         contentThreadTextView.setText(Html.fromHtml(thread.getComment()));
         mediaAdapter.setMediaList(thread.getFiles());
+        mediaAdapter.notifyDataSetChanged();
     }
 
     public void setThreadDataWithoutMedia(Thread thread) {

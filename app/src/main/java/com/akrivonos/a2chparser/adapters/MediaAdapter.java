@@ -1,5 +1,6 @@
 package com.akrivonos.a2chparser.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaViewHolder> {
     private ShowContentMediaListener contentMediaListener;
 
     public MediaAdapter(LayoutInflater layoutInflater, boolean isFullMode, ShowContentMediaListener contentMediaListener) {
+        Log.d("test", "MediaAdapter: create");
         this.layoutInflater = layoutInflater;
         this.isFullMode = isFullMode;
         this.contentMediaListener = contentMediaListener;
@@ -40,6 +42,10 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaViewHolder> {
 
     public void setMediaList(List<File> mediaListToAdapt){
         mediaList = new ArrayList<>(mediaListToAdapt);
+        Log.d("test", "setMediaList: ");
+        for (File file : mediaList) {
+            Log.d("test", "file: " + file.getName());
+        }
     }
 
     @Override
