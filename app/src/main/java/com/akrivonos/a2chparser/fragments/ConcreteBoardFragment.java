@@ -23,7 +23,7 @@ import com.akrivonos.a2chparser.dialogs.MediaZoomedDialog;
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener;
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener;
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener;
-import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardConcrete;
+import com.akrivonos.a2chparser.models.database.Board;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread;
 import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach;
 
@@ -104,10 +104,10 @@ public class ConcreteBoardFragment extends Fragment implements ShowContentMediaL
     private void startLoadThreadsForBoard(){
         Bundle arguments = getArguments();
         if(arguments != null){
-            BoardConcrete boardConcrete = arguments.getParcelable(BOARD_INFO);
-            if(boardConcrete != null){
-                RetrofitSearchDvach.getInstance().getThreadsForBoard(boardConcrete.getId(), observer);
-                toolbarModeListener.setMode(TOOLBAR_MODE_FULL, boardConcrete.getName());
+            Board board = arguments.getParcelable(BOARD_INFO);
+            if (board != null) {
+                RetrofitSearchDvach.getInstance().getThreadsForBoard(board.getIdBoard(), observer);
+                toolbarModeListener.setMode(TOOLBAR_MODE_FULL, board.getNameBoards());
             }
         }
     }

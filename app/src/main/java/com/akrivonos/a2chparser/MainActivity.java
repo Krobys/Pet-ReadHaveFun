@@ -1,8 +1,10 @@
 package com.akrivonos.a2chparser;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,16 +13,22 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener;
+import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage;
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener;
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener;
-import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardConcrete;
+import com.akrivonos.a2chparser.models.SaveTypeModel;
+import com.akrivonos.a2chparser.models.database.Board;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.jetbrains.annotations.NotNull;
+
 import static com.akrivonos.a2chparser.fragments.BoardsFragment.BOARD_INFO;
+import static com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.INFO_SAVE_PAGE;
 
 public class MainActivity extends AppCompatActivity implements OpenBoardListener,
         SetUpToolbarModeListener,
-        PageDisplayModeListener {
+        PageDisplayModeListener,
+        OpenDetailedSavePage {
 
     private Toolbar toolbar;
     private NavController navController;
@@ -50,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements OpenBoardListener
     }
 
     @Override
-    public void openBoard(BoardConcrete boardConcrete) {
+    public void openBoard(Board board) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BOARD_INFO, boardConcrete);
-        navController.navigate(R.id.concreteBoardFragment, bundle);
+        bundle.putParcelable(BOARD_INFO, board);
+        navController.navigate(R.id.navigation_concrete_board_fragment, bundle);
     }
 
     @Override
@@ -80,6 +88,15 @@ public class MainActivity extends AppCompatActivity implements OpenBoardListener
                 actionBar.setDisplayShowHomeEnabled(displayBackButton);
                 actionBar.setDisplayShowTitleEnabled(displayTitle);
             }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            navController.popBackStack();
+            return true;
+        }
+        return false;
     }
 
     private void setTitleToolbar(String titleToolbar){
@@ -116,4 +133,10 @@ public class MainActivity extends AppCompatActivity implements OpenBoardListener
                 : View.GONE);
     }
 
+    @Override
+    public void openSavePage(@NotNull SaveTypeModel saveTypeModel) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(INFO_SAVE_PAGE, saveTypeModel);
+        navController.navigate(R.id.navigation_saved_content, bundle);
+    }
 }

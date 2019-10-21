@@ -8,18 +8,24 @@
         android:id="@+id/name_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
         android:textStyle="bold"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="15dp" />
+        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/id_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/button_is_save" />
+
+    <ImageButton
+        android:id="@+id/button_is_save"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="15dp" />
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/ic_star_not_save" />
 </RelativeLayout>

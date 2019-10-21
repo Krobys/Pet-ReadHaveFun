@@ -3,20 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/boardsFragment">
+    app:startDestination="@id/navigation_boards_themes">
 
     <fragment
-        android:id="@+id/boardsFragment"
+        android:id="@+id/navigation_boards_themes"
         android:name="com.akrivonos.a2chparser.fragments.BoardsFragment"
         android:label="fragment_boards"
         tools:layout="@layout/fragment_boards" >
         <action
             android:id="@+id/action_boardsFragment_to_concreteBoardFragment"
-            app:destination="@id/concreteBoardFragment" />
+            app:destination="@id/navigation_concrete_board_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/concreteBoardFragment"
+        android:id="@+id/navigation_concrete_board_fragment"
         android:name="com.akrivonos.a2chparser.fragments.ConcreteBoardFragment"
         android:label="fragment_concrete_board"
         tools:layout="@layout/fragment_concrete_board" />
+    <fragment
+        android:id="@+id/navigation_saved_content"
+        android:name="com.akrivonos.a2chparser.fragments.FavoritePageThemesList"
+        android:label="fragment_favorite_page"
+        tools:layout="@layout/fragment_favorite_page">
+        <action
+            android:id="@+id/action_navigation_saved_content_to_favoritePageConcreteFragment"
+            app:destination="@id/navigation_saved_page_concrete_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_saved_page_concrete_fragment"
+        android:name="com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment"
+        android:label="fragment_favorite_page_concrete"
+        tools:layout="@layout/fragment_favorite_page_concrete" />
 </navigation>
