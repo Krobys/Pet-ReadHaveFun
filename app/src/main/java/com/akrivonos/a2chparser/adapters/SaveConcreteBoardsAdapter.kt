@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.models.database.Board
 
-class SaveConcreteAdapter(context: Context?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SaveConcreteBoardsAdapter(context: Context?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val layoutInflater = LayoutInflater.from(context)
     private var boardsList: ArrayList<Board> = ArrayList()
 

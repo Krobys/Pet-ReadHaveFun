@@ -29,9 +29,9 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaViewHolder> {
     public static final int ITEM_TYPE_VIDEO = 3;
 
     private ArrayList<File> mediaList = new ArrayList<>();
-    private LayoutInflater layoutInflater;
-    private boolean isFullMode;
-    private ShowContentMediaListener contentMediaListener;
+    private final LayoutInflater layoutInflater;
+    private final boolean isFullMode;
+    private final ShowContentMediaListener contentMediaListener;
 
     public MediaAdapter(LayoutInflater layoutInflater, boolean isFullMode, ShowContentMediaListener contentMediaListener) {
         Log.d("test", "MediaAdapter: create");

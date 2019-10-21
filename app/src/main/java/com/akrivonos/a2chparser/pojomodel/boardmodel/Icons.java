@@ -1,6 +1,6 @@
 package com.akrivonos.a2chparser.pojomodel.boardmodel;
 
-public class Icons {
+class Icons {
     private String name;
     private float num;
     private String url;

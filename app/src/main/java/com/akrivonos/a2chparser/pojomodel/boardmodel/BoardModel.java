@@ -13,30 +13,39 @@ public class BoardModel {
 
     @SerializedName("Взрослым")
     @Expose
+    private
     ArrayList<BoardConcrete> adult = null;
     @SerializedName("Игры")
     @Expose
+    private
     ArrayList < BoardConcrete > games = null;
     @SerializedName("Политика")
     @Expose
+    private
     ArrayList < BoardConcrete > politic = null;
     @SerializedName("Пользовательские")
     @Expose
+    private
     ArrayList < BoardConcrete > custom = null;
     @SerializedName("Разное")
     @Expose
+    private
     ArrayList < BoardConcrete > different = null;
     @SerializedName("Творчество")
     @Expose
+    private
     ArrayList < BoardConcrete > art = null;
     @SerializedName("Тематика")
     @Expose
+    private
     ArrayList < BoardConcrete > theme = null;
     @SerializedName("Техника и софт")
     @Expose
+    private
     ArrayList < BoardConcrete > tech = null;
     @SerializedName("Японская культура")
     @Expose
+    private
     ArrayList < BoardConcrete > japan = null;
 
     public List<BoardTheme> getBoardThemes(Context context) {

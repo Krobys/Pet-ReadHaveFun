@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.MainActivity.PAGE_MODE_ONLY_TOOLBAR
 import com.akrivonos.a2chparser.MainActivity.TOOLBAR_MODE_FULL
 import com.akrivonos.a2chparser.R
-import com.akrivonos.a2chparser.adapters.SaveConcreteAdapter
+import com.akrivonos.a2chparser.adapters.SaveConcreteBoardsAdapter
 import com.akrivonos.a2chparser.adapters.SaveListTypesAdapter.Companion.SAVE_TYPE_BOARD
 import com.akrivonos.a2chparser.adapters.SaveListTypesAdapter.Companion.SAVE_TYPE_COMMENT
 import com.akrivonos.a2chparser.adapters.SaveListTypesAdapter.Companion.SAVE_TYPE_MEDIA
@@ -28,7 +28,7 @@ class FavoritePageConcreteFragment : Fragment() {
 
     private lateinit var pageDisplayListener: PageDisplayModeListener
     private lateinit var toolbarModeListener: SetUpToolbarModeListener
-    private lateinit var adapterSaves: SaveConcreteAdapter
+    private lateinit var adapterSaves: SaveConcreteBoardsAdapter
     private lateinit var disposable: Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +51,7 @@ class FavoritePageConcreteFragment : Fragment() {
 
     private fun setUpScreen(view: View) {
         val recyclerView = view.findViewById<RecyclerView>(R.id.rec_view_concrete_saves)
-        adapterSaves = SaveConcreteAdapter(context)
+        adapterSaves = SaveConcreteBoardsAdapter(context)
         recyclerView?.layoutManager = LinearLayoutManager(context)
         recyclerView?.adapter = adapterSaves
         pageDisplayListener.setPageMode(PAGE_MODE_ONLY_TOOLBAR)

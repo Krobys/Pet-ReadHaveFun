@@ -3,7 +3,7 @@ package com.akrivonos.a2chparser.pojomodel.threadmodel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Top {
+class Top {
 
     @SerializedName("board")
     @Expose

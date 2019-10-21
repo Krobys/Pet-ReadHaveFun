@@ -18,9 +18,9 @@ import java.util.List;
 
 public class BoardThemeAdapter extends RecyclerView.Adapter<ThemeBoardViewHolder> {
 
-    private LayoutInflater layoutInflater;
+    private final LayoutInflater layoutInflater;
     private ArrayList<BoardTheme> themesBoardList = new ArrayList<>();
-    private OpenDetailsBoardsBottomSheetListener bottomSheetListener;
+    private final OpenDetailsBoardsBottomSheetListener bottomSheetListener;
 
     public void setBoardThemes(List<BoardTheme> boardThemes){
         themesBoardList = new ArrayList<>(boardThemes);

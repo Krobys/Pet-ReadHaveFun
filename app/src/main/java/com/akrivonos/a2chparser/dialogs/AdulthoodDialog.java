@@ -15,9 +15,9 @@ import java.lang.ref.WeakReference;
 
 public class AdulthoodDialog extends Dialog {
 
-    private WeakReference<Context> contextWeakReference;
-    private CallBack callBack;
-    private View.OnClickListener onClickListenerChoose = new View.OnClickListener() {
+    private final WeakReference<Context> contextWeakReference;
+    private final CallBack callBack;
+    private final View.OnClickListener onClickListenerChoose = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             boolean adultSetting = false;

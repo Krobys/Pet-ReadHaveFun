@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.akrivonos.a2chparser.fabrics.SubjectFactory;
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.ThreadsModel;
@@ -12,11 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +28,7 @@ public class RetrofitSearchDvach {
     private final static String BASE_URL = "https://2ch.hk/";
     private static RetrofitSearchDvach retrofitSearchDownload;
     private final ApiRetrofitInterface apiService;
-    private String TAG = "test";
+    private final String TAG = "test";
 
     private RetrofitSearchDvach() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -49,13 +46,41 @@ public class RetrofitSearchDvach {
         return retrofitSearchDownload;
     }
 
-    public RetrofitSearchDvach getThreadsForBoard(String nameBoard, final io.reactivex.Observer<List<Thread>> observerThreads) {
+    public RetrofitSearchDvach getBoards(final io.reactivex.Observer<BoardModel> observerBoardThemes) {
+        final PublishSubject<BoardModel> boardsPublishSubject = SubjectFactory.createPublishSubject(observerBoardThemes);
 
-        final PublishSubject<List<Thread>> threadsPublishSubject = PublishSubject.create();
-        threadsPublishSubject
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observerThreads);
+        Call<BoardModel> beerModelCall = apiService.getBoards();
+        beerModelCall.enqueue(new Callback<BoardModel>() {
+            @Override
+            public void onResponse(@NonNull Call<BoardModel> call, @NonNull Response<BoardModel> response) {
+
+                Log.d(TAG, "onResponse: " + response.toString());
+                BoardModel boardModel = response.body();
+                if (boardModel != null) {
+                    if (boardsPublishSubject.hasObservers())
+                        if (response.code() == 200) {
+                            Log.d(TAG, "onResponse: +");
+                            boardsPublishSubject.onNext(boardModel);
+                        } else {
+                            boardsPublishSubject.onNext(new BoardModel());
+                        }
+                }
+                boardsPublishSubject.onComplete();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BoardModel> call, @NotNull Throwable t) {
+                Log.d(TAG, "onFailure: ");
+                if (boardsPublishSubject.hasObservers())
+                    boardsPublishSubject.onNext(new BoardModel());
+            }
+
+        });
+        return retrofitSearchDownload;
+    }
+
+    public RetrofitSearchDvach getThreadsForBoard(String nameBoard, final io.reactivex.Observer<List<Thread>> observerThreads) {
+        final PublishSubject<List<Thread>> threadsPublishSubject = SubjectFactory.createPublishSubject(observerThreads);
 
         Call<ThreadsModel> beerModelCall = apiService.getThreads(nameBoard);
         beerModelCall.enqueue(new Callback<ThreadsModel>() {
@@ -86,37 +111,32 @@ public class RetrofitSearchDvach {
         return retrofitSearchDownload;
     }
 
-    public RetrofitSearchDvach getBoardsAsync(final io.reactivex.Observer<BoardModel> observerBoardThemes) {
-        final PublishSubject<BoardModel> boardsPublishSubject = PublishSubject.create();
-        boardsPublishSubject
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observerBoardThemes);
+    public RetrofitSearchDvach getPostsForThread(String nameBoard, final io.reactivex.Observer<List<Thread>> observerThreads) {
+        final PublishSubject<List<Thread>> threadsPublishSubject = SubjectFactory.createPublishSubject(observerThreads);
 
-        Call<BoardModel> beerModelCall = apiService.getBoardsList();
-        beerModelCall.enqueue(new Callback<BoardModel>() {
+        Call<ThreadsModel> beerModelCall = apiService.getThreads(nameBoard);
+        beerModelCall.enqueue(new Callback<ThreadsModel>() {
             @Override
-            public void onResponse(@NonNull Call<BoardModel> call, @NonNull Response<BoardModel> response) {
-
+            public void onResponse(@NonNull Call<ThreadsModel> call, @NonNull Response<ThreadsModel> response) {
                 Log.d(TAG, "onResponse: "+response.toString());
-                BoardModel boardModel = response.body();
-                    if (boardModel != null) {
-                        if (boardsPublishSubject.hasObservers())
-                            if (response.code() == 200) {
-                                Log.d(TAG, "onResponse: +");
-                                boardsPublishSubject.onNext(boardModel);
-                            } else {
-                                boardsPublishSubject.onNext(new BoardModel());
-                            }
+                ThreadsModel threadsModel = response.body();
+                if (threadsPublishSubject.hasObservers())
+                    if (threadsModel != null) {
+                        if (response.code() == 200) {
+                            Log.d(TAG, "onResponse: +");
+                            threadsPublishSubject.onNext(threadsModel.getThreads());
+                        } else {
+                            threadsPublishSubject.onNext(new ArrayList<Thread>());
+                        }
                     }
-                    boardsPublishSubject.onComplete();
+                threadsPublishSubject.onComplete();
             }
 
             @Override
-            public void onFailure(@NonNull Call<BoardModel> call, @NotNull Throwable t) {
+            public void onFailure(@NonNull Call<ThreadsModel> call, @NotNull Throwable t) {
                 Log.d(TAG, "onFailure: ");
-                if (boardsPublishSubject.hasObservers())
-                    boardsPublishSubject.onNext(new BoardModel());
+                if (threadsPublishSubject.hasObservers())
+                    threadsPublishSubject.onNext(new ArrayList<Thread>());
             }
 
         });

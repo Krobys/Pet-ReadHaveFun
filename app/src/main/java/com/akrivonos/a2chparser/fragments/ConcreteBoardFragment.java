@@ -4,14 +4,13 @@ package com.akrivonos.a2chparser.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +25,8 @@ import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener;
 import com.akrivonos.a2chparser.models.database.Board;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread;
 import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach;
+import com.akrivonos.a2chparser.utils.ItemDecoratorUtils;
+import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,8 +46,9 @@ public class ConcreteBoardFragment extends Fragment implements ShowContentMediaL
     private ThreadAdapter threadAdapter;
     private PageDisplayModeListener pageDisplayModeListener;
     private SetUpToolbarModeListener toolbarModeListener;
+    private ProgressBar progressBar;
 
-    private Observer<List<Thread>> observer = new Observer<List<Thread>>() {
+    private final Observer<List<Thread>> observer = new Observer<List<Thread>>() {
         Disposable disposable;
         @Override
         public void onSubscribe(Disposable d) {
@@ -59,6 +61,7 @@ public class ConcreteBoardFragment extends Fragment implements ShowContentMediaL
                 threadAdapter.setThreads(threads);
                 threadAdapter.notifyDataSetChanged();
             }
+            progressBar.setVisibility(View.GONE);
         }
 
         @Override
@@ -107,6 +110,7 @@ public class ConcreteBoardFragment extends Fragment implements ShowContentMediaL
             Board board = arguments.getParcelable(BOARD_INFO);
             if (board != null) {
                 RetrofitSearchDvach.getInstance().getThreadsForBoard(board.getIdBoard(), observer);
+                progressBar.setVisibility(View.VISIBLE);
                 toolbarModeListener.setMode(TOOLBAR_MODE_FULL, board.getNameBoards());
             }
         }
@@ -116,13 +120,10 @@ public class ConcreteBoardFragment extends Fragment implements ShowContentMediaL
         if(view != null && context != null){
             RecyclerView recyclerViewBoardThreads = view.findViewById(R.id.board_threads_rec_view);
             recyclerViewBoardThreads.setLayoutManager(new LinearLayoutManager(context));
-            recyclerViewBoardThreads.addItemDecoration(new RecyclerView.ItemDecoration() {
-                @Override
-                public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                    outRect.bottom = 100;
-                }
-            });
+            recyclerViewBoardThreads.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 100));
             recyclerViewBoardThreads.setAdapter(threadAdapter);
+
+            progressBar = view.findViewById(R.id.progressBar);
         }
         pageDisplayModeListener.setPageMode(PAGE_MODE_ONLY_TOOLBAR);
     }

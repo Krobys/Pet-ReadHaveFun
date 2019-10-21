@@ -1,7 +1,6 @@
 package com.akrivonos.a2chparser.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +20,12 @@ import java.util.List;
 public class ThreadAdapter extends RecyclerView.Adapter<ThreadViewHolder>{
 
     private ArrayList<Thread> threads = new ArrayList<>();
-    private LayoutInflater layoutInflater;
-    private Context context;
-    private RecyclerView.LayoutManager layoutManager;
+    private final LayoutInflater layoutInflater;
+    private final Context context;
     private final static int TYPE_WITH_MEDIA = 1;
     private final static int TYPE_WITHOUT_MEDIA = 2;
-    private boolean isFullMode;
-    private ShowContentMediaListener contentMediaListener;
+    private final boolean isFullMode;
+    private final ShowContentMediaListener contentMediaListener;
 
     public ThreadAdapter(Context context, boolean isFullMode, ShowContentMediaListener contentMediaListener) {
         layoutInflater = LayoutInflater.from(context);
@@ -44,8 +42,6 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadViewHolder>{
     public int getItemViewType(int position) {
             Thread thread = threads.get(position);
             List<File> files = thread.getFiles();
-            if(files == null)
-        Log.d("test", "getItemViewType: files = null");
             return (files != null)
                     ? TYPE_WITH_MEDIA
                     : TYPE_WITHOUT_MEDIA;

@@ -29,6 +29,7 @@ import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener;
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel;
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme;
 import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach;
+import com.akrivonos.a2chparser.utils.ItemDecoratorUtils;
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -42,7 +43,6 @@ import static com.akrivonos.a2chparser.MainActivity.PAGE_MODE_ONLY_NAVBAR;
 
 public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomSheetListener {
 
-    private RecyclerView recyclerViewBoards;
     private BottomSheetBehavior sheetBehavior;
     private FrameLayout bottomSheet;
     private BoardThemeAdapter boardAdapter;
@@ -51,7 +51,7 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
 
     public static final String BOARD_INFO = "board_info";
 
-    private Observer<BoardModel> observer = new Observer<BoardModel>() {
+    private final Observer<BoardModel> observer = new Observer<BoardModel>() {
         Disposable disposable;
         @Override
         public void onSubscribe(Disposable d) {
@@ -136,21 +136,23 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
 
     private void setUpScreen(View view, Context context){
         if (!(view == null || context == null)){
-            recyclerViewBoards = view.findViewById(R.id.boards_rec_view);
+            RecyclerView recyclerViewBoards = view.findViewById(R.id.boards_rec_view);
             recyclerViewBoards.setLayoutManager(new LinearLayoutManager(context));
+            recyclerViewBoards.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 20));
             recyclerViewBoards.setAdapter(boardAdapter);
 
             progressBarBoards = view.findViewById(R.id.progressBarBoardsTheme);
             bottomSheet = view.findViewById(R.id.bottom_sheet_detailed_boards);
             sheetBehavior = BottomSheetBehavior.from(bottomSheet);
             sheetBehavior.setHideable(true);
+            sheetBehavior.setSkipCollapsed(true);
             sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
         pageDisplayModeListener.setPageMode(PAGE_MODE_ONLY_NAVBAR);
     }
 
     private void startLoadBoards(){
-        RetrofitSearchDvach.getInstance().getBoardsAsync(observer);
+        RetrofitSearchDvach.getInstance().getBoards(observer);
         progressBarBoards.setVisibility(View.VISIBLE);
     }
 
@@ -160,12 +162,11 @@ public class BoardsFragment extends Fragment implements OpenDetailsBoardsBottomS
             OpenBoardListener openBoardListener = (OpenBoardListener) activity;
             BoardConcreteAdapter boardConcreteAdapter = new BoardConcreteAdapter(activity, openBoardListener);
             boardConcreteAdapter.setBoardConcretes(boardTheme.getBoardConcretes());
-            Log.d("test", "setUpBottomSheetCurrent: "+boardTheme.getBoardConcretes().get(0).getName());
             RecyclerView bottomSheetBoardsRecView = bottomSheet.findViewById(R.id.rec_view_boards_for_theme);
             bottomSheetBoardsRecView.setLayoutManager(new LinearLayoutManager(activity));
+            bottomSheetBoardsRecView.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 15));
             bottomSheetBoardsRecView.setAdapter(boardConcreteAdapter);
             sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            Log.d("test", "setUpBottomSheetCurrent: expand");
         }
     }
 

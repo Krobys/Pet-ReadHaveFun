@@ -19,8 +19,8 @@ import java.util.List;
 public class BoardConcreteAdapter extends RecyclerView.Adapter<BoardConcreteViewHolder> {
 
     private ArrayList<BoardConcrete> boardConcretes = new ArrayList<>();
-    private LayoutInflater layoutInflater;
-    private OpenBoardListener openBoardListener;
+    private final LayoutInflater layoutInflater;
+    private final OpenBoardListener openBoardListener;
 
     public BoardConcreteAdapter(Context context, OpenBoardListener openBoardListener){
         layoutInflater = LayoutInflater.from(context);

@@ -9,9 +9,11 @@ import retrofit2.http.Path;
 
 interface ApiRetrofitInterface {
 
+    @GET("makaba/mobile.fcgi?task=get_boards")
+    Call<BoardModel> getBoards();
+
     @GET("{nameBoard}/catalog.json")
     Call<ThreadsModel> getThreads(@Path("nameBoard") String nameBoard);
 
-    @GET("makaba/mobile.fcgi?task=get_boards")
-    Call<BoardModel> getBoardsList();
+
 }

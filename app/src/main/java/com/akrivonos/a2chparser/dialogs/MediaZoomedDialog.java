@@ -18,9 +18,9 @@ import static com.akrivonos.a2chparser.adapters.MediaAdapter.ITEM_TYPE_VIDEO;
 
 public class MediaZoomedDialog extends Dialog {
 
-    private Context context;
-    private int mediaType;
-    private String mediaPath;
+    private final Context context;
+    private final int mediaType;
+    private final String mediaPath;
 
     public MediaZoomedDialog(Context context, String mediaPath, int typeMedia) {
         super(context);

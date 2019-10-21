@@ -13,8 +13,8 @@ import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardConcrete;
 
 public class BoardConcreteViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView nameBoardTextView;
-    public TextView idBoardTextView;
+    public final TextView nameBoardTextView;
+    public final TextView idBoardTextView;
 
     private Board board;
 

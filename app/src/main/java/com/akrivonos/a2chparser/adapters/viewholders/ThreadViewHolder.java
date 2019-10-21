@@ -16,14 +16,15 @@ import com.akrivonos.a2chparser.R;
 import com.akrivonos.a2chparser.adapters.MediaAdapter;
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread;
+import com.akrivonos.a2chparser.utils.ItemDecoratorUtils;
 
 public class ThreadViewHolder extends RecyclerView.ViewHolder {
 
-     private TextView nameThreadTextView;
-     private TextView idThreadTextView;
-     private TextView dateThreadTextView;
-     private TextView contentThreadTextView;
-     private RecyclerView mediaContentThreadRecView;
+    private final TextView nameThreadTextView;
+    private final TextView idThreadTextView;
+    private final TextView dateThreadTextView;
+    private final TextView contentThreadTextView;
+    private final RecyclerView mediaContentThreadRecView;
      private MediaAdapter mediaAdapter;
      private String idThread;
 
@@ -47,6 +48,7 @@ public class ThreadViewHolder extends RecyclerView.ViewHolder {
         contentThreadTextView = itemView.findViewById(R.id.text_content);
         mediaContentThreadRecView = itemView.findViewById(R.id.media_content_rec_view);
         mediaContentThreadRecView.setLayoutManager(new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false));
+        mediaContentThreadRecView.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.RIGHT, 40));
 
         mediaAdapter = new MediaAdapter(layoutInflater, isFullMode, contentMediaListener);
 

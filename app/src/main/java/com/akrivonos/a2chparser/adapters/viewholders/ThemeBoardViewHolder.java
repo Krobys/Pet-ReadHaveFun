@@ -12,7 +12,7 @@ import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme;
 
 public class ThemeBoardViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView boardThemeNameTextView;
+    private final TextView boardThemeNameTextView;
     private BoardTheme boardTheme;
 
     public void setBoardThemeName(String boardName) {
