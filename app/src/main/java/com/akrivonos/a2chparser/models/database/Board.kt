@@ -8,7 +8,7 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardConcrete
 
-@Entity
+@Entity(tableName = "board")
 class Board() : Parcelable {
     @PrimaryKey(autoGenerate = true)
     val idAuto: Int = 0

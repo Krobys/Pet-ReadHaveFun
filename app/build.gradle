@@ -19,7 +19,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -36,6 +41,7 @@ dependencies {
     implementation 'android.arch.navigation:navigation-ui:1.0.0'
 
     implementation "androidx.room:room-runtime:2.2.0"
+    implementation "androidx.room:room-ktx:2.2.0"
     implementation "androidx.room:room-rxjava2:2.2.0"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
