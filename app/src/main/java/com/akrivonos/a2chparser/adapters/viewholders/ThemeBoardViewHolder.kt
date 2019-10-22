@@ -11,11 +11,11 @@ import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
 class ThemeBoardViewHolder(itemView: View, bottomSheetListener: OpenDetailsBoardsBottomSheetListener) : RecyclerView.ViewHolder(itemView) {
 
     private val boardThemeNameTextView: TextView = itemView.findViewById(R.id.board_name)
-    private var boardTheme: BoardTheme? = null
+    var boardTheme: BoardTheme? = null
 
     fun setBoardThemes(boardTheme: BoardTheme) {
         this.boardTheme = boardTheme
-        boardThemeNameTextView.text = boardTheme.boardThemeName
+        //boardThemeNameTextView.text = boardTheme.boardThemeName
     }
 
     init {
