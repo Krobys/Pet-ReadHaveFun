@@ -44,8 +44,7 @@ public class BoardThemeAdapter extends RecyclerView.Adapter<ThemeBoardViewHolder
     @Override
     public void onBindViewHolder(@NonNull ThemeBoardViewHolder holder, int position) {
         BoardTheme boardTheme = themesBoardList.get(position);
-        holder.setBoardThemeName(boardTheme.getBoardThemeName());
-        holder.setBoardTheme(boardTheme);
+        holder.setBoardThemes(boardTheme);
     }
 
     @Override

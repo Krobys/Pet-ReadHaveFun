@@ -1,6 +1,7 @@
 package com.akrivonos.a2chparser;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements OpenBoardListener
     public void openSavePage(@NotNull SaveTypeModel saveTypeModel) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(INFO_SAVE_PAGE, saveTypeModel);
-        navController.navigate(R.id.navigation_saved_content, bundle);
+        navController.navigate(R.id.navigation_saved_page_concrete_fragment, bundle);
+        Log.d("test", "openSavePage: ");
     }
 }

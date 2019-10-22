@@ -2,21 +2,24 @@ package com.akrivonos.a2chparser.fragments
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.MainActivity.PAGE_MODE_ONLY_TOOLBAR
 import com.akrivonos.a2chparser.MainActivity.TOOLBAR_MODE_FULL
 import com.akrivonos.a2chparser.R
-import com.akrivonos.a2chparser.adapters.SaveConcreteBoardsAdapter
+import com.akrivonos.a2chparser.adapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.SaveListTypesAdapter.Companion.SAVE_TYPE_BOARD
 import com.akrivonos.a2chparser.adapters.SaveListTypesAdapter.Companion.SAVE_TYPE_COMMENT
 import com.akrivonos.a2chparser.adapters.SaveListTypesAdapter.Companion.SAVE_TYPE_MEDIA
 import com.akrivonos.a2chparser.adapters.SaveListTypesAdapter.Companion.SAVE_TYPE_THREAD
 import com.akrivonos.a2chparser.database.RoomAppDatabase
+import com.akrivonos.a2chparser.interfaces.OpenBoardListener
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
 import com.akrivonos.a2chparser.models.SaveTypeModel
@@ -28,8 +31,9 @@ class FavoritePageConcreteFragment : Fragment() {
 
     private lateinit var pageDisplayListener: PageDisplayModeListener
     private lateinit var toolbarModeListener: SetUpToolbarModeListener
-    private lateinit var adapterSaves: SaveConcreteBoardsAdapter
     private lateinit var disposable: Disposable
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var emptyMessage: RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,16 +49,14 @@ class FavoritePageConcreteFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_favorite_page_concrete, container, false)
         setUpScreen(view)
-        setUpTypePage()
         return view
     }
 
     private fun setUpScreen(view: View) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rec_view_concrete_saves)
-        adapterSaves = SaveConcreteBoardsAdapter(context)
-        recyclerView?.layoutManager = LinearLayoutManager(context)
-        recyclerView?.adapter = adapterSaves
+        recyclerView = view.findViewById(R.id.rec_view_concrete_saves)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         pageDisplayListener.setPageMode(PAGE_MODE_ONLY_TOOLBAR)
+        emptyMessage = view.findViewById(R.id.empty_message)
         setUpTypePage()
     }
 
@@ -63,27 +65,43 @@ class FavoritePageConcreteFragment : Fragment() {
         val context = context
         if (context != null) {
             val database = RoomAppDatabase.getAppDataBase(context)
-            if (database != null)
+            if (database != null) {
                 when (saveTypeModel?.typeSaveItem) {
                     SAVE_TYPE_BOARD -> {
+                        val boardConcreteAdapter = BoardConcreteAdapter(context, activity as OpenBoardListener)
+                        recyclerView.adapter = boardConcreteAdapter
+                        Log.d("test", "SAVE_TYPE_BOARD:")
                         disposable = database.boardsDao().getSavedBoardsList()
-                                .subscribeOn(AndroidSchedulers.mainThread())
-                                .observeOn(Schedulers.io())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe { boardList ->
                                     if (boardList.isNotEmpty()) {
-                                        adapterSaves.setBoardsList(boardList)
-                                        adapterSaves.notifyDataSetChanged()
+                                        boardConcreteAdapter.setBoards(boardList)
+                                        boardConcreteAdapter.notifyDataSetChanged()
+                                        hideEmptyMessage()
                                     } else {
-                                        //TODO SET UP EMPTY MESSAGE
+                                        showEmptyMessage()
                                     }
+
                                 }
                     }
                     SAVE_TYPE_THREAD -> TODO()
                     SAVE_TYPE_COMMENT -> TODO()
                     SAVE_TYPE_MEDIA -> TODO()
                 }
+            }
         }
         toolbarModeListener.setMode(TOOLBAR_MODE_FULL, saveTypeModel?.nameSave)
+    }
+
+    fun showEmptyMessage() {
+        recyclerView.visibility = View.GONE
+        emptyMessage.visibility = View.VISIBLE
+    }
+
+    fun hideEmptyMessage() {
+        recyclerView.visibility = View.VISIBLE
+        emptyMessage.visibility = View.GONE
     }
 
     override fun onDestroyView() {

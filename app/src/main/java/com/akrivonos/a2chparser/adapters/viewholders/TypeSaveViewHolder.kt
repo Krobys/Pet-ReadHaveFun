@@ -1,5 +1,6 @@
 package com.akrivonos.a2chparser.adapters.viewholders
 
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,9 @@ class TypeSaveViewHolder(itemView: View, detailedSavePage: OpenDetailedSavePage)
     lateinit var typeModel: SaveTypeModel
 
     init {
-        itemView.setOnClickListener { detailedSavePage.openSavePage(typeModel) }
+        itemView.setOnClickListener {
+            Log.d("test", "click:")
+            detailedSavePage.openSavePage(typeModel)
+        }
     }
 }

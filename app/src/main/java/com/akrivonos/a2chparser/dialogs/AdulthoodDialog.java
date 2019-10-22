@@ -31,7 +31,7 @@ public class AdulthoodDialog extends Dialog {
             }
             Context context = contextWeakReference.get();
             if (context != null) {
-                SharedPreferenceUtils.setAultSetting(context, adultSetting);
+                SharedPreferenceUtils.setAdultSetting(context, adultSetting);
             }
             dismiss();
         }

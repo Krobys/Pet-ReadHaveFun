@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.akrivonos.a2chparser.models.database.Board
 
-@Database(entities = [Board::class], version = 1)
+@Database(entities = [Board::class], version = 1, exportSchema = false)
 abstract class RoomAppDatabase : RoomDatabase() {
     abstract fun boardsDao(): BoardsDao
 

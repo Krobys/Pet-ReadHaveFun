@@ -11,7 +11,7 @@ import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardConcrete
 @Entity(tableName = "board")
 class Board() : Parcelable {
     @PrimaryKey(autoGenerate = true)
-    val idAuto: Int = 0
+    var idAuto: Int = 0
     @ColumnInfo
     var nameBoards: String? = null
     @ColumnInfo

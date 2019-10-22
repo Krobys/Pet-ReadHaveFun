@@ -4,9 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.akrivonos.a2chparser.R
+import com.akrivonos.a2chparser.adapters.viewholders.BoardConcreteViewHolder
+import com.akrivonos.a2chparser.database.RoomAppDatabase
+import com.akrivonos.a2chparser.interfaces.OpenBoardListener
 import com.akrivonos.a2chparser.models.database.Board
 
-class SaveConcreteBoardsAdapter(context: Context?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SaveConcreteBoardsAdapter(context: Context?, private val openBoardListener: OpenBoardListener, private val roomAppDatabase: RoomAppDatabase) : RecyclerView.Adapter<BoardConcreteViewHolder>() {
     private val layoutInflater = LayoutInflater.from(context)
     private var boardsList: ArrayList<Board> = ArrayList()
 
@@ -14,15 +18,14 @@ class SaveConcreteBoardsAdapter(context: Context?) : RecyclerView.Adapter<Recycl
         this.boardsList = ArrayList(boardsList)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardConcreteViewHolder {
+        val view = layoutInflater.inflate(R.layout.adapteritem_concrete_board, parent, false)
+        return BoardConcreteViewHolder(view, openBoardListener, roomAppDatabase)
     }
 
-    override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getItemCount(): Int = boardsList.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    override fun onBindViewHolder(holder: BoardConcreteViewHolder, position: Int) {
     }
 }

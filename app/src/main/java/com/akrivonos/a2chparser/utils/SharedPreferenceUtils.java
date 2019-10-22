@@ -8,7 +8,7 @@ public class SharedPreferenceUtils {
     private static final String ADULT_PARAMETER = "adult_parameter";
     private static final String ADULT_SET_FLAG = "adult_set_flag";
 
-    public static void setAultSetting(Context context, boolean isAdult) {
+    public static void setAdultSetting(Context context, boolean isAdult) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit()
                 .putBoolean(ADULT_PARAMETER, isAdult)
