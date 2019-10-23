@@ -2,14 +2,15 @@ package com.akrivonos.a2chparser.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
 import com.akrivonos.a2chparser.adapters.viewholders.ThreadViewHolder;
+import com.akrivonos.a2chparser.databinding.AdapteritemThreadsForBoardBinding;
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.File;
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread;
@@ -50,18 +51,17 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadViewHolder>{
     @NonNull
     @Override
     public ThreadViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.adapteritem_threads_for_board, parent, false);
+        AdapteritemThreadsForBoardBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.adapteritem_threads_for_board, parent, false);
         return (viewType == TYPE_WITH_MEDIA)
-                ? new ThreadViewHolder(view, context, layoutInflater, isFullMode, contentMediaListener)
-                : new ThreadViewHolder(view);
+                ? new ThreadViewHolder(binding, context, layoutInflater, isFullMode, contentMediaListener)
+                : new ThreadViewHolder(binding);
 
 }
 
     @Override
     public void onBindViewHolder(@NonNull ThreadViewHolder holder, int position) {
-        int type = holder.getItemViewType();
         Thread thread = threads.get(position);
-        if(type == TYPE_WITH_MEDIA){
+        if (holder.getItemViewType() == TYPE_WITH_MEDIA) {
             holder.setThreadDataWithMedia(thread);
         }else {
             holder.setThreadDataWithoutMedia(thread);
