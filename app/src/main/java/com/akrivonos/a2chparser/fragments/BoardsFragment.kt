@@ -71,11 +71,9 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun setUpAdapterAndListeners() {
-        if (activity != null) {
             val boardsBottomSheetListener = this
             pageDisplayModeListener = activity as PageDisplayModeListener?
-            boardAdapter = BoardThemeAdapter(activity, boardsBottomSheetListener)
-        }
+        boardAdapter = BoardThemeAdapter(context, boardsBottomSheetListener)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

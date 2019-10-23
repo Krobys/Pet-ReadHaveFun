@@ -12,7 +12,7 @@ import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
 import com.akrivonos.a2chparser.viewholders.ThemeBoardViewHolder
 import java.util.*
 
-class BoardThemeAdapter(context: Context, private val bottomSheetListener: OpenDetailsBoardsBottomSheetListener) : RecyclerView.Adapter<ThemeBoardViewHolder>() {
+class BoardThemeAdapter(context: Context?, private val bottomSheetListener: OpenDetailsBoardsBottomSheetListener) : RecyclerView.Adapter<ThemeBoardViewHolder>() {
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     private var themesBoardList = ArrayList<BoardTheme>()

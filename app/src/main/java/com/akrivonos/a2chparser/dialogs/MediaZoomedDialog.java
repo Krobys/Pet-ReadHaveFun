@@ -11,6 +11,7 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.akrivonos.a2chparser.R;
+import com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter;
 import com.bumptech.glide.Glide;
 
 public class MediaZoomedDialog extends Dialog {
@@ -31,20 +32,19 @@ public class MediaZoomedDialog extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_detailed_media);
-        setUpNeededMediaConteiner(mediaPath);
-
+        setUpNeededMediaContainer(mediaPath);
     }
 
-    private void setUpNeededMediaConteiner(String mediaPath) {
+    private void setUpNeededMediaContainer(String mediaPath) {
         switch (mediaType) {
-            case Companion.getITEM_TYPE_IMAGE():
+            case MediaAdapter.ITEM_TYPE_IMAGE:
                 ImageView imageView = findViewById(R.id.imageViewMediaDialog);
                 imageView.setVisibility(View.VISIBLE);
                 Glide.with(imageView)
                         .load(mediaPath)
                         .into(imageView);
                 break;
-            case Companion.getITEM_TYPE_VIDEO():
+            case MediaAdapter.ITEM_TYPE_VIDEO:
                 VideoView videoView = findViewById(R.id.videoViewMediaDialog);
                 videoView.setVisibility(View.VISIBLE);
                 videoView.setVideoURI(Uri.parse(mediaPath));
