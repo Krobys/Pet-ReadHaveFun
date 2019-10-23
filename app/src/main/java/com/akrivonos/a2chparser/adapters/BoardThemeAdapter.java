@@ -2,14 +2,15 @@ package com.akrivonos.a2chparser.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
 import com.akrivonos.a2chparser.adapters.viewholders.ThemeBoardViewHolder;
+import com.akrivonos.a2chparser.databinding.AdapteritemThemeBoardBinding;
 import com.akrivonos.a2chparser.interfaces.OpenDetailsBoardsBottomSheetListener;
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme;
 
@@ -37,14 +38,14 @@ public class BoardThemeAdapter extends RecyclerView.Adapter<ThemeBoardViewHolder
     @NonNull
     @Override
     public ThemeBoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.adapteritem_theme_board, parent, false);
-        return new ThemeBoardViewHolder(view, bottomSheetListener);
+        AdapteritemThemeBoardBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.adapteritem_theme_board, parent, false);
+        return new ThemeBoardViewHolder(binding, bottomSheetListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ThemeBoardViewHolder holder, int position) {
         BoardTheme boardTheme = themesBoardList.get(position);
-        holder.setBoardThemes(boardTheme);
+        holder.bind(boardTheme);
     }
 
     @Override

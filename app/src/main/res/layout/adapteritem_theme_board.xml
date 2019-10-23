@@ -2,10 +2,9 @@
 <layout>
 
     <data>
-
         <variable
-            name="nameThemeBoards"
-            type="com.akrivonos.a2chparser.adapters.viewholders.ThemeBoardViewHolder" />
+            name="boardTheme"
+            type="com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,6 +17,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@{nameThemeBoards.boardTheme.boardThemeName}" />
+            android:text="@{boardTheme.boardThemeName}" />
     </RelativeLayout>
 </layout>
