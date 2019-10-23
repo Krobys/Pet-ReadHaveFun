@@ -5,12 +5,17 @@
         <variable
             name="boardTheme"
             type="com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme" />
+
+        <variable
+            name="holder"
+            type="com.akrivonos.a2chparser.adapters.viewholders.ThemeBoardViewHolder" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorGrayDark">
+        android:background="@color/colorGrayDark"
+        android:onClick="@{()->holder.openBottomSheet()}">
 
         <TextView
             android:id="@+id/board_name"
