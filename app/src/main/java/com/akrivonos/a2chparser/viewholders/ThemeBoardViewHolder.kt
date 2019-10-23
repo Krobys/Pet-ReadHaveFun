@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser.adapters.viewholders
+package com.akrivonos.a2chparser.viewholders
 
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.databinding.AdapteritemThemeBoardBinding

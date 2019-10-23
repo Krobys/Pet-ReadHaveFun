@@ -5,52 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class File {
 
-    @SerializedName("displayname")
-    @Expose
-    private String displayname;
-    @SerializedName("fullname")
-    @Expose
-    private String fullname;
-    @SerializedName("height")
-    @Expose
-    private Integer height;
-    @SerializedName("md5")
-    @Expose
-    private String md5;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("nsfw")
-    @Expose
-    private Integer nsfw;
-    @SerializedName("path")
-    @Expose
-    private String path;
-    @SerializedName("size")
-    @Expose
-    private Integer size;
-    @SerializedName("thumbnail")
-    @Expose
-    private String thumbnail;
-    @SerializedName("tn_height")
-    @Expose
-    private Integer tnHeight;
-    @SerializedName("tn_width")
-    @Expose
-    private Integer tnWidth;
-    @SerializedName("type")
-    @Expose
-    private Integer type;
-    @SerializedName("width")
-    @Expose
-    private Integer width;
-    @SerializedName("duration")
-    @Expose
-    private String duration;
-    @SerializedName("duration_secs")
-    @Expose
-    private Integer durationSecs;
-
     public String getDisplayname() {
         return displayname;
     }
@@ -67,13 +21,12 @@ public class File {
         this.fullname = fullname;
     }
 
-    public Integer getHeight() {
-        return height;
-    }
-
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
+    @SerializedName("displayname")
+    @Expose
+    private String displayname;
+    @SerializedName("fullname")
+    @Expose
+    private String fullname;
 
     public String getMd5() {
         return md5;
@@ -90,14 +43,12 @@ public class File {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Integer getNsfw() {
-        return nsfw;
-    }
-
-    public void setNsfw(Integer nsfw) {
-        this.nsfw = nsfw;
-    }
+    @SerializedName("height")
+    @Expose
+    private String height;
+    @SerializedName("md5")
+    @Expose
+    private String md5;
 
     public String getPath() {
         return path;
@@ -106,14 +57,12 @@ public class File {
     public void setPath(String path) {
         this.path = path;
     }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("nsfw")
+    @Expose
+    private String nsfw;
 
     public String getThumbnail() {
         return thumbnail;
@@ -122,38 +71,24 @@ public class File {
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
-
-    public Integer getTnHeight() {
-        return tnHeight;
-    }
-
-    public void setTnHeight(Integer tnHeight) {
-        this.tnHeight = tnHeight;
-    }
-
-    public Integer getTnWidth() {
-        return tnWidth;
-    }
-
-    public void setTnWidth(Integer tnWidth) {
-        this.tnWidth = tnWidth;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public void setWidth(Integer width) {
-        this.width = width;
-    }
+    @SerializedName("path")
+    @Expose
+    private String path;
+    @SerializedName("size")
+    @Expose
+    private String size;
+    @SerializedName("thumbnail")
+    @Expose
+    private String thumbnail;
+    @SerializedName("tn_height")
+    @Expose
+    private String tnHeight;
+    @SerializedName("tn_width")
+    @Expose
+    private String tnWidth;
+    @SerializedName("type")
+    @Expose
+    private Integer type;
 
     public String getDuration() {
         return duration;
@@ -162,13 +97,78 @@ public class File {
     public void setDuration(String duration) {
         this.duration = duration;
     }
+    @SerializedName("width")
+    @Expose
+    private String width;
+    @SerializedName("duration")
+    @Expose
+    private String duration;
+    @SerializedName("duration_secs")
+    @Expose
+    private String durationSecs;
 
-    public Integer getDurationSecs() {
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getNsfw() {
+        return nsfw;
+    }
+
+    public void setNsfw(String nsfw) {
+        this.nsfw = nsfw;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getTnHeight() {
+        return tnHeight;
+    }
+
+    public void setTnHeight(String tnHeight) {
+        this.tnHeight = tnHeight;
+    }
+
+    public String getTnWidth() {
+        return tnWidth;
+    }
+
+    public void setTnWidth(String tnWidth) {
+        this.tnWidth = tnWidth;
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    public String getDurationSecs() {
         return durationSecs;
     }
 
-    public void setDurationSecs(Integer durationSecs) {
+    public void setDurationSecs(String durationSecs) {
         this.durationSecs = durationSecs;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
 }

@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
-import com.akrivonos.a2chparser.adapters.ThreadAdapter;
+import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter;
 import com.akrivonos.a2chparser.dialogs.MediaZoomedDialog;
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener;
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener;

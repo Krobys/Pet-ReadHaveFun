@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.MainActivity.PAGE_MODE_ONLY_NAVBAR
 import com.akrivonos.a2chparser.R
-import com.akrivonos.a2chparser.adapters.BoardConcreteAdapter
-import com.akrivonos.a2chparser.adapters.BoardThemeAdapter
+import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
+import com.akrivonos.a2chparser.adapters.recviewadapters.BoardThemeAdapter
 import com.akrivonos.a2chparser.dialogs.AdulthoodDialog
 import com.akrivonos.a2chparser.interfaces.CallBack
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener

@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser.adapters;
+package com.akrivonos.a2chparser.adapters.recviewadapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akrivonos.a2chparser.R;
-import com.akrivonos.a2chparser.adapters.viewholders.ThemeBoardViewHolder;
 import com.akrivonos.a2chparser.databinding.AdapteritemThemeBoardBinding;
 import com.akrivonos.a2chparser.interfaces.OpenDetailsBoardsBottomSheetListener;
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme;
+import com.akrivonos.a2chparser.viewholders.ThemeBoardViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

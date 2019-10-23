@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser.adapters.viewholders
+package com.akrivonos.a2chparser.viewholders
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
-import com.akrivonos.a2chparser.adapters.MediaAdapter
+import com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter
 import com.akrivonos.a2chparser.databinding.AdapteritemThreadsForBoardBinding
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread

@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser.adapters.viewholders
+package com.akrivonos.a2chparser.viewholders
 
 import android.util.Log
 import android.view.View

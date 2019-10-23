@@ -16,7 +16,7 @@
 
         <variable
             name="adapter"
-            type="com.akrivonos.a2chparser.adapters.MediaAdapter" />
+            type="com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter" />
     </data>
 
     <androidx.cardview.widget.CardView

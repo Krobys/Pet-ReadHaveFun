@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser.adapters
+package com.akrivonos.a2chparser.adapters.recviewadapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
-import com.akrivonos.a2chparser.adapters.viewholders.TypeSaveViewHolder
 import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage
 import com.akrivonos.a2chparser.models.SaveTypeModel
+import com.akrivonos.a2chparser.viewholders.TypeSaveViewHolder
 
 class SaveListTypesAdapter(context: Context?, private val detailedPageListener: OpenDetailedSavePage) : RecyclerView.Adapter<TypeSaveViewHolder>() {
 

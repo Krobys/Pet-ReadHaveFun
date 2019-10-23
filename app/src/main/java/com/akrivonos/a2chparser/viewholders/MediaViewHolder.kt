@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser.adapters.viewholders
+package com.akrivonos.a2chparser.viewholders
 
 import android.net.Uri
 import android.view.View
@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
-import com.akrivonos.a2chparser.adapters.MediaAdapter.ITEM_TYPE_VIDEO
+import com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter.ITEM_TYPE_VIDEO
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
 import com.akrivonos.a2chparser.pojomodel.threadmodel.File
 import com.bumptech.glide.Glide
