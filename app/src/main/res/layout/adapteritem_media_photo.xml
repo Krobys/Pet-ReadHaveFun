@@ -1,85 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="200dp"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/name_media"
+    <data>
+
+        <variable
+            name="file"
+            type="com.akrivonos.a2chparser.pojomodel.threadmodel.File" />
+
+        <variable
+            name="pathPhoto"
+            type="String" />
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="0dp"
-        android:paddingBottom="3dp"
-        android:text="name"
-        android:textSize="10sp" />
+        android:layout_height="200dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/size_media"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/name_media"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_marginStart="5dp"
-        android:text="0 кб"
-        android:textSize="10sp" />
+        <TextView
+            android:id="@+id/name_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/imageView"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="0dp"
+            android:paddingBottom="3dp"
+            android:text="@{file.name}"
+            android:textSize="10sp" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/comma"
-        android:layout_centerHorizontal="false"
-        android:layout_marginTop="2dp"
-        android:foregroundGravity="center" />
+        <TextView
+            android:id="@+id/size_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name_media"
+            android:layout_alignStart="@+id/imageView"
+            android:layout_marginStart="5dp"
+            android:text="@{file.size}"
+            android:textSize="10sp" />
 
-    <TextView
-        android:id="@+id/width_media"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name_media"
-        android:layout_toEndOf="@+id/comma"
-        android:paddingLeft="3dp"
-        android:text="300"
-        android:textSize="10sp" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/comma"
+            android:layout_centerHorizontal="false"
+            android:layout_marginTop="2dp"
+            android:foregroundGravity="center"
+            app:imageUrlAsyncLoad="@{}" />
 
-    <TextView
-        android:id="@+id/separator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name_media"
-        android:layout_toEndOf="@+id/width_media"
-        android:text="x"
-        android:textSize="10sp" />
+        <TextView
+            android:id="@+id/width_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_media"
+            android:layout_toEndOf="@+id/comma"
+            android:paddingLeft="3dp"
+            android:text="300"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/separator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_media"
+            android:layout_toEndOf="@+id/width_media"
+            android:text="x"
+            android:textSize="10sp" />
 
 
-    <TextView
-        android:id="@+id/height_media"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name_media"
-        android:layout_toEndOf="@+id/separator"
-        android:text="300"
-        android:textSize="10sp" />
+        <TextView
+            android:id="@+id/height_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_media"
+            android:layout_toEndOf="@+id/separator"
+            android:text="300"
+            android:textSize="10sp" />
 
-    <TextView
-        android:id="@+id/comma"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/name_media"
-        android:layout_toEndOf="@+id/size_media"
-        android:text=","
-        android:textSize="10sp" />
+        <TextView
+            android:id="@+id/comma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name_media"
+            android:layout_toEndOf="@+id/size_media"
+            android:text=","
+            android:textSize="10sp" />
 
-    <ImageView
-        android:id="@+id/play_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="70dp"
-        android:background="@android:drawable/ic_media_play"
-        android:visibility="gone" />
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/play_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="70dp"
+            android:background="@android:drawable/ic_media_play"
+            android:visibility="gone" />
+    </RelativeLayout>
+</layout>
