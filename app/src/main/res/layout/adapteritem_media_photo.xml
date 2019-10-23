@@ -4,6 +4,7 @@
 
     <data>
 
+        <import type="android.view.View" />
         <variable
             name="file"
             type="com.akrivonos.a2chparser.pojomodel.threadmodel.File" />
@@ -12,11 +13,20 @@
             name="pathPhoto"
             type="String" />
 
+        <variable
+            name="playIconState"
+            type="boolean" />
+
+        <variable
+            name="holder"
+            type="com.akrivonos.a2chparser.viewholders.MediaViewHolder" />
+
     </data>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="200dp"
+        android:onClick="@{()->holder.showContent()}"
         android:orientation="vertical">
 
         <TextView
@@ -32,62 +42,25 @@
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/size_media"
+            android:id="@+id/descr_media_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/name_media"
             android:layout_alignStart="@+id/imageView"
             android:layout_marginStart="5dp"
-            android:text="@{file.size}"
+            android:text='@{file.size+"Кб,"+file.width+"x"+file.height}'
             android:textSize="10sp" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_below="@+id/comma"
+            android:layout_below="@id/descr_media_id"
             android:layout_centerHorizontal="false"
             android:layout_marginTop="2dp"
             android:foregroundGravity="center"
-            app:imageUrlAsyncLoad="@{}" />
+            app:imageUrlAsyncLoad="@{pathPhoto}" />
 
-        <TextView
-            android:id="@+id/width_media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/name_media"
-            android:layout_toEndOf="@+id/comma"
-            android:paddingLeft="3dp"
-            android:text="300"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/separator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/name_media"
-            android:layout_toEndOf="@+id/width_media"
-            android:text="x"
-            android:textSize="10sp" />
-
-
-        <TextView
-            android:id="@+id/height_media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/name_media"
-            android:layout_toEndOf="@+id/separator"
-            android:text="300"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/comma"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/name_media"
-            android:layout_toEndOf="@+id/size_media"
-            android:text=","
-            android:textSize="10sp" />
 
         <ImageView
             android:id="@+id/play_icon"
@@ -97,6 +70,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="70dp"
             android:background="@android:drawable/ic_media_play"
-            android:visibility="gone" />
+            android:visibility="@{playIconState ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>
 </layout>

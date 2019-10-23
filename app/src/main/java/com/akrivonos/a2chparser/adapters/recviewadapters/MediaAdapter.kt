@@ -1,10 +1,11 @@
 package com.akrivonos.a2chparser.adapters.recviewadapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
+import com.akrivonos.a2chparser.databinding.AdapteritemMediaPhotoBinding
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
 import com.akrivonos.a2chparser.pojomodel.threadmodel.File
 import com.akrivonos.a2chparser.viewholders.MediaViewHolder
@@ -16,10 +17,6 @@ class MediaAdapter(private val layoutInflater: LayoutInflater, private val isFul
 
     fun setMediaList(mediaListToAdapt: List<File>) {
         mediaList = ArrayList(mediaListToAdapt)
-        Log.d("test", "setMediaList: ")
-        for (file in mediaList) {
-            Log.d("test", "file: " + file.name)
-        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -35,8 +32,8 @@ class MediaAdapter(private val layoutInflater: LayoutInflater, private val isFul
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
-        val view = layoutInflater.inflate(R.layout.adapteritem_media_photo, parent, false)
-        return MediaViewHolder(view, contentMediaListener)
+        val binder: AdapteritemMediaPhotoBinding = DataBindingUtil.inflate(layoutInflater, R.layout.adapteritem_media_photo, parent, false)
+        return MediaViewHolder(binder, contentMediaListener)
     }
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
