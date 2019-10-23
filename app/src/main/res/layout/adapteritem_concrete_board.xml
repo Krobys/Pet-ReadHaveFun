@@ -10,12 +10,18 @@
         <variable
             name="board"
             type="com.akrivonos.a2chparser.models.database.Board" />
+
+        <variable
+            name="holder"
+            type="com.akrivonos.a2chparser.adapters.viewholders.BoardConcreteViewHolder" />
+
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorGrayDark"
+        android:onClick="@{()->holder.openBoard()}"
         android:orientation="vertical">
 
         <TextView
@@ -43,6 +49,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:background="@{isSaveState ? @drawable/ic_star_save : @drawable/ic_star_not_save}" />
+            android:background="@{isSaveState ? @drawable/ic_star_save : @drawable/ic_star_not_save}"
+            android:onClick="@{()-> holder.changeStateBoard()}" />
     </RelativeLayout>
 </layout>

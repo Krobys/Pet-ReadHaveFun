@@ -1,9 +1,7 @@
 package com.akrivonos.a2chparser.adapters.viewholders
 
 import android.util.Log
-import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
-import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.database.RoomAppDatabase
 import com.akrivonos.a2chparser.databinding.AdapteritemConcreteBoardBinding
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener
@@ -12,27 +10,24 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class BoardConcreteViewHolder(var binding: AdapteritemConcreteBoardBinding, openBoardListener: OpenBoardListener, private val database: RoomAppDatabase) : RecyclerView.ViewHolder(binding.root) {
+class BoardConcreteViewHolder(var binding: AdapteritemConcreteBoardBinding, private var openBoardListener: OpenBoardListener, private val database: RoomAppDatabase) : RecyclerView.ViewHolder(binding.root) {
 
-    private val imageButtonSave: ImageButton = itemView.findViewById(R.id.button_is_save)
+    fun openBoard() {
+        openBoardListener.openBoard(binding.board)
+    }
 
-    init {
-        itemView.setOnClickListener {
-            openBoardListener.openBoard(binding.board)
-        }
-        imageButtonSave.setOnClickListener {
-            (if (binding.isSaveState)
-                database.boardsDao().deleteBoard(binding.board?.idBoard)
-            else
-                database.boardsDao().saveBoard(binding.board)
-                    )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.io())
-                    .subscribe()
-        }
+    fun changeStateBoard() {
+        (if (binding.isSaveState)
+            database.boardsDao().deleteBoard(binding.board?.idBoard)
+        else
+            database.boardsDao().saveBoard(binding.board))
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe()
     }
 
     fun bind(board: Board): Disposable {
+        binding.holder = this
         binding.board = board
         return database.boardsDao().getBoardById(board.idBoard)
                 .subscribeOn(Schedulers.io())
