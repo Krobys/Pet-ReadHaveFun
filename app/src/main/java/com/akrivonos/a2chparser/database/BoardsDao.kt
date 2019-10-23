@@ -14,7 +14,7 @@ interface BoardsDao {
     fun getSavedBoardsList(): Flowable<List<Board>>
 
     @Insert
-    fun saveBoard(board: Board): Completable
+    fun saveBoard(board: Board?): Completable
 
     @Query("DELETE FROM Board WHERE idBoard = (:idBoard)")
     fun deleteBoard(idBoard: String?): Completable
