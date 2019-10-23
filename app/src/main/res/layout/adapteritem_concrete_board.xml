@@ -1,32 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:background="@color/colorGrayDark"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/name_board"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:layout_marginStart="25dp"
-        android:layout_centerVertical="true" />
+    <data>
 
-    <TextView
-        android:id="@+id/id_board"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="20dp"
-        android:layout_toStartOf="@+id/button_is_save" />
+        <variable
+            name="isSaveState"
+            type="boolean" />
 
-    <ImageButton
-        android:id="@+id/button_is_save"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/ic_star_not_save" />
-</RelativeLayout>
+        <variable
+            name="board"
+            type="com.akrivonos.a2chparser.models.database.Board" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorGrayDark"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name_board"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:text='@{"/"+board.nameBoards+"/"}'
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/id_board"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@+id/button_is_save"
+            android:text="@{board.idBoard}" />
+
+        <ImageButton
+            android:id="@+id/button_is_save"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:background="@{isSaveState ? @drawable/ic_star_save : @drawable/ic_star_not_save}" />
+    </RelativeLayout>
+</layout>

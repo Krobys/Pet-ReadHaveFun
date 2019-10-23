@@ -4,10 +4,12 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.viewholders.BoardConcreteViewHolder
 import com.akrivonos.a2chparser.database.RoomAppDatabase
+import com.akrivonos.a2chparser.databinding.AdapteritemConcreteBoardBinding
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener
 import com.akrivonos.a2chparser.models.database.Board
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardConcrete
@@ -40,13 +42,13 @@ class BoardConcreteAdapter(context: Context, private val openBoardListener: Open
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardConcreteViewHolder {
-        val view = layoutInflater.inflate(R.layout.adapteritem_concrete_board, parent, false)
-        return BoardConcreteViewHolder(view, openBoardListener, appDatabase!!)
+        val binding = DataBindingUtil.inflate<AdapteritemConcreteBoardBinding>(layoutInflater, R.layout.adapteritem_concrete_board, parent, false)
+        return BoardConcreteViewHolder(binding, openBoardListener, appDatabase!!)
     }
 
     override fun onBindViewHolder(holder: BoardConcreteViewHolder, position: Int) {
         val board = boards[position]
-        arrayDisposed.add(holder.setBoard(board))
+        arrayDisposed.add(holder.bind(board))
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {

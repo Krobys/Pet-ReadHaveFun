@@ -3,10 +3,12 @@ package com.akrivonos.a2chparser.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.viewholders.BoardConcreteViewHolder
 import com.akrivonos.a2chparser.database.RoomAppDatabase
+import com.akrivonos.a2chparser.databinding.AdapteritemConcreteBoardBinding
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener
 import com.akrivonos.a2chparser.models.database.Board
 
@@ -19,8 +21,8 @@ class SaveConcreteBoardsAdapter(context: Context?, private val openBoardListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardConcreteViewHolder {
-        val view = layoutInflater.inflate(R.layout.adapteritem_concrete_board, parent, false)
-        return BoardConcreteViewHolder(view, openBoardListener, roomAppDatabase)
+        val binding: AdapteritemConcreteBoardBinding = DataBindingUtil.inflate(layoutInflater, R.layout.adapteritem_concrete_board, parent, false)
+        return BoardConcreteViewHolder(binding, openBoardListener, roomAppDatabase)
     }
 
     override fun getItemCount(): Int = boardsList.size
