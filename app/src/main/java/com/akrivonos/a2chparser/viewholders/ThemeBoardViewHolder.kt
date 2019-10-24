@@ -12,7 +12,6 @@ class ThemeBoardViewHolder(private var binding: AdapteritemThemeBoardBinding,
     fun bind(boardTheme: BoardTheme) {
         binding.boardTheme = boardTheme
         binding.holder = this
-        binding.executePendingBindings()
     }
 
     fun openBottomSheet() {
