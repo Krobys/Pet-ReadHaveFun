@@ -48,7 +48,7 @@
             android:layout_below="@id/name_media"
             android:layout_alignStart="@+id/imageView"
             android:layout_marginStart="5dp"
-            android:text='@{file.size+"Кб,"+file.width+"x"+file.height}'
+            android:text='@{file.size+"Кб, "+file.width+"x"+file.height}'
             android:textSize="10sp" />
 
         <ImageView
