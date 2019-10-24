@@ -50,7 +50,7 @@ public class BoardModel {
 
     public List<BoardTheme> getBoardThemes(Context context) {
         List<BoardTheme> boardThemes = new ArrayList<>();
-        boolean isAdult = SharedPreferenceUtils.getAdultSetting(context);
+        boolean isAdult = SharedPreferenceUtils.INSTANCE.getAdultSetting(context);
         if (isAdult)
             boardThemes.add(new BoardTheme(adult));
         boardThemes.add(new BoardTheme(games));
