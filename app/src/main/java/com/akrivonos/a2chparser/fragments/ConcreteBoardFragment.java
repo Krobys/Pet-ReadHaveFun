@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
@@ -132,9 +133,10 @@ public class ConcreteBoardFragment extends Fragment implements ShowContentMediaL
     public void showContent(String pathMedia, int mediaType) {
         Context context = getContext();
         if (context != null) {
-            MediaZoomedDialog cdd = new MediaZoomedDialog(context, pathMedia, mediaType);
+            MediaZoomedDialog cdd = new MediaZoomedDialog(getActivity(), pathMedia, mediaType);
             Objects.requireNonNull(cdd.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             cdd.setCanceledOnTouchOutside(true);
+            cdd.requestWindowFeature(Window.FEATURE_NO_TITLE);
             cdd.show();
         }
     }
