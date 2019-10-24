@@ -1,7 +1,6 @@
 package com.akrivonos.a2chparser;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -15,6 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener;
 import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage;
+import com.akrivonos.a2chparser.interfaces.OpenThreadListener;
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener;
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener;
 import com.akrivonos.a2chparser.models.SaveTypeModel;
@@ -22,6 +22,7 @@ import com.akrivonos.a2chparser.models.database.Board;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static com.akrivonos.a2chparser.fragments.BoardsFragment.BOARD_INFO;
 import static com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.INFO_SAVE_PAGE;
@@ -29,7 +30,8 @@ import static com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.IN
 public class MainActivity extends AppCompatActivity implements OpenBoardListener,
         SetUpToolbarModeListener,
         PageDisplayModeListener,
-        OpenDetailedSavePage {
+        OpenDetailedSavePage,
+        OpenThreadListener {
 
     private Toolbar toolbar;
     private NavController navController;
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements OpenBoardListener
     public static final int PAGE_MODE_ONLY_TOOLBAR = 2;
     public static final int PAGE_MODE_ONLY_NAVBAR = 3;
     public static final int PAGE_MODE_EMPTY = 4;
+
+    public static final String NAME_BOARD = "name_board";
+    public static final String NUMBER_THREAD = "number_thread";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +144,13 @@ public class MainActivity extends AppCompatActivity implements OpenBoardListener
         Bundle bundle = new Bundle();
         bundle.putParcelable(INFO_SAVE_PAGE, saveTypeModel);
         navController.navigate(R.id.navigation_saved_page_concrete_fragment, bundle);
-        Log.d("test", "openSavePage: ");
+    }
+
+    @Override
+    public void openThread(@Nullable String nameBoard, @Nullable String numberThread) {
+        Bundle bundle = new Bundle();
+        bundle.putString(NAME_BOARD, nameBoard);
+        bundle.putString(NUMBER_THREAD, numberThread);
+        navController.navigate(R.id.navigation_saved_page_concrete_fragment, bundle);//TODO DOOOO
     }
 }
