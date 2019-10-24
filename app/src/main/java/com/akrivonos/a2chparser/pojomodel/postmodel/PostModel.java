@@ -1,11 +1,13 @@
-package com.akrivonos.a2chparser.pojomodel.threadmodel;
+package com.akrivonos.a2chparser.pojomodel.postmodel;
 
+import com.akrivonos.a2chparser.pojomodel.threadmodel.NewsAbu;
+import com.akrivonos.a2chparser.pojomodel.threadmodel.Top;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ThreadsModel {
+public class PostModel {
 
     @SerializedName("Board")
     @Expose
@@ -46,6 +48,9 @@ public class ThreadsModel {
     @SerializedName("bump_limit")
     @Expose
     private Integer bumpLimit;
+    @SerializedName("current_thread")
+    @Expose
+    private String currentThread;
     @SerializedName("default_name")
     @Expose
     private String defaultName;
@@ -91,24 +96,45 @@ public class ThreadsModel {
     @SerializedName("enable_video")
     @Expose
     private Integer enableVideo;
-    @SerializedName("filter")
+    @SerializedName("files_count")
     @Expose
-    private String filter;
+    private Integer filesCount;
+    @SerializedName("is_board")
+    @Expose
+    private Integer isBoard;
+    @SerializedName("is_closed")
+    @Expose
+    private Integer isClosed;
+    @SerializedName("is_index")
+    @Expose
+    private Integer isIndex;
     @SerializedName("max_comment")
     @Expose
     private Integer maxComment;
     @SerializedName("max_files_size")
     @Expose
     private Integer maxFilesSize;
+    @SerializedName("max_num")
+    @Expose
+    private Integer maxNum;
     @SerializedName("news_abu")
     @Expose
     private List<NewsAbu> newsAbu = null;
+    @SerializedName("posts_count")
+    @Expose
+    private Integer postsCount;
     @SerializedName("threads")
     @Expose
     private List<Thread> threads = null;
+    @SerializedName("title")
+    @Expose
+    private String title;
     @SerializedName("top")
     @Expose
     private List<Top> top = null;
+    @SerializedName("unique_posters")
+    @Expose
+    private String uniquePosters;
 
     public String getBoard() {
         return board;
@@ -212,6 +238,14 @@ public class ThreadsModel {
 
     public void setBumpLimit(Integer bumpLimit) {
         this.bumpLimit = bumpLimit;
+    }
+
+    public String getCurrentThread() {
+        return currentThread;
+    }
+
+    public void setCurrentThread(String currentThread) {
+        this.currentThread = currentThread;
     }
 
     public String getDefaultName() {
@@ -334,12 +368,36 @@ public class ThreadsModel {
         this.enableVideo = enableVideo;
     }
 
-    public String getFilter() {
-        return filter;
+    public Integer getFilesCount() {
+        return filesCount;
     }
 
-    public void setFilter(String filter) {
-        this.filter = filter;
+    public void setFilesCount(Integer filesCount) {
+        this.filesCount = filesCount;
+    }
+
+    public Integer getIsBoard() {
+        return isBoard;
+    }
+
+    public void setIsBoard(Integer isBoard) {
+        this.isBoard = isBoard;
+    }
+
+    public Integer getIsClosed() {
+        return isClosed;
+    }
+
+    public void setIsClosed(Integer isClosed) {
+        this.isClosed = isClosed;
+    }
+
+    public Integer getIsIndex() {
+        return isIndex;
+    }
+
+    public void setIsIndex(Integer isIndex) {
+        this.isIndex = isIndex;
     }
 
     public Integer getMaxComment() {
@@ -358,12 +416,28 @@ public class ThreadsModel {
         this.maxFilesSize = maxFilesSize;
     }
 
+    public Integer getMaxNum() {
+        return maxNum;
+    }
+
+    public void setMaxNum(Integer maxNum) {
+        this.maxNum = maxNum;
+    }
+
     public List<NewsAbu> getNewsAbu() {
         return newsAbu;
     }
 
     public void setNewsAbu(List<NewsAbu> newsAbu) {
         this.newsAbu = newsAbu;
+    }
+
+    public Integer getPostsCount() {
+        return postsCount;
+    }
+
+    public void setPostsCount(Integer postsCount) {
+        this.postsCount = postsCount;
     }
 
     public List<Thread> getThreads() {
@@ -374,12 +448,28 @@ public class ThreadsModel {
         this.threads = threads;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public List<Top> getTop() {
         return top;
     }
 
     public void setTop(List<Top> top) {
         this.top = top;
+    }
+
+    public String getUniquePosters() {
+        return uniquePosters;
+    }
+
+    public void setUniquePosters(String uniquePosters) {
+        this.uniquePosters = uniquePosters;
     }
 
 }
