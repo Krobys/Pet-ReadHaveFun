@@ -39,9 +39,9 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     private var boardAdapter: BoardThemeAdapter? = null
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var progressBarBoards: ProgressBar? = null
+    private lateinit var disposable: Disposable
     private lateinit var boardConcreteAdapter: BoardConcreteAdapter
     private val observer = object : Observer<BoardModel> {
-        lateinit var disposable: Disposable
         override fun onSubscribe(d: Disposable) {
             disposable = d
         }
@@ -84,6 +84,14 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
         return fragmentView
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposeAll()
+    }
+
+    private fun disposeAll() {
+        disposable.dispose()
+    }
     private fun manageLoadBoardsInformation() {
         if (!boardAdapter?.isSet!!) {
             val context = context
@@ -117,7 +125,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun startLoadBoards() {
-        RetrofitSearchDvach.getInstance().getBoards(observer)
+        RetrofitSearchDvach.getBoards(observer)
         progressBarBoards?.visibility = View.VISIBLE
     }
 
