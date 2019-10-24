@@ -53,7 +53,7 @@ class ThreadAdapter(private val context: Context, private val isFullMode: Boolea
     }
 
     companion object {
-        private val TYPE_WITH_MEDIA = 1
-        private val TYPE_WITHOUT_MEDIA = 2
+        private const val TYPE_WITH_MEDIA = 1
+        private const val TYPE_WITHOUT_MEDIA = 2
     }
 }
