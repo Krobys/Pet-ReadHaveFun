@@ -5,13 +5,14 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.MainActivity.Companion.PAGE_MODE_ONLY_NAVBAR
@@ -23,14 +24,11 @@ import com.akrivonos.a2chparser.interfaces.CallBack
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener
 import com.akrivonos.a2chparser.interfaces.OpenDetailsBoardsBottomSheetListener
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
-import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
-import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
+import com.akrivonos.a2chparser.viewmodels.ThemeBoardsViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
 
 class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
 
@@ -39,35 +37,19 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     private var boardAdapter: BoardThemeAdapter? = null
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var progressBarBoards: ProgressBar? = null
-    private lateinit var disposable: Disposable
     private lateinit var boardConcreteAdapter: BoardConcreteAdapter
-    private val observer = object : Observer<BoardModel> {
-        override fun onSubscribe(d: Disposable) {
-            disposable = d
-        }
-
-        override fun onNext(boardModel: BoardModel) {
-            val boardThemes = boardModel.getBoardThemes(context)
-            boardThemes?.let {
-                boardAdapter?.setBoardThemes(it)
-                boardAdapter?.notifyDataSetChanged()
-            }
-                progressBarBoards?.visibility = View.GONE
-        }
-
-        override fun onError(e: Throwable) {
-
-        }
-
-        override fun onComplete() {
-            Log.d("test", "onComplete: ")
-            disposable.dispose()
-        }
-    }
+    private lateinit var viewModel: ThemeBoardsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpAdapterAndListeners()
+        setUpViewModel()
+    }
+
+    private fun setUpViewModel() {
+        activity?.let {
+            viewModel = ViewModelProviders.of(this).get(ThemeBoardsViewModel::class.java)
+        }
     }
 
     private fun setUpAdapterAndListeners() {
@@ -80,18 +62,11 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
                               savedInstanceState: Bundle?): View? {
         val fragmentView = inflater.inflate(R.layout.fragment_boards, container, false)
         setUpScreen(fragmentView, context)
+
         manageLoadBoardsInformation()
         return fragmentView
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        disposeAll()
-    }
-
-    private fun disposeAll() {
-        disposable.dispose()
-    }
     private fun manageLoadBoardsInformation() {
         if (!boardAdapter?.isSet!!) {
             val context = context
@@ -129,7 +104,13 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun startLoadBoards() {
-        RetrofitSearchDvach.getBoards(observer)
+        viewModel.getBoardThemes().observe(this, Observer<List<BoardTheme>> { boardThemes ->
+            boardThemes?.let {
+                boardAdapter?.setBoardThemes(it)
+                boardAdapter?.notifyDataSetChanged()
+            }
+            progressBarBoards?.visibility = View.GONE
+        })
         progressBarBoards?.visibility = View.VISIBLE
     }
 
