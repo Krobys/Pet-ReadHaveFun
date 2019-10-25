@@ -27,7 +27,7 @@ class AdulthoodDialog(context: Context, private val callBack: CallBack) : Dialog
         callBack.call()
     }
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.dialog_adulthood)
