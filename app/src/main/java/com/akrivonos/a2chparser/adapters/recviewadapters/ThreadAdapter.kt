@@ -17,8 +17,10 @@ class ThreadAdapter(private val context: Context, private val isFullMode: Boolea
     private var threads = ArrayList<Thread>()
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
-    fun setThreads(threads: List<Thread>) {
-        this.threads = ArrayList(threads)
+    fun setThreads(threads: List<Thread>?) {
+        threads?.let {
+            this.threads = ArrayList(it)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

@@ -15,8 +15,10 @@ class MediaAdapter(private val layoutInflater: LayoutInflater, private val isFul
 
     private var mediaList = ArrayList<File>()
 
-    fun setMediaList(mediaListToAdapt: List<File>) {
-        mediaList = ArrayList(mediaListToAdapt)
+    fun setMediaList(mediaListToAdapt: List<File>?) {
+        mediaListToAdapt?.let {
+            mediaList = ArrayList(it)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

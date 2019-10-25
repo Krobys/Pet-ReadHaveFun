@@ -14,7 +14,7 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.akrivonos.a2chparser.MainActivity.PAGE_MODE_ONLY_NAVBAR
+import com.akrivonos.a2chparser.MainActivity.Companion.PAGE_MODE_ONLY_NAVBAR
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardThemeAdapter
@@ -106,7 +106,11 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun showAdultDialog(context: Context) {
-        val cdd = AdulthoodDialog(context, CallBack { startLoadBoards() })
+        val cdd = AdulthoodDialog(context, object : CallBack {
+            override fun call() {
+                startLoadBoards()
+            }
+        })
         cdd.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         cdd.setCanceledOnTouchOutside(false)
         cdd.show()
@@ -158,10 +162,12 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
         }
     }
 
-    override fun openBottomSheet(boardTheme: BoardTheme) {
-        boardConcreteAdapter.setBoardConcretes(boardTheme.boardConcretes)
-        boardConcreteAdapter.notifyDataSetChanged()
-        sheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+    override fun openBottomSheet(boardTheme: BoardTheme?) {
+        boardTheme?.boardConcretes?.let {
+            boardConcreteAdapter.setBoardConcretes(it)
+            boardConcreteAdapter.notifyDataSetChanged()
+            sheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        }
     }
 
     companion object {

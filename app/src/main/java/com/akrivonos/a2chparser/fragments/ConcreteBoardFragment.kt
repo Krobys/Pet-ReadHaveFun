@@ -13,8 +13,8 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.akrivonos.a2chparser.MainActivity.PAGE_MODE_ONLY_TOOLBAR
-import com.akrivonos.a2chparser.MainActivity.TOOLBAR_MODE_FULL
+import com.akrivonos.a2chparser.MainActivity.Companion.PAGE_MODE_ONLY_TOOLBAR
+import com.akrivonos.a2chparser.MainActivity.Companion.TOOLBAR_MODE_FULL
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter
 import com.akrivonos.a2chparser.dialogs.MediaZoomedDialog
@@ -46,10 +46,10 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
 
         override fun onNext(threads: List<Thread>) {
             if (threads.isNotEmpty()) {
-                threadAdapter!!.setThreads(threads)
-                threadAdapter!!.notifyDataSetChanged()
+                threadAdapter?.setThreads(threads)
+                threadAdapter?.notifyDataSetChanged()
             }
-            progressBar!!.visibility = View.GONE
+            progressBar?.visibility = View.GONE
         }
 
         override fun onError(e: Throwable) {
@@ -90,8 +90,8 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
             val board = arguments.getParcelable<Board>(BOARD_INFO)
             if (board != null) {
                 RetrofitSearchDvach.getThreadsForBoardForBoard(board.idBoard, observer)
-                progressBar!!.visibility = View.VISIBLE
-                toolbarModeListener!!.setMode(TOOLBAR_MODE_FULL, board.nameBoards)
+                progressBar?.visibility = View.VISIBLE
+                toolbarModeListener?.setMode(TOOLBAR_MODE_FULL, board.nameBoards)
             }
         }
     }
@@ -108,11 +108,13 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
         pageDisplayModeListener!!.setPageMode(PAGE_MODE_ONLY_TOOLBAR)
     }
 
-    override fun showContent(pathMedia: String, mediaType: Int) {
-        val cdd = MediaZoomedDialog(activity!!, pathMedia, mediaType)
-        cdd.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        cdd.setCanceledOnTouchOutside(true)
-        cdd.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        cdd.show()
+    override fun showContent(pathMedia: String?, mediaType: Int) {
+        pathMedia?.let {
+            val cdd = MediaZoomedDialog(activity!!, it, mediaType)
+            cdd.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            cdd.setCanceledOnTouchOutside(true)
+            cdd.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            cdd.show()
+        }
     }
 }

@@ -25,7 +25,7 @@ object RetrofitSearchDvach {
     private val apiService: ApiRetrofitInterface = retrofit.create(ApiRetrofitInterface::class.java)
 
 
-    fun getBoards(observerBoardThemes: io.reactivex.Observer<BoardModel>?): RetrofitSearchDvach? {
+    fun getBoards(observerBoardThemes: io.reactivex.Observer<BoardModel>): RetrofitSearchDvach? {
         val boardsPublishSubject = SubjectFactory.createPublishSubject(observerBoardThemes)
 
         val beerModelCall = apiService.boards
@@ -67,8 +67,9 @@ object RetrofitSearchDvach {
                 if (threadsPublishSubject.hasObservers())
                     if (threadsModel != null) {
                         if (response.code() == 200) {
-                            Log.d(TAG, "onResponse: +")
-                            threadsPublishSubject.onNext(threadsModel.threadsForBoard!!)
+                            threadsModel.threadsForBoard?.let {
+                                threadsPublishSubject.onNext(it)
+                            }
                         } else {
                             threadsPublishSubject.onNext(ArrayList())
                         }
@@ -77,7 +78,6 @@ object RetrofitSearchDvach {
             }
 
             override fun onFailure(call: Call<ThreadsModel>, t: Throwable) {
-                Log.d(TAG, "onFailure: ")
                 if (threadsPublishSubject.hasObservers())
                     threadsPublishSubject.onNext(ArrayList())
             }
