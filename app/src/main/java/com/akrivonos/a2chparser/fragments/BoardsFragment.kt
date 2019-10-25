@@ -48,11 +48,11 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
 
         override fun onNext(boardModel: BoardModel) {
             val boardThemes = boardModel.getBoardThemes(context)
-            if (boardThemes != null) {
-                boardAdapter?.setBoardThemes(boardThemes)
+            boardThemes?.let {
+                boardAdapter?.setBoardThemes(it)
                 boardAdapter?.notifyDataSetChanged()
-                progressBarBoards?.visibility = View.GONE
             }
+                progressBarBoards?.visibility = View.GONE
         }
 
         override fun onError(e: Throwable) {
