@@ -13,10 +13,10 @@ import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 class AdulthoodDialog(context: Context, private val callBack: CallBack) : Dialog(context) {
 
     private val onClickListenerChoose = View.OnClickListener { view ->
-        var adultSetting = false
-        when (view.id) {
-            R.id.btn_accept -> adultSetting = true
-            R.id.btn_cancel -> adultSetting = false
+        val adultSetting: Boolean = when (view.id) {
+            R.id.btn_accept -> true
+            R.id.btn_cancel -> false
+            else -> false
         }
         SharedPreferenceUtils.setAdultSetting(context, adultSetting)
         dismiss()
