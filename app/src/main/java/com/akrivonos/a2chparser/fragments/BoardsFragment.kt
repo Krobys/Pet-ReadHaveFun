@@ -27,7 +27,7 @@ import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
-import com.akrivonos.a2chparser.viewmodels.ThemeBoardsViewModel
+import com.akrivonos.a2chparser.viewmodels.BoardsViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
@@ -38,7 +38,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var progressBarBoards: ProgressBar? = null
     private lateinit var boardConcreteAdapter: BoardConcreteAdapter
-    private lateinit var viewModel: ThemeBoardsViewModel
+    private lateinit var viewModel: BoardsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +47,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun setUpViewModel() {
-        activity?.let {
-            viewModel = ViewModelProviders.of(this).get(ThemeBoardsViewModel::class.java)
-        }
+        viewModel = ViewModelProviders.of(this).get(BoardsViewModel::class.java)
     }
 
     private fun setUpAdapterAndListeners() {
@@ -62,15 +60,13 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
                               savedInstanceState: Bundle?): View? {
         val fragmentView = inflater.inflate(R.layout.fragment_boards, container, false)
         setUpScreen(fragmentView, context)
-
         manageLoadBoardsInformation()
         return fragmentView
     }
 
     private fun manageLoadBoardsInformation() {
-        if (!boardAdapter?.isSet!!) {
-            val context = context
-            if (context != null) {
+        if (boardAdapter?.isSet!!) {
+            context?.let {
                 if (!SharedPreferenceUtils.isAdultSettingsSet(context)) {
                     showAdultDialog(context)
                 } else {
@@ -80,15 +76,17 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
         }
     }
 
-    private fun showAdultDialog(context: Context) {
-        val cdd = AdulthoodDialog(context, object : CallBack {
-            override fun call() {
-                startLoadBoards()
-            }
-        })
-        cdd.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        cdd.setCanceledOnTouchOutside(false)
-        cdd.show()
+    private fun showAdultDialog(context: Context?) {
+        context?.let {
+            val cdd = AdulthoodDialog(it, object : CallBack {
+                override fun call() {
+                    startLoadBoards()
+                }
+            })
+            cdd.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            cdd.setCanceledOnTouchOutside(false)
+            cdd.show()
+        }
     }
 
     private fun setUpScreen(view: View?, context: Context?) {

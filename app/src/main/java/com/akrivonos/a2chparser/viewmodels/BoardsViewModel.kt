@@ -9,7 +9,7 @@ import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach
 import io.reactivex.disposables.Disposable
 import java.util.*
 
-class ThemeBoardsViewModel(application: Application) : AndroidViewModel(application) {
+class BoardsViewModel(application: Application) : AndroidViewModel(application) {
     private var listBoardsTheme: List<BoardTheme> = ArrayList()
     private val mutableLiveData: MutableLiveData<List<BoardTheme>> = MutableLiveData()
     private val context = getApplication<Application>().applicationContext

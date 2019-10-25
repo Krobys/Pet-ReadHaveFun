@@ -49,11 +49,11 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
                 setToolbarMode(displayBackButton = true, displayTitle = true)
                 setTitleToolbar(title)
             }
-            TOOLBAR_MODE_BACK_BUTTON -> setToolbarMode(true, false)
             TOOLBAR_MODE_TITLE -> {
                 setToolbarMode(displayBackButton = false, displayTitle = true)
                 setTitleToolbar(title)
             }
+            TOOLBAR_MODE_BACK_BUTTON -> setToolbarMode(displayBackButton = true, displayTitle = false)
         }
     }
 
