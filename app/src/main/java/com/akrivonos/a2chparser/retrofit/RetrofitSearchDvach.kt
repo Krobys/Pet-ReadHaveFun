@@ -16,7 +16,6 @@ import java.util.*
 
 object RetrofitSearchDvach {
     private const val BASE_URL = "https://2ch.hk/"
-    private const val TAG = "test"
     private val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

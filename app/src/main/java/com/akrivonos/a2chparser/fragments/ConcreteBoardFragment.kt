@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.MainActivity.Companion.PAGE_MODE_ONLY_TOOLBAR
@@ -24,11 +25,9 @@ import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
 import com.akrivonos.a2chparser.models.database.Board
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
-import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import com.akrivonos.a2chparser.viewmodels.DetailedBoardViewModel
 
 
 class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
@@ -37,33 +36,16 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
     private var progressBar: ProgressBar? = null
-
-    private val observer = object : Observer<List<Thread>?> {
-        lateinit var disposable: Disposable
-        override fun onSubscribe(d: Disposable) {
-            disposable = d
-        }
-
-        override fun onNext(threads: List<Thread>) {
-            if (threads.isNotEmpty()) {
-                threadAdapter?.setThreads(threads)
-                threadAdapter?.notifyDataSetChanged()
-            }
-            progressBar?.visibility = View.GONE
-        }
-
-        override fun onError(e: Throwable) {
-
-        }
-
-        override fun onComplete() {
-            disposable.dispose()
-        }
-    }
+    private lateinit var viewModel: DetailedBoardViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpAdapterAndListeners()
+        setUpViewModel()
+    }
+
+    private fun setUpViewModel() {
+        viewModel = ViewModelProviders.of(this).get(DetailedBoardViewModel::class.java)
     }
 
     private fun setUpAdapterAndListeners() {
@@ -85,24 +67,30 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
     }
 
     private fun startLoadThreadsForBoard() {
-        val arguments = arguments
-        if (arguments != null) {
-            val board = arguments.getParcelable<Board>(BOARD_INFO)
-            if (board != null) {
-                RetrofitSearchDvach.getThreadsForBoardForBoard(board.idBoard, observer)
+        arguments?.let { argument ->
+            argument.getParcelable<Board>(BOARD_INFO)?.let { it ->
+                viewModel.getThreadsFoBoard(it.idBoard).observe(this, androidx.lifecycle.Observer<List<Thread>> {
+                    if (it.isNotEmpty()) {
+                        threadAdapter?.apply {
+                            setThreads(it)
+                            notifyDataSetChanged()
+                        }
+                    }
+                    progressBar?.visibility = View.GONE
+                })
                 progressBar?.visibility = View.VISIBLE
-                toolbarModeListener?.setMode(TOOLBAR_MODE_FULL, board.nameBoards)
+                toolbarModeListener?.setMode(TOOLBAR_MODE_FULL, it.nameBoards)
             }
         }
     }
 
     private fun setUpScreen(view: View?, context: Context?) {
         if (view != null && context != null) {
-            val recyclerViewBoardThreads = view.findViewById<RecyclerView>(R.id.board_threads_rec_view)
-            recyclerViewBoardThreads.layoutManager = LinearLayoutManager(context)
-            recyclerViewBoardThreads.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 100))
-            recyclerViewBoardThreads.adapter = threadAdapter
-
+            view.findViewById<RecyclerView>(R.id.board_threads_rec_view)?.apply {
+                layoutManager = LinearLayoutManager(context)
+                addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 100))
+                adapter = threadAdapter
+            }
             progressBar = view.findViewById(R.id.progressBar)
         }
         pageDisplayModeListener!!.setPageMode(PAGE_MODE_ONLY_TOOLBAR)
@@ -110,11 +98,12 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
 
     override fun showContent(pathMedia: String?, mediaType: Int) {
         pathMedia?.let {
-            val cdd = MediaZoomedDialog(activity!!, it, mediaType)
-            cdd.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            cdd.setCanceledOnTouchOutside(true)
-            cdd.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            cdd.show()
+            MediaZoomedDialog(activity!!, it, mediaType).apply {
+                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setCanceledOnTouchOutside(true)
+                requestWindowFeature(Window.FEATURE_NO_TITLE)
+                show()
+            }
         }
     }
 }

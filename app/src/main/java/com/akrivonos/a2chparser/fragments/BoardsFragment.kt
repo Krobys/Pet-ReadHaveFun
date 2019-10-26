@@ -80,27 +80,28 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
 
     private fun showAdultDialog(context: Context?) {
         context?.let {
-            val cdd = AdulthoodDialog(it, object : CallBack {
+            AdulthoodDialog(it, object : CallBack {
                 override fun call() {
                     startLoadBoards()
                 }
-            })
-            cdd.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            cdd.setCanceledOnTouchOutside(false)
-            cdd.show()
+            }).apply {
+                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setCanceledOnTouchOutside(false)
+                show()
+            }
         }
     }
 
     private fun setUpScreen(view: View?, context: Context?) {
         if (!(view == null || context == null)) {
-            val recyclerViewBoards = view.findViewById<RecyclerView>(R.id.boards_rec_view)
-            recyclerViewBoards.layoutManager = LinearLayoutManager(context)
-            recyclerViewBoards.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 20))
-            recyclerViewBoards.adapter = boardAdapter
+            view.findViewById<RecyclerView>(R.id.boards_rec_view).apply {
+                layoutManager = LinearLayoutManager(context)
+                addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 20))
+                adapter = boardAdapter
+            }
             progressBarBoards = view.findViewById(R.id.progressBarBoardsTheme)
             setUpBottomSheetCurrent(view)
         }
-
         pageDisplayModeListener?.setPageMode(PAGE_MODE_ONLY_NAVBAR)
     }
 
