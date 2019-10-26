@@ -7,14 +7,13 @@ import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
 import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach
 import io.reactivex.disposables.Disposable
-import java.util.*
 
 class BoardsViewModel(application: Application) : AndroidViewModel(application) {
     private var listBoardsTheme: List<BoardTheme> = ArrayList()
     private val mutableLiveData: MutableLiveData<List<BoardTheme>> = MutableLiveData()
     private val context = getApplication<Application>().applicationContext
 
-    fun getBoardThemes(): MutableLiveData<List<BoardTheme>> {
+    fun getBoardThemesLiveData(): MutableLiveData<List<BoardTheme>> {
         if (listBoardsTheme.isNotEmpty()) {
             mutableLiveData.value = listBoardsTheme
         } else {
@@ -42,5 +41,16 @@ class BoardsViewModel(application: Application) : AndroidViewModel(application) 
             RetrofitSearchDvach.getBoards(observer)
         }
         return mutableLiveData
+    }
+
+    fun setBoardThemes(boardThemes: List<BoardTheme>) {
+        listBoardsTheme = boardThemes
+    }
+
+    fun getBoardThemesForRestore(): ArrayList<BoardTheme>? {
+        if (listBoardsTheme.isEmpty()) {
+            return null
+        }
+        return ArrayList(listBoardsTheme)
     }
 }

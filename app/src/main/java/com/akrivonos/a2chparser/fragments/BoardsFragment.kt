@@ -61,18 +61,37 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val fragmentView = inflater.inflate(R.layout.fragment_boards, container, false)
+        manageLoadBoardsInformation(savedInstanceState)
         setUpScreen(fragmentView, context)
-        manageLoadBoardsInformation()
+
         return fragmentView
     }
 
-    private fun manageLoadBoardsInformation() {
+    override fun onSaveInstanceState(outState: Bundle) {
+        boardAdapter?.getBoardThemes()?.let {
+            if (it.isNotEmpty()) {
+                outState.putParcelableArrayList(BOARDS_LIST_RESTORE, ArrayList<BoardTheme>(it))
+            }
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    private fun manageLoadBoardsInformation(instanceState: Bundle?) {
         if (!boardAdapter?.isSet!!) {
-            context?.let {
-                if (!SharedPreferenceUtils.isAdultSettingsSet(context)) {
-                    showAdultDialog(context)
-                } else {
-                    startLoadBoards()
+            if (instanceState == null) {
+                context?.let {
+                    if (!SharedPreferenceUtils.isAdultSettingsSet(context)) {
+                        showAdultDialog(context)
+                    } else {
+                        startLoadBoards()
+                    }
+                }
+            } else {
+                instanceState.getParcelableArrayList<BoardTheme>(BOARDS_LIST_RESTORE)?.let {
+                    boardAdapter?.apply {
+                        setBoardThemes(it)
+                        notifyDataSetChanged()
+                    }
                 }
             }
         }
@@ -106,7 +125,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun startLoadBoards() {
-        viewModel.getBoardThemes().observe(this, Observer<List<BoardTheme>> { boardThemes ->
+        viewModel.getBoardThemesLiveData().observe(this, Observer<List<BoardTheme>> { boardThemes ->
             boardThemes?.let {
                 boardAdapter?.apply {
                     setBoardThemes(it)
@@ -161,6 +180,8 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
 
     companion object {
         const val BOARD_INFO = "board_info"
+        const val BOARDS_LIST_RESTORE = "boards_list_restore"
     }
 
 }
+

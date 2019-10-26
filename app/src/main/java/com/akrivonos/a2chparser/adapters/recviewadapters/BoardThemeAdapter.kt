@@ -23,6 +23,8 @@ class BoardThemeAdapter(context: Context?, private val bottomSheetListener: Open
         themesBoardList = ArrayList(boardThemes)
     }
 
+    fun getBoardThemes(): List<BoardTheme> = themesBoardList
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThemeBoardViewHolder {
         val binding = DataBindingUtil.inflate<AdapteritemThemeBoardBinding>(layoutInflater, R.layout.adapteritem_theme_board, parent, false)
         return ThemeBoardViewHolder(binding, bottomSheetListener)
