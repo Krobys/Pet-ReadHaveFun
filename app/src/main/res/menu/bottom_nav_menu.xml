@@ -4,11 +4,11 @@
     <item
         android:id="@+id/navigation_boards_themes"
         android:icon="@drawable/ch_main_icon_border_only"
-        android:title="Boards" />
+        android:title="@string/boards" />
 
     <item
         android:id="@+id/navigation_saved_content"
         android:icon="@drawable/ic_save_and_rest_black_24dp"
-        android:title="Saved posts" />
+        android:title="@string/saved" />
 
 </menu>
