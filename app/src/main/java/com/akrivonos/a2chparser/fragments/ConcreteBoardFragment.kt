@@ -87,7 +87,7 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
         view?.let {
             it.findViewById<RecyclerView>(R.id.board_threads_rec_view)?.apply {
                 layoutManager = LinearLayoutManager(context)
-                addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 100))
+                addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 50))
                 adapter = threadAdapter
             }
             progressBar = it.findViewById(R.id.progressBar)

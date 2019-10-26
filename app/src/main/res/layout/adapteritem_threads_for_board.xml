@@ -89,6 +89,7 @@
                 android:layout_below="@+id/text_content"
                 android:layout_centerHorizontal="true"
                 android:padding="5dp"
+                android:textColor="@color/colorCarroty"
                 android:text="Открыть тред" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
