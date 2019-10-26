@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,7 +67,6 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun manageLoadBoardsInformation() {
-        Log.d("test", "manageLoadBoardsInformation")
         if (!boardAdapter?.isSet!!) {
             context?.let {
                 if (!SharedPreferenceUtils.isAdultSettingsSet(context)) {
@@ -81,7 +79,6 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun showAdultDialog(context: Context?) {
-        Log.d("test", "showAdultDialog")
         context?.let {
             val cdd = AdulthoodDialog(it, object : CallBack {
                 override fun call() {
@@ -108,7 +105,6 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun startLoadBoards() {
-        Log.d("test", "startLoadBoards")
         viewModel.getBoardThemes().observe(this, Observer<List<BoardTheme>> { boardThemes ->
             boardThemes?.let {
                 boardAdapter?.apply {

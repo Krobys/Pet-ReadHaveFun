@@ -1,6 +1,5 @@
 package com.akrivonos.a2chparser.viewholders
 
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,6 @@ class TypeSaveViewHolder(itemView: View, detailedSavePage: OpenDetailedSavePage)
 
     init {
         itemView.setOnClickListener {
-            Log.d("test", "click:")
             detailedSavePage.openSavePage(typeModel)
         }
     }

@@ -2,7 +2,6 @@ package com.akrivonos.a2chparser.fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,7 +69,6 @@ class FavoritePageConcreteFragment : Fragment() {
                     SAVE_TYPE_BOARD -> {
                         val boardConcreteAdapter = BoardConcreteAdapter(context, activity as OpenBoardListener)
                         recyclerView.adapter = boardConcreteAdapter
-                        Log.d("test", "SAVE_TYPE_BOARD:")
                         disposable = database.boardsDao().getSavedBoardsList()
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -94,12 +92,12 @@ class FavoritePageConcreteFragment : Fragment() {
         toolbarModeListener.setMode(TOOLBAR_MODE_FULL, saveTypeModel?.nameSave)
     }
 
-    fun showEmptyMessage() {
+    private fun showEmptyMessage() {
         recyclerView.visibility = View.GONE
         emptyMessage.visibility = View.VISIBLE
     }
 
-    fun hideEmptyMessage() {
+    private fun hideEmptyMessage() {
         recyclerView.visibility = View.VISIBLE
         emptyMessage.visibility = View.GONE
     }

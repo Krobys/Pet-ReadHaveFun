@@ -1,6 +1,5 @@
 package com.akrivonos.a2chparser.viewholders
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.database.RoomAppDatabase
 import com.akrivonos.a2chparser.databinding.AdapteritemConcreteBoardBinding
@@ -34,7 +33,6 @@ class BoardConcreteViewHolder(var binding: AdapteritemConcreteBoardBinding, priv
                 .map { list -> list.isNotEmpty() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { isSaveLocal ->
-                    Log.d("test", "isSaveLocal: $isSaveLocal id: ${board.idBoard}")
                     binding.isSaveState = isSaveLocal
                     binding.executePendingBindings()
                 }

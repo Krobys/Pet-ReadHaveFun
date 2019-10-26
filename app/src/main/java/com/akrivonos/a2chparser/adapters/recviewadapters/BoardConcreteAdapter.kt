@@ -1,7 +1,6 @@
 package com.akrivonos.a2chparser.adapters.recviewadapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -34,7 +33,6 @@ class BoardConcreteAdapter(context: Context, private val openBoardListener: Open
     }
 
     fun disposeAll() {
-        Log.d("test", "disposeall:")
         for (disposable in arrayDisposed) {
             disposable.dispose()
         }
@@ -49,16 +47,6 @@ class BoardConcreteAdapter(context: Context, private val openBoardListener: Open
     override fun onBindViewHolder(holder: BoardConcreteViewHolder, position: Int) {
         val board = boards[position]
         arrayDisposed.add(holder.bind(board))
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView)
-        Log.d("test", "onDetachedFromRecyclerView: ")
-    }
-
-    override fun onViewDetachedFromWindow(holder: BoardConcreteViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        Log.d("test", "onViewDetachedFromWindow: ")
     }
 
     override fun getItemCount(): Int {

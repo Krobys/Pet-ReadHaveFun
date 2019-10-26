@@ -1,6 +1,5 @@
 package com.akrivonos.a2chparser.retrofit
 
-import android.util.Log
 import com.akrivonos.a2chparser.fabrics.SubjectFactory
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
@@ -32,12 +31,10 @@ object RetrofitSearchDvach {
         beerModelCall.enqueue(object : Callback<BoardModel> {
             override fun onResponse(call: Call<BoardModel>, response: Response<BoardModel>) {
 
-                Log.d(TAG, "onResponse: $response")
                 val boardModel = response.body()
                 if (boardModel != null) {
                     if (boardsPublishSubject.hasObservers())
                         if (response.code() == 200) {
-                            Log.d(TAG, "onResponse: +")
                             boardsPublishSubject.onNext(boardModel)
                         } else {
                             boardsPublishSubject.onNext(BoardModel())
@@ -47,7 +44,6 @@ object RetrofitSearchDvach {
             }
 
             override fun onFailure(call: Call<BoardModel>, t: Throwable) {
-                Log.d(TAG, "onFailure: ")
                 if (boardsPublishSubject.hasObservers())
                     boardsPublishSubject.onNext(BoardModel())
             }
@@ -62,7 +58,6 @@ object RetrofitSearchDvach {
         val modelCall = apiService.getThreadsForBoard(nameBoard)
         modelCall.enqueue(object : Callback<ThreadsModel> {
             override fun onResponse(call: Call<ThreadsModel>, response: Response<ThreadsModel>) {
-                Log.d(TAG, "onResponse: $response")
                 val threadsModel = response.body()
                 if (threadsPublishSubject.hasObservers())
                     if (threadsModel != null) {
@@ -92,11 +87,9 @@ object RetrofitSearchDvach {
         val modelCall = apiService.getPostsForThread(nameBoard, numberThread)
         modelCall.enqueue(object : Callback<PostModel> {
             override fun onResponse(call: Call<PostModel>, response: Response<PostModel>) {
-                Log.d(TAG, "onResponse: $response")
                 val model = response.body()
                 if (threadsPublishSubject.hasObservers())
                     if (response.code() == 200) {
-                        Log.d(TAG, "onResponse: +")
                         model?.threads?.get(0)?.posts?.let { threadsPublishSubject.onNext(it) }
                     } else {
                         threadsPublishSubject.onNext(ArrayList())
@@ -105,7 +98,6 @@ object RetrofitSearchDvach {
             }
 
             override fun onFailure(call: Call<PostModel>, t: Throwable) {
-                Log.d(TAG, "onFailure: ")
                 if (threadsPublishSubject.hasObservers())
                     threadsPublishSubject.onNext(ArrayList())
             }
