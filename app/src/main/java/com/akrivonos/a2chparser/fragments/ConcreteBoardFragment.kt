@@ -27,16 +27,16 @@ import com.akrivonos.a2chparser.models.database.Board
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
-import com.akrivonos.a2chparser.viewmodels.DetailedBoardViewModel
+import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
 
 
 class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
 
-    private var threadAdapter: ThreadAdapter? = null
+    private lateinit var threadAdapter: ThreadAdapter
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
-    private var progressBar: ProgressBar? = null
-    private lateinit var viewModel: DetailedBoardViewModel
+    private lateinit var progressBar: ProgressBar
+    private lateinit var viewModel: ConcreteBoardViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,16 +45,15 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
     }
 
     private fun setUpViewModel() {
-        viewModel = ViewModelProviders.of(this).get(DetailedBoardViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ConcreteBoardViewModel::class.java)
     }
 
     private fun setUpAdapterAndListeners() {
-        val activity = activity
-        if (activity != null) {
-            pageDisplayModeListener = activity as PageDisplayModeListener?
-            toolbarModeListener = activity as SetUpToolbarModeListener?
+        activity?.let {
+            pageDisplayModeListener = it as PageDisplayModeListener?
+            toolbarModeListener = it as SetUpToolbarModeListener?
             val showContentMediaListener = this
-            threadAdapter = ThreadAdapter(activity, false, showContentMediaListener)
+            threadAdapter = ThreadAdapter(it, false, showContentMediaListener)
         }
     }
 
@@ -71,29 +70,30 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
             argument.getParcelable<Board>(BOARD_INFO)?.let { it ->
                 viewModel.getThreadsFoBoard(it.idBoard).observe(this, androidx.lifecycle.Observer<List<Thread>> {
                     if (it.isNotEmpty()) {
-                        threadAdapter?.apply {
+                        threadAdapter.apply {
                             setThreads(it)
                             notifyDataSetChanged()
                         }
                     }
-                    progressBar?.visibility = View.GONE
+                    progressBar.visibility = View.GONE
                 })
-                progressBar?.visibility = View.VISIBLE
+                progressBar.visibility = View.VISIBLE
                 toolbarModeListener?.setMode(TOOLBAR_MODE_FULL, it.nameBoards)
             }
         }
     }
 
     private fun setUpScreen(view: View?, context: Context?) {
-        if (view != null && context != null) {
-            view.findViewById<RecyclerView>(R.id.board_threads_rec_view)?.apply {
+        view?.let {
+            it.findViewById<RecyclerView>(R.id.board_threads_rec_view)?.apply {
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 100))
                 adapter = threadAdapter
             }
-            progressBar = view.findViewById(R.id.progressBar)
+            progressBar = it.findViewById(R.id.progressBar)
+
+            pageDisplayModeListener?.setPageMode(PAGE_MODE_ONLY_TOOLBAR)
         }
-        pageDisplayModeListener!!.setPageMode(PAGE_MODE_ONLY_TOOLBAR)
     }
 
     override fun showContent(pathMedia: String?, mediaType: Int) {

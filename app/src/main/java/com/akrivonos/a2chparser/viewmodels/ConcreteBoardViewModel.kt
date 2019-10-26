@@ -7,7 +7,7 @@ import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
-class DetailedBoardViewModel : ViewModel() {
+class ConcreteBoardViewModel : ViewModel() {
     private var threadsList: List<Thread> = ArrayList()
     private var mutableLiveData: MutableLiveData<List<Thread>> = MutableLiveData()
 
