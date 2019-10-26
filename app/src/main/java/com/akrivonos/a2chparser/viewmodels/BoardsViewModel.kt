@@ -1,6 +1,7 @@
 package com.akrivonos.a2chparser.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel
@@ -17,7 +18,9 @@ class BoardsViewModel(application: Application) : AndroidViewModel(application) 
     fun getBoardThemes(): MutableLiveData<List<BoardTheme>> {
         if (listBoardsTheme.isNotEmpty()) {
             mutableLiveData.value = listBoardsTheme
+            Log.d("test", "listBoardsTheme is not empty, load list")
         } else {
+            Log.d("test", "listBoardsTheme is empty, starting loading")
             val observer = object : io.reactivex.Observer<BoardModel> {
                 lateinit var disposable: Disposable
                 override fun onSubscribe(d: Disposable) {

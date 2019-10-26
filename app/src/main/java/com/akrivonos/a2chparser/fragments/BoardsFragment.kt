@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,9 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun setUpViewModel() {
-        viewModel = ViewModelProviders.of(this).get(BoardsViewModel::class.java)
+        activity?.let {
+            viewModel = ViewModelProviders.of(it).get(BoardsViewModel::class.java)
+        }
     }
 
     private fun setUpAdapterAndListeners() {
@@ -65,7 +68,8 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun manageLoadBoardsInformation() {
-        if (boardAdapter?.isSet!!) {
+        Log.d("test", "manageLoadBoardsInformation")
+        if (!boardAdapter?.isSet!!) {
             context?.let {
                 if (!SharedPreferenceUtils.isAdultSettingsSet(context)) {
                     showAdultDialog(context)
@@ -77,6 +81,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun showAdultDialog(context: Context?) {
+        Log.d("test", "showAdultDialog")
         context?.let {
             val cdd = AdulthoodDialog(it, object : CallBack {
                 override fun call() {
@@ -98,14 +103,18 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
             progressBarBoards = view.findViewById(R.id.progressBarBoardsTheme)
             setUpBottomSheetCurrent(view)
         }
+
         pageDisplayModeListener?.setPageMode(PAGE_MODE_ONLY_NAVBAR)
     }
 
     private fun startLoadBoards() {
+        Log.d("test", "startLoadBoards")
         viewModel.getBoardThemes().observe(this, Observer<List<BoardTheme>> { boardThemes ->
             boardThemes?.let {
-                boardAdapter?.setBoardThemes(it)
-                boardAdapter?.notifyDataSetChanged()
+                boardAdapter?.apply {
+                    setBoardThemes(it)
+                    notifyDataSetChanged()
+                }
             }
             progressBarBoards?.visibility = View.GONE
         })
@@ -117,9 +126,11 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
         if (activity != null) {
             bottomSheet = view.findViewById(R.id.bottom_sheet_detailed_boards)
             sheetBehavior = BottomSheetBehavior.from(bottomSheet)
-            sheetBehavior?.isHideable = true
-            sheetBehavior?.skipCollapsed = true
-            sheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+            sheetBehavior?.apply {
+                isHideable = true
+                skipCollapsed = true
+                state = BottomSheetBehavior.STATE_HIDDEN
+            }
 
             val openBoardListener = activity as OpenBoardListener
             boardConcreteAdapter = BoardConcreteAdapter(activity, openBoardListener)
@@ -143,8 +154,10 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
 
     override fun openBottomSheet(boardTheme: BoardTheme?) {
         boardTheme?.boardConcretes?.let {
-            boardConcreteAdapter.setBoardConcretes(it)
-            boardConcreteAdapter.notifyDataSetChanged()
+            boardConcreteAdapter.apply {
+                setBoardConcretes(it)
+                notifyDataSetChanged()
+            }
             sheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
