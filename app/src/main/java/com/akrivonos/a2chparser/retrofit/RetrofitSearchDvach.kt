@@ -1,5 +1,6 @@
 package com.akrivonos.a2chparser.retrofit
 
+import android.util.Log
 import com.akrivonos.a2chparser.fabrics.SubjectFactory
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
@@ -43,6 +44,7 @@ object RetrofitSearchDvach {
             }
 
             override fun onFailure(call: Call<BoardModel>, t: Throwable) {
+
                 if (boardsPublishSubject.hasObservers())
                     boardsPublishSubject.onNext(BoardModel())
             }
@@ -57,14 +59,17 @@ object RetrofitSearchDvach {
         val modelCall = apiService.getThreadsForBoard(nameBoard)
         modelCall.enqueue(object : Callback<ThreadsModel> {
             override fun onResponse(call: Call<ThreadsModel>, response: Response<ThreadsModel>) {
+                Log.d("test", response.message())
                 val threadsModel = response.body()
                 if (threadsPublishSubject.hasObservers())
                     if (threadsModel != null) {
                         if (response.code() == 200) {
                             threadsModel.threadsForBoard?.let {
+                                Log.d("test", "onResponse: 200")
                                 threadsPublishSubject.onNext(it)
                             }
                         } else {
+                            Log.d("test", "onResponse: ${response.code()}")
                             threadsPublishSubject.onNext(ArrayList())
                         }
                     }
@@ -72,6 +77,8 @@ object RetrofitSearchDvach {
             }
 
             override fun onFailure(call: Call<ThreadsModel>, t: Throwable) {
+                Log.d("test", "onFailure: ${t.message}")
+                Log.d("test", "onFailure: ${t.stackTrace}")
                 if (threadsPublishSubject.hasObservers())
                     threadsPublishSubject.onNext(ArrayList())
             }
