@@ -1,6 +1,5 @@
 package com.akrivonos.a2chparser.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
@@ -23,7 +22,6 @@ class ConcreteBoardViewModel : ViewModel() {
                 }
 
                 override fun onNext(threads: List<Thread>) {
-                    Log.d("test", "onNext threads size: ${threads.size} ")
                     threadsList = threads
                     mutableLiveData.value = threads
                 }
@@ -41,13 +39,4 @@ class ConcreteBoardViewModel : ViewModel() {
         return mutableLiveData
     }
 
-    fun setThreads(threadsList: List<Thread>) {
-        this.threadsList = threadsList
-    }
-
-    override fun onCleared() {
-        Log.d("test", "onCleared ViewModel ConcreteBoard: ")
-        super.onCleared()
-
-    }
 }

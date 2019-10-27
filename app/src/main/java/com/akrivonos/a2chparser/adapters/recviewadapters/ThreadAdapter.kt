@@ -23,8 +23,6 @@ class ThreadAdapter(private val context: Context, private val isFullMode: Boolea
         }
     }
 
-    fun getThreads() = threads
-
     override fun getItemViewType(position: Int): Int {
         val thread = threads[position]
         val files = thread.files

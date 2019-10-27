@@ -113,7 +113,6 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         navController.navigate(R.id.navigation_saved_page_concrete_fragment, bundle)//TODO DOOOO
     }
 
-
     companion object {
         const val TOOLBAR_MODE_FULL = 1
         const val TOOLBAR_MODE_BACK_BUTTON = 2

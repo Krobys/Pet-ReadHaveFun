@@ -1,7 +1,6 @@
 package com.akrivonos.a2chparser.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel
@@ -53,11 +52,5 @@ class BoardsViewModel(application: Application) : AndroidViewModel(application) 
             return null
         }
         return ArrayList(listBoardsTheme)
-    }
-
-    override fun onCleared() {
-        Log.d("test", "onCleared ViewModel BoardViewModel: ")
-        super.onCleared()
-
     }
 }

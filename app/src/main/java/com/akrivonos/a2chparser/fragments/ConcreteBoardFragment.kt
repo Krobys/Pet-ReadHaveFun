@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,14 +32,13 @@ import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
 
 class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
 
-    private var threadAdapter: ThreadAdapter? = null
+    private lateinit var threadAdapter: ThreadAdapter
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
     private lateinit var progressBar: ProgressBar
     private lateinit var viewModel: ConcreteBoardViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("test", "onCreate: ConcreteBoardFragmen")
         super.onCreate(savedInstanceState)
         setUpAdapterAndListeners()
         setUpViewModel()
@@ -68,16 +66,11 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
     }
 
     private fun startLoadThreadsForBoard() {
-        Log.d("test", "startLoadThreadsForBoard: ")
         arguments?.let { argument ->
-            Log.d("test", "startLoadThreadsForBoard: arg")
             argument.getParcelable<Board>(BOARD_INFO)?.let { it ->
-                Log.d("test", "startLoadThreadsForBoard: boardinfo: ${it.idBoard}")
                 viewModel.getThreadsFoBoard(it.idBoard).observe(this, androidx.lifecycle.Observer<List<Thread>> {
-                    Log.d("test", "list size: ${it.size} ")
                     if (it.isNotEmpty()) {
-                        threadAdapter?.apply {
-                            Log.d("test", "setThreads in Adapter: ")
+                        threadAdapter.apply {
                             setThreads(it)
                             notifyDataSetChanged()
                         }
@@ -87,15 +80,9 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
                 progressBar.visibility = View.VISIBLE
                 toolbarModeListener?.setMode(TOOLBAR_MODE_FULL, it.nameBoards)
             }
-            }
+        }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        arguments?.let {
-            outState.putBundle()
-        }
-        super.onSaveInstanceState(outState)
-    }
     private fun setUpScreen(view: View?, context: Context?) {
         view?.let {
             it.findViewById<RecyclerView>(R.id.board_threads_rec_view)?.apply {
