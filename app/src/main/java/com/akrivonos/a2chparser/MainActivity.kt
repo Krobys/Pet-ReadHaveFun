@@ -8,7 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.akrivonos.a2chparser.fragments.BoardsFragment.Companion.BOARD_INFO
+import com.akrivonos.a2chparser.fragments.BOARD_INFO
 import com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.Companion.INFO_SAVE_PAGE
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.SaveTypeModel
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         val bundle = Bundle()
         bundle.putString(NAME_BOARD, nameBoard)
         bundle.putString(NUMBER_THREAD, numberThread)
-        navController.navigate(R.id.navigation_saved_page_concrete_fragment, bundle)//TODO DOOOO
+        navController.navigate(R.id.navigation_concrete_thread_fragment, bundle)//TODO DOOOO
     }
 
     companion object {

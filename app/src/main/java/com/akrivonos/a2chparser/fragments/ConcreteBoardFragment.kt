@@ -19,7 +19,7 @@ import com.akrivonos.a2chparser.MainActivity.Companion.TOOLBAR_MODE_FULL
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter
 import com.akrivonos.a2chparser.dialogs.MediaZoomedDialog
-import com.akrivonos.a2chparser.fragments.BoardsFragment.Companion.BOARD_INFO
+import com.akrivonos.a2chparser.interfaces.OpenThreadListener
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
@@ -27,6 +27,7 @@ import com.akrivonos.a2chparser.models.database.Board
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
+import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
 
 
@@ -53,7 +54,9 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
             pageDisplayModeListener = it as PageDisplayModeListener?
             toolbarModeListener = it as SetUpToolbarModeListener?
             val showContentMediaListener = this
-            threadAdapter = ThreadAdapter(it, false, showContentMediaListener)
+            val openThreadListener = it as OpenThreadListener
+            val boardId = SharedPreferenceUtils.getLastBoard(it)
+            threadAdapter = ThreadAdapter(it, false, showContentMediaListener, openThreadListener, boardId)
         }
     }
 
@@ -68,7 +71,8 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
     private fun startLoadThreadsForBoard() {
         arguments?.let { argument ->
             argument.getParcelable<Board>(BOARD_INFO)?.let { it ->
-                viewModel.getThreadsFoBoard(it.idBoard).observe(this, androidx.lifecycle.Observer<List<Thread>> {
+                viewModel.getThreadsForBoard(it.idBoard)
+                        .observe(this, androidx.lifecycle.Observer<List<Thread>> {
                     if (it.isNotEmpty()) {
                         threadAdapter.apply {
                             setThreads(it)

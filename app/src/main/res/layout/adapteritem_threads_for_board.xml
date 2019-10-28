@@ -17,6 +17,11 @@
         <variable
             name="adapter"
             type="com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter" />
+
+        <variable
+            name="holder"
+            type="com.akrivonos.a2chparser.viewholders.ThreadViewHolder" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -29,7 +34,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:onClick="@{() -> holder.openThread()}">
 
             <TextView
                 android:id="@+id/name_thread"

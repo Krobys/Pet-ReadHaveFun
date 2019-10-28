@@ -30,6 +30,8 @@ import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.BoardsViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
+const val BOARD_INFO = "board_info"
+
 class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
 
     private var sheetBehavior: BottomSheetBehavior<*>? = null
@@ -157,10 +159,6 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
             }
             sheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
         }
-    }
-
-    companion object {
-        const val BOARD_INFO = "board_info"
     }
 
 }

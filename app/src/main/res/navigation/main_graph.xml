@@ -18,7 +18,11 @@
         android:id="@+id/navigation_concrete_board_fragment"
         android:name="com.akrivonos.a2chparser.fragments.ConcreteBoardFragment"
         android:label="fragment_concrete_board"
-        tools:layout="@layout/fragment_concrete_board" />
+        tools:layout="@layout/fragment_concrete_board">
+        <action
+            android:id="@+id/action_navigation_concrete_board_fragment_to_navigation_concrete_thread_fragment"
+            app:destination="@id/navigation_concrete_thread_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_saved_content"
         android:name="com.akrivonos.a2chparser.fragments.FavoritePageThemesList"
@@ -33,4 +37,9 @@
         android:name="com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment"
         android:label="fragment_favorite_page_concrete"
         tools:layout="@layout/fragment_favorite_page_concrete" />
+    <fragment
+        android:id="@+id/navigation_concrete_thread_fragment"
+        android:name="com.akrivonos.a2chparser.fragments.ConcreteThreadFragment"
+        android:label="fragment_concrete_thread"
+        tools:layout="@layout/fragment_concrete_thread" />
 </navigation>

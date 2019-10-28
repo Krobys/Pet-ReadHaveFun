@@ -7,12 +7,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.databinding.AdapteritemThreadsForBoardBinding
+import com.akrivonos.a2chparser.interfaces.OpenThreadListener
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.viewholders.ThreadViewHolder
 import java.util.*
 
-class ThreadAdapter(private val context: Context, private val isFullMode: Boolean, private val contentMediaListener: ShowContentMediaListener) : RecyclerView.Adapter<ThreadViewHolder>() {
+class ThreadAdapter(private val context: Context, private val isFullMode: Boolean, private val contentMediaListener: ShowContentMediaListener, private val openThreadListener: OpenThreadListener, private val boardId: String?) : RecyclerView.Adapter<ThreadViewHolder>() {
 
     private var threads = ArrayList<Thread>()
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
@@ -35,9 +36,9 @@ class ThreadAdapter(private val context: Context, private val isFullMode: Boolea
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThreadViewHolder {
         val binding = DataBindingUtil.inflate<AdapteritemThreadsForBoardBinding>(layoutInflater, R.layout.adapteritem_threads_for_board, parent, false)
         return if (viewType == TYPE_WITH_MEDIA)
-            ThreadViewHolder(binding, context, layoutInflater, isFullMode, contentMediaListener)
+            ThreadViewHolder(binding, context, layoutInflater, isFullMode, contentMediaListener, openThreadListener, boardId)
         else
-            ThreadViewHolder(binding)
+            ThreadViewHolder(binding, openThreadListener, boardId)
 
     }
 

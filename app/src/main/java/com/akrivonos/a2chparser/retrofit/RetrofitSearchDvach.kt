@@ -51,29 +51,27 @@ object RetrofitSearchDvach {
         return this
     }
 
-    fun getThreadsForBoardForBoard(nameBoard: String?, observerThreads: io.reactivex.Observer<List<Thread>?>): RetrofitSearchDvach? {
-        val threadsPublishSubject = SubjectFactory.createPublishSubject(observerThreads)
-
+    fun getThreadsForBoard(nameBoard: String?, observerThreadsSuccess: io.reactivex.Observer<ThreadsModel?>, observerThreadsError: io.reactivex.Observer<List<Thread>?>): RetrofitSearchDvach? {
+        val threadsPublishSubjectSuccess = SubjectFactory.createPublishSubject(observerThreadsSuccess)
+        val threadsPublishSubjectError = SubjectFactory.createPublishSubject(observerThreadsError)
         val modelCall = apiService.getThreadsForBoard(nameBoard)
         modelCall.enqueue(object : Callback<ThreadsModel> {
             override fun onResponse(call: Call<ThreadsModel>, response: Response<ThreadsModel>) {
                 val threadsModel = response.body()
-                if (threadsPublishSubject.hasObservers())
-                    if (threadsModel != null) {
+                if (threadsPublishSubjectSuccess.hasObservers() && threadsPublishSubjectError.hasObservers())
                         if (response.code() == 200) {
-                            threadsModel.threadsForBoard?.let {
-                                threadsPublishSubject.onNext(it)
+                            threadsModel?.let {
+                                threadsPublishSubjectSuccess.onNext(it)
                             }
                         } else {
-                            threadsPublishSubject.onNext(ArrayList())
+                            threadsPublishSubjectError.onNext(ArrayList())
                         }
-                    }
-                threadsPublishSubject.onComplete()
+                threadsPublishSubjectSuccess.onComplete()
             }
 
             override fun onFailure(call: Call<ThreadsModel>, t: Throwable) {
-                if (threadsPublishSubject.hasObservers())
-                    threadsPublishSubject.onNext(ArrayList())
+                if (threadsPublishSubjectError.hasObservers())
+                    threadsPublishSubjectError.onNext(ArrayList())
             }
 
         })
