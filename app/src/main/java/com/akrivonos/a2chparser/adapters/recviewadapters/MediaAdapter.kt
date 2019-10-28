@@ -11,7 +11,7 @@ import com.akrivonos.a2chparser.pojomodel.threadmodel.File
 import com.akrivonos.a2chparser.viewholders.MediaViewHolder
 import java.util.*
 
-class MediaAdapter(private val layoutInflater: LayoutInflater, private val isFullMode: Boolean, private val contentMediaListener: ShowContentMediaListener) : RecyclerView.Adapter<MediaViewHolder>() {
+class MediaAdapter(private val layoutInflater: LayoutInflater, private val contentMediaListener: ShowContentMediaListener) : RecyclerView.Adapter<MediaViewHolder>() {
 
     private var mediaList = ArrayList<File>()
 
@@ -39,7 +39,7 @@ class MediaAdapter(private val layoutInflater: LayoutInflater, private val isFul
     }
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
-        holder.setUpMediaItem(mediaList[position], isFullMode)
+        holder.setUpMediaItem(mediaList[position])
     }
 
     override fun getItemCount(): Int {

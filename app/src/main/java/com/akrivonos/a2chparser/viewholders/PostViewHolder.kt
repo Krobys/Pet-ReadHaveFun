@@ -8,41 +8,33 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter
-import com.akrivonos.a2chparser.databinding.AdapteritemThreadsForBoardBinding
-import com.akrivonos.a2chparser.interfaces.OpenThreadListener
+import com.akrivonos.a2chparser.databinding.AdapteritemPostForThreadBinding
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
-import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
+import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 
-class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, private val openThreadListener: OpenThreadListener, private var boardId: String?) : RecyclerView.ViewHolder(binder.root) {
-
+class PostViewHolder(private var binder: AdapteritemPostForThreadBinding) : RecyclerView.ViewHolder(binder.root) {
     private val mediaContentThreadRecView: RecyclerView = binder.root.findViewById(R.id.media_content_rec_view)
 
-    constructor(binder: AdapteritemThreadsForBoardBinding,
+    constructor(binder: AdapteritemPostForThreadBinding,
                 context: Context,
                 layoutInflater: LayoutInflater,
-                contentMediaListener: ShowContentMediaListener,
-                openThreadListener: OpenThreadListener,
-                boardId: String?)
-            : this(binder, openThreadListener, boardId) {
+                contentMediaListener: ShowContentMediaListener)
+            : this(binder) {
+
         mediaContentThreadRecView.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.RIGHT, 40))
         binder.layoutManagerRecycleView = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
         binder.adapter = MediaAdapter(layoutInflater, contentMediaListener)
     }
 
-    fun openThread() {
-        openThreadListener.openThread(boardId, binder.thread?.num)
-    }
-
-    fun setThreadDataWithMedia(thread: Thread) {
-        binder.holder = this
-        binder.thread = thread
-        binder.adapter?.setMediaList(thread.files)
+    fun setThreadDataWithMedia(post: Post) {
+        binder.post = post
+        binder.adapter?.setMediaList(post.files)
         binder.adapter?.notifyDataSetChanged()
     }
 
-    fun setThreadDataWithoutMedia(thread: Thread) {
-        binder.thread = thread
+    fun setThreadDataWithoutMedia(post: Post) {
+        binder.post = post
         mediaContentThreadRecView.visibility = View.GONE
     }
 }

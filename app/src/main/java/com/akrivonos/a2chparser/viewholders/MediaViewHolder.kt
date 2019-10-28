@@ -13,13 +13,13 @@ class MediaViewHolder(private var binder: AdapteritemMediaPhotoBinding, private 
         contentMediaListener.showContent(mediaPathFull, itemViewType)
     }
 
-    fun setUpMediaItem(fileMedia: File?, modeThreadOpenFull: Boolean) {
+    fun setUpMediaItem(fileMedia: File?) {
         val STANDART_PATH = "https://2ch.hk"
         mediaPathFull = STANDART_PATH + fileMedia?.path
         val mediaPathThumbnail = STANDART_PATH + fileMedia?.thumbnail
 
         binder.file = fileMedia
-        binder.pathPhoto = if (modeThreadOpenFull) mediaPathFull else mediaPathThumbnail
+        binder.pathPhoto = mediaPathThumbnail
         binder.playIconState = itemViewType == ITEM_TYPE_VIDEO
         binder.holder = this
     }

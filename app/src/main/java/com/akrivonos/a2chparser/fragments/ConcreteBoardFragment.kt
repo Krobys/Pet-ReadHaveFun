@@ -56,7 +56,7 @@ class ConcreteBoardFragment : Fragment(), ShowContentMediaListener {
             val showContentMediaListener = this
             val openThreadListener = it as OpenThreadListener
             val boardId = SharedPreferenceUtils.getLastBoard(it)
-            threadAdapter = ThreadAdapter(it, false, showContentMediaListener, openThreadListener, boardId)
+            threadAdapter = ThreadAdapter(it, showContentMediaListener, openThreadListener, boardId)
         }
     }
 

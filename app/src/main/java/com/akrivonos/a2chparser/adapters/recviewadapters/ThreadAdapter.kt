@@ -13,7 +13,7 @@ import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.viewholders.ThreadViewHolder
 import java.util.*
 
-class ThreadAdapter(private val context: Context, private val isFullMode: Boolean, private val contentMediaListener: ShowContentMediaListener, private val openThreadListener: OpenThreadListener, private val boardId: String?) : RecyclerView.Adapter<ThreadViewHolder>() {
+class ThreadAdapter(private val context: Context, private val contentMediaListener: ShowContentMediaListener, private val openThreadListener: OpenThreadListener, private val boardId: String?) : RecyclerView.Adapter<ThreadViewHolder>() {
 
     private var threads = ArrayList<Thread>()
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
@@ -36,7 +36,7 @@ class ThreadAdapter(private val context: Context, private val isFullMode: Boolea
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThreadViewHolder {
         val binding = DataBindingUtil.inflate<AdapteritemThreadsForBoardBinding>(layoutInflater, R.layout.adapteritem_threads_for_board, parent, false)
         return if (viewType == TYPE_WITH_MEDIA)
-            ThreadViewHolder(binding, context, layoutInflater, isFullMode, contentMediaListener, openThreadListener, boardId)
+            ThreadViewHolder(binding, context, layoutInflater, contentMediaListener, openThreadListener, boardId)
         else
             ThreadViewHolder(binding, openThreadListener, boardId)
 
@@ -56,7 +56,7 @@ class ThreadAdapter(private val context: Context, private val isFullMode: Boolea
     }
 
     companion object {
-        private const val TYPE_WITH_MEDIA = 1
-        private const val TYPE_WITHOUT_MEDIA = 2
+        const val TYPE_WITH_MEDIA = 1
+        const val TYPE_WITHOUT_MEDIA = 2
     }
 }
