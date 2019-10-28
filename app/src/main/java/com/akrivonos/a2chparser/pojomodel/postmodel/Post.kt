@@ -35,7 +35,7 @@ class Post {
     var name: String? = null
     @SerializedName("num")
     @Expose
-    var num: Int? = null
+    var num: String? = null
     @SerializedName("number")
     @Expose
     var number: Int? = null
