@@ -2,8 +2,11 @@ package com.akrivonos.a2chparser.viewholders
 
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,20 +41,43 @@ class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, pr
     }
 
     fun expandTextView() {
-        val tv: TextView = binder.root.findViewById(R.id.text_content)
-        val animation = ObjectAnimator.ofInt(tv, "maxLines", tv.lineCount)
+        val tvContent: TextView = binder.textContent
+        val tvShowMore: TextView = binder.showFullContent
+        val animation = ObjectAnimator.ofInt(tvContent, "maxLines", tvContent.lineCount)
         animation.setDuration(200).start()
+        tvShowMore.visibility = GONE
+    }
+
+    fun setUpTextViewExpandable() {
+        val tv: TextView = binder.textContent
+        tv.text = binder.thread?.comment
+        val tvShowMore: TextView = binder.showFullContent
+        Log.d("test", "${tv.maxLines}  < ${tv.lineCount}")
+        val vto = tv.viewTreeObserver
+        vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val obs = tv.viewTreeObserver
+                obs.removeOnGlobalLayoutListener(this)
+                Log.d("test", "${tv.maxLines}  < ${tv.lineCount}")
+                val isExpandable = tv.maxLines < tv.lineCount
+                tvShowMore.visibility = if (isExpandable) View.VISIBLE else View.GONE
+            }
+        })
+
     }
 
     fun setThreadDataWithMedia(thread: Thread) {
-        binder.holder = this
         binder.thread = thread
+        binder.holder = this
         binder.adapter?.setMediaList(thread.files)
         binder.adapter?.notifyDataSetChanged()
+        setUpTextViewExpandable()
     }
 
     fun setThreadDataWithoutMedia(thread: Thread) {
         binder.thread = thread
-        mediaContentThreadRecView.visibility = View.GONE
+        binder.holder = this
+        mediaContentThreadRecView.visibility = GONE
+        setUpTextViewExpandable()
     }
 }

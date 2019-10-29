@@ -6,6 +6,8 @@
 
         <import type="androidx.core.text.HtmlCompat" />
 
+        <import type="android.view.View" />
+
         <variable
             name="thread"
             type="com.akrivonos.a2chparser.pojomodel.threadmodel.Thread" />
