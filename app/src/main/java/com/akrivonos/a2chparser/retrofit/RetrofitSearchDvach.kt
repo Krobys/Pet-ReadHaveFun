@@ -1,6 +1,6 @@
 package com.akrivonos.a2chparser.retrofit
 
-import com.akrivonos.a2chparser.fabrics.SubjectFactory
+import com.akrivonos.a2chparser.builders.SubjectBuilder
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.pojomodel.postmodel.PostModel
@@ -24,7 +24,7 @@ object RetrofitSearchDvach {
 
 
     fun getBoards(observerBoardThemes: io.reactivex.Observer<BoardModel>): RetrofitSearchDvach? {
-        val boardsPublishSubject = SubjectFactory.createPublishSubject(observerBoardThemes)
+        val boardsPublishSubject = SubjectBuilder.createPublishSubject(observerBoardThemes)
 
         val beerModelCall = apiService.boards
         beerModelCall.enqueue(object : Callback<BoardModel> {
@@ -52,8 +52,8 @@ object RetrofitSearchDvach {
     }
 
     fun getThreadsForBoard(nameBoard: String?, observerThreadsSuccess: io.reactivex.Observer<ThreadsModel?>, observerThreadsError: io.reactivex.Observer<List<Thread>?>): RetrofitSearchDvach? {
-        val threadsPublishSubjectSuccess = SubjectFactory.createPublishSubject(observerThreadsSuccess)
-        val threadsPublishSubjectError = SubjectFactory.createPublishSubject(observerThreadsError)
+        val threadsPublishSubjectSuccess = SubjectBuilder.createPublishSubject(observerThreadsSuccess)
+        val threadsPublishSubjectError = SubjectBuilder.createPublishSubject(observerThreadsError)
         val modelCall = apiService.getThreadsForBoard(nameBoard)
         modelCall.enqueue(object : Callback<ThreadsModel> {
             override fun onResponse(call: Call<ThreadsModel>, response: Response<ThreadsModel>) {
@@ -78,8 +78,8 @@ object RetrofitSearchDvach {
         return this
     }
 
-    fun getPostsForThread(nameBoard: String?, numberThread: String?, observerThreads: io.reactivex.Observer<List<Post>>): RetrofitSearchDvach? {
-        val threadsPublishSubject = SubjectFactory.createPublishSubject(observerThreads)
+    fun getPostsForThread(nameBoard: String?, numberThread: String?, observerPosts: io.reactivex.Observer<List<Post>>): RetrofitSearchDvach? {
+        val threadsPublishSubject = SubjectBuilder.createPublishSubject(observerPosts)
 
         val modelCall = apiService.getPostsForThread(nameBoard, numberThread)
         modelCall.enqueue(object : Callback<PostModel> {

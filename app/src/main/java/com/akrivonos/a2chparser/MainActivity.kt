@@ -1,13 +1,17 @@
 package com.akrivonos.a2chparser
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.akrivonos.a2chparser.dialogs.MediaZoomedDialog
 import com.akrivonos.a2chparser.fragments.BOARD_INFO
 import com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.Companion.INFO_SAVE_PAGE
 import com.akrivonos.a2chparser.interfaces.*
@@ -15,7 +19,7 @@ import com.akrivonos.a2chparser.models.SaveTypeModel
 import com.akrivonos.a2chparser.models.database.Board
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeListener, PageDisplayModeListener, OpenDetailedSavePage, OpenThreadListener {
+class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeListener, PageDisplayModeListener, OpenDetailedSavePage, OpenThreadListener, ShowContentMediaListener {
 
     private var toolbar: Toolbar? = null
     private lateinit var navController: NavController
@@ -43,17 +47,17 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         }
     }
 
-    override fun setMode(mode: Int, title: String?) {
+    override fun setMode(mode: ToolbarMode, title: String?) {
         when (mode) {
-            TOOLBAR_MODE_FULL -> {
+            Companion.ToolbarMode.FULL -> {
                 setToolbarMode(displayBackButton = true, displayTitle = true)
                 setTitleToolbar(title)
             }
-            TOOLBAR_MODE_TITLE -> {
+            Companion.ToolbarMode.BACK_BUTTON -> {
                 setToolbarMode(displayBackButton = false, displayTitle = true)
                 setTitleToolbar(title)
             }
-            TOOLBAR_MODE_BACK_BUTTON -> setToolbarMode(displayBackButton = true, displayTitle = false)
+            Companion.ToolbarMode.MODE_TITLE -> setToolbarMode(displayBackButton = true, displayTitle = false)
         }
     }
 
@@ -80,12 +84,12 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
 
     }
 
-    override fun setPageMode(mode: Int) {
+    override fun setPageMode(mode: PageMode) {
         when (mode) {
-            PAGE_MODE_FULL -> setPageDisplay(isToolbar = true, isNavBar = true)
-            PAGE_MODE_ONLY_NAVBAR -> setPageDisplay(isToolbar = false, isNavBar = true)
-            PAGE_MODE_ONLY_TOOLBAR -> setPageDisplay(isToolbar = true, isNavBar = false)
-            PAGE_MODE_EMPTY -> setPageDisplay(isToolbar = false, isNavBar = false)
+            Companion.PageMode.FULL -> setPageDisplay(isToolbar = true, isNavBar = true)
+            Companion.PageMode.ONLY_NAVBAR -> setPageDisplay(isToolbar = false, isNavBar = true)
+            Companion.PageMode.ONLY_TOOLBAR -> setPageDisplay(isToolbar = true, isNavBar = false)
+            Companion.PageMode.EMPTY -> setPageDisplay(isToolbar = false, isNavBar = false)
         }
     }
 
@@ -113,15 +117,25 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         navController.navigate(R.id.navigation_concrete_thread_fragment, bundle)//TODO DOOOO
     }
 
-    companion object {
-        const val TOOLBAR_MODE_FULL = 1
-        const val TOOLBAR_MODE_BACK_BUTTON = 2
-        const val TOOLBAR_MODE_TITLE = 3
+    override fun showContent(pathMedia: String?, mediaType: Int) {
+        pathMedia?.let {
+            MediaZoomedDialog(this, it, mediaType).apply {
+                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setCanceledOnTouchOutside(true)
+                requestWindowFeature(Window.FEATURE_NO_TITLE)
+                show()
+            }
+        }
+    }
 
-        const val PAGE_MODE_FULL = 1
-        const val PAGE_MODE_ONLY_TOOLBAR = 2
-        const val PAGE_MODE_ONLY_NAVBAR = 3
-        const val PAGE_MODE_EMPTY = 4
+    companion object {
+        enum class ToolbarMode {
+            FULL, BACK_BUTTON, MODE_TITLE
+        }
+
+        enum class PageMode {
+            FULL, ONLY_TOOLBAR, ONLY_NAVBAR, EMPTY
+        }
 
         const val NAME_BOARD = "name_board"
         const val NUMBER_THREAD = "number_thread"

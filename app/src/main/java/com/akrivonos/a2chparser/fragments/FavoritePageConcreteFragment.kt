@@ -9,8 +9,7 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.akrivonos.a2chparser.MainActivity.Companion.PAGE_MODE_ONLY_TOOLBAR
-import com.akrivonos.a2chparser.MainActivity.Companion.TOOLBAR_MODE_FULL
+import com.akrivonos.a2chparser.MainActivity
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_BOARD
@@ -54,7 +53,7 @@ class FavoritePageConcreteFragment : Fragment() {
     private fun setUpScreen(view: View) {
         recyclerView = view.findViewById(R.id.rec_view_concrete_saves)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        pageDisplayListener.setPageMode(PAGE_MODE_ONLY_TOOLBAR)
+        pageDisplayListener.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
         emptyMessage = view.findViewById(R.id.empty_message)
         setUpTypePage()
     }
@@ -89,7 +88,7 @@ class FavoritePageConcreteFragment : Fragment() {
                 }
             }
         }
-        toolbarModeListener.setMode(TOOLBAR_MODE_FULL, saveTypeModel?.nameSave)
+        toolbarModeListener.setMode(MainActivity.Companion.ToolbarMode.FULL, saveTypeModel?.nameSave)
     }
 
     private fun showEmptyMessage() {

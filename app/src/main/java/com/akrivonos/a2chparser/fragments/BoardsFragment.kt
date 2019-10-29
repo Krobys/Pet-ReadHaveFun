@@ -15,7 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.akrivonos.a2chparser.MainActivity.Companion.PAGE_MODE_ONLY_NAVBAR
+import com.akrivonos.a2chparser.MainActivity
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardThemeAdapter
@@ -104,7 +104,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
             progressBarBoards = view.findViewById(R.id.progressBarBoardsTheme)
             setUpBottomSheetCurrent(view)
         }
-        pageDisplayModeListener?.setPageMode(PAGE_MODE_ONLY_NAVBAR)
+        pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
     }
 
     private fun startLoadBoards() {

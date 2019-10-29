@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.akrivonos.a2chparser.MainActivity.Companion.PAGE_MODE_ONLY_NAVBAR
+import com.akrivonos.a2chparser.MainActivity
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_BOARD
@@ -43,7 +43,7 @@ class FavoritePageThemesList : Fragment() {
         val adapter = SaveListTypesAdapter(context, activity as OpenDetailedSavePage)
         savesThemesRecView?.layoutManager = LinearLayoutManager(context)
         savesThemesRecView?.adapter = adapter
-        pageDisplayListener.setPageMode(PAGE_MODE_ONLY_NAVBAR)
+        pageDisplayListener.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
         adapter.setSaveTypeList(generateSaveList())
         adapter.notifyDataSetChanged()
     }

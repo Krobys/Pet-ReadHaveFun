@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser.fabrics
+package com.akrivonos.a2chparser.builders
 
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -8,7 +8,7 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.ReplaySubject
 
-object SubjectFactory {
+object SubjectBuilder {
 
     fun <T> createPublishSubject(observer: Observer<T>): PublishSubject<T> {
         val subject = PublishSubject.create<T>()
