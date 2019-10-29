@@ -34,8 +34,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onClick="@{() -> holder.openThread()}">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/name_thread"
@@ -84,19 +83,32 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/media_content_rec_view"
                 android:layout_marginTop="1dp"
+                android:maxLines="5"
                 android:layout_marginBottom="1dp"
                 android:padding="4dp"
                 android:text="@{HtmlCompat.fromHtml(thread.comment, HtmlCompat.FROM_HTML_MODE_LEGACY)}" />
 
             <TextView
+                android:id="@+id/show_full_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_content"
+                android:layout_centerHorizontal="true"
+                android:onClick="@{() -> holder.expandTextView()}"
+                android:text="Показать текст полностью"
+                android:textColor="@color/colorCarroty"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/open_thread"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_content"
+                android:layout_below="@id/show_full_content"
                 android:layout_centerHorizontal="true"
+                android:onClick="@{() -> holder.openThread()}"
                 android:padding="5dp"
-                android:textColor="@color/colorCarroty"
-                android:text="Открыть тред" />
+                android:text="Открыть тред"
+                android:textColor="@color/colorCarroty" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

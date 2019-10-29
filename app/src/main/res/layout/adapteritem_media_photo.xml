@@ -33,12 +33,11 @@
             android:id="@+id/name_media"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/imageView"
+            android:layout_alignStart="@+id/container_media"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="0dp"
             android:paddingBottom="3dp"
-            android:textColor="@color/colorCarroty"
             android:text="@{file.name}"
+            android:textColor="@color/colorCarroty"
             android:textSize="10sp" />
 
         <TextView
@@ -46,30 +45,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/name_media"
-            android:layout_alignStart="@+id/imageView"
+            android:layout_alignStart="@+id/name_media"
             android:text='@{file.size+"Кб, "+file.width+"x"+file.height}'
             android:textSize="10sp" />
 
-        <ImageView
-            android:id="@+id/imageView"
+        <RelativeLayout
+            android:id="@+id/container_media"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/descr_media_id"
-            android:layout_centerHorizontal="false"
-            android:layout_marginTop="2dp"
+            android:layout_alignParentStart="true"
             android:layout_marginStart="5dp"
-            android:foregroundGravity="center"
-            app:imageUrlAsyncLoad="@{pathPhoto}" />
+            android:layout_marginTop="2dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                app:imageUrlAsyncLoad="@{pathPhoto}" />
+
+            <ImageView
+                android:id="@+id/play_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:background="@android:drawable/ic_media_play"
+                android:visibility="@{playIconState ? View.VISIBLE : View.GONE}" />
+        </RelativeLayout>
 
 
-        <ImageView
-            android:id="@+id/play_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="70dp"
-            android:background="@android:drawable/ic_media_play"
-            android:visibility="@{playIconState ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>
 </layout>

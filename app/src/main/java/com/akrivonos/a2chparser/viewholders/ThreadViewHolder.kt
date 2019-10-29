@@ -1,9 +1,11 @@
 package com.akrivonos.a2chparser.viewholders
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
@@ -13,6 +15,7 @@ import com.akrivonos.a2chparser.interfaces.OpenThreadListener
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
+
 
 class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, private val openThreadListener: OpenThreadListener, private var boardId: String?) : RecyclerView.ViewHolder(binder.root) {
 
@@ -32,6 +35,12 @@ class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, pr
 
     fun openThread() {
         openThreadListener.openThread(boardId, binder.thread?.num)
+    }
+
+    fun expandTextView() {
+        val tv: TextView = binder.root.findViewById(R.id.text_content)
+        val animation = ObjectAnimator.ofInt(tv, "maxLines", tv.lineCount)
+        animation.setDuration(200).start()
     }
 
     fun setThreadDataWithMedia(thread: Thread) {
