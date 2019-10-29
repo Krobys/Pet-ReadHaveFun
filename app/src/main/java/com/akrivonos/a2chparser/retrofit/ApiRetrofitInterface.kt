@@ -16,6 +16,6 @@ internal interface ApiRetrofitInterface {
     @GET("{nameBoard}/catalog.json")
     fun getThreadsForBoard(@Path("nameBoard") nameBoard: String?): Call<ThreadsModel>
 
-    @GET
+    @GET("{nameBoard}/res/{numThread}.json")
     fun getPostsForThread(@Path("nameBoard") nameBoard: String?, @Path("numThread") numThread: String?): Call<PostModel>
 }

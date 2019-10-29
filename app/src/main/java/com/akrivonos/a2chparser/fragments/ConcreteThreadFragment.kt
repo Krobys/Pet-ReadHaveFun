@@ -48,6 +48,7 @@ class ConcreteThreadFragment : Fragment() {
             addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 50))
             adapter = postAdapter
         }
+        progressBar = view.findViewById(R.id.progressBar)
         pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.EMPTY)
     }
 
