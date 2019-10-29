@@ -48,11 +48,11 @@ class MediaAdapter(private val layoutInflater: LayoutInflater, private val conte
 
     companion object {
 
-        const val MEDIA_TYPE_JPG = 1
-        const val MEDIA_TYPE_PNG = 2
-        const val MEDIA_TYPE_GIF = 4
-        const val MEDIA_TYPE_WEBM = 6
-        const val MEDIA_TYPE_MP4 = 10
+        const val MEDIA_TYPE_JPG = "1"
+        const val MEDIA_TYPE_PNG = "2"
+        const val MEDIA_TYPE_GIF = "4"
+        const val MEDIA_TYPE_WEBM = "6"
+        const val MEDIA_TYPE_MP4 = "10"
 
         const val ITEM_TYPE_IMAGE = 1
         const val ITEM_TYPE_GIF = 2

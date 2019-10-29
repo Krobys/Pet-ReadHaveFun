@@ -40,7 +40,7 @@ class File {
     var tnWidth: String? = null
     @SerializedName("type")
     @Expose
-    var type: Int? = null
+    var type: String? = null
     @SerializedName("width")
     @Expose
     var width: String? = null
