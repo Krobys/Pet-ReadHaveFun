@@ -17,11 +17,13 @@ class PostAdapter(private val context: Context, private val contentMediaListener
 
     override fun getItemViewType(position: Int): Int {
         val post = postsList[position]
-        val files = post.files
-        return if (files != null)
-            ThreadAdapter.TYPE_WITH_MEDIA
-        else
-            ThreadAdapter.TYPE_WITHOUT_MEDIA
+        post.files?.let {
+            return if (it.isNotEmpty())
+                ThreadAdapter.TYPE_WITH_MEDIA
+            else
+                ThreadAdapter.TYPE_WITHOUT_MEDIA
+        }
+        return ThreadAdapter.TYPE_WITHOUT_MEDIA
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -37,9 +39,9 @@ class PostAdapter(private val context: Context, private val contentMediaListener
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = postsList[position]
         if (holder.itemViewType == ThreadAdapter.TYPE_WITH_MEDIA) {
-            holder.setThreadDataWithMedia(post)
+            holder.setPostDataWithMedia(post)
         } else {
-            holder.setThreadDataWithoutMedia(post)
+            holder.setPostDataWithoutMedia(post)
         }
     }
 }
