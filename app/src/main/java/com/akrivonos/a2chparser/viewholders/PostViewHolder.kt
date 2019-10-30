@@ -27,13 +27,13 @@ class PostViewHolder(private var binder: AdapteritemPostForThreadBinding) : Recy
         binder.adapter = MediaAdapter(layoutInflater, contentMediaListener)
     }
 
-    fun setThreadDataWithMedia(post: Post) {
+    fun setPostDataWithMedia(post: Post) {
         binder.post = post
         binder.adapter?.setMediaList(post.files)
         binder.adapter?.notifyDataSetChanged()
     }
 
-    fun setThreadDataWithoutMedia(post: Post) {
+    fun setPostDataWithoutMedia(post: Post) {
         binder.post = post
         mediaContentThreadRecView.visibility = View.GONE
     }
