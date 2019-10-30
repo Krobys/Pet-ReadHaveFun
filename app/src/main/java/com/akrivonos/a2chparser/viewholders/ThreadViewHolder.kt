@@ -2,10 +2,8 @@ package com.akrivonos.a2chparser.viewholders
 
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -45,20 +43,18 @@ class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, pr
         val tvShowMore: TextView = binder.showFullContent
         val animation = ObjectAnimator.ofInt(tvContent, "maxLines", tvContent.lineCount)
         animation.setDuration(200).start()
-        tvShowMore.visibility = GONE
+        tvShowMore.visibility = View.GONE
     }
 
-    fun setUpTextViewExpandable() {
+    private fun setUpTextViewExpandable() {
         val tv: TextView = binder.textContent
         tv.text = binder.thread?.comment
         val tvShowMore: TextView = binder.showFullContent
-        Log.d("test", "${tv.maxLines}  < ${tv.lineCount}")
         val vto = tv.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 val obs = tv.viewTreeObserver
                 obs.removeOnGlobalLayoutListener(this)
-                Log.d("test", "${tv.maxLines}  < ${tv.lineCount}")
                 val isExpandable = tv.maxLines < tv.lineCount
                 tvShowMore.visibility = if (isExpandable) View.VISIBLE else View.GONE
             }
@@ -77,7 +73,7 @@ class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, pr
     fun setThreadDataWithoutMedia(thread: Thread) {
         binder.thread = thread
         binder.holder = this
-        mediaContentThreadRecView.visibility = GONE
+        mediaContentThreadRecView.visibility = View.GONE
         setUpTextViewExpandable()
     }
 }

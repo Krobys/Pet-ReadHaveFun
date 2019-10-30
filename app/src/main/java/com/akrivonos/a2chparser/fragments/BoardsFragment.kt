@@ -69,12 +69,14 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
     }
 
     private fun manageLoadBoardsInformation() {
-        if (!boardAdapter?.isSet!!) {
-            context?.let {
-                if (!SharedPreferenceUtils.isAdultSettingsSet(context)) {
-                    showAdultDialog(context)
-                } else {
-                    startLoadBoards()
+        boardAdapter?.let {
+            if (!it.isSet) {
+                context?.let {
+                    if (!SharedPreferenceUtils.isAdultSettingsSet(context)) {
+                        showAdultDialog(context)
+                    } else {
+                        startLoadBoards()
+                    }
                 }
             }
         }
