@@ -3,7 +3,6 @@ package com.akrivonos.a2chparser.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,7 +81,6 @@ class ConcreteBoardFragment : Fragment() {
     private fun startLoadThreadsForBoard() {
         getBoard()?.let { board ->
             board.idBoard?.let { idBoard ->
-                Log.d("test", idBoard)
                 viewModel.getThreadsForBoard(idBoard)
                         .observe(this, androidx.lifecycle.Observer<List<Thread>> {
                             if (it.isNotEmpty()) {
