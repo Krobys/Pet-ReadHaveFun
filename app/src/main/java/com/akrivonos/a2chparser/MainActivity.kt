@@ -12,7 +12,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.akrivonos.a2chparser.dialogs.MediaZoomedDialog
-import com.akrivonos.a2chparser.fragments.BOARD_INFO
 import com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.Companion.INFO_SAVE_PAGE
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.SaveTypeModel
@@ -39,14 +38,6 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         bottomNavigationView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
-    }
-
-    override fun openBoard(board: Board?) {
-        board?.let {
-            val bundle = Bundle()
-            bundle.putParcelable(BOARD_INFO, it)
-            navController.navigate(R.id.navigation_concrete_board_fragment, bundle)
-        }
     }
 
     override fun setMode(mode: ToolbarMode, title: String?) {
@@ -114,9 +105,18 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
 
     override fun openThread(nameBoard: String?, numberThread: String?) {
         val bundle = Bundle()
-        bundle.putString(NAME_BOARD, nameBoard)
+        bundle.putString(ID_BOARD, nameBoard)
         bundle.putString(NUMBER_THREAD, numberThread)
         navController.navigate(R.id.navigation_concrete_thread_fragment, bundle)
+    }
+
+    override fun openBoard(board: Board?) {
+        board?.let {
+            val bundle = Bundle()
+            bundle.putString(NAME_BOARD, board.nameBoards)
+            bundle.putString(ID_BOARD, board.idBoard)
+            navController.navigate(R.id.navigation_concrete_board_fragment, bundle)
+        }
     }
 
     override fun showContent(pathMedia: String?, mediaType: Int) {
@@ -139,6 +139,7 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
             FULL, ONLY_TOOLBAR, ONLY_NAVBAR, EMPTY
         }
 
+        const val ID_BOARD = "name_board"
         const val NAME_BOARD = "name_board"
         const val NUMBER_THREAD = "number_thread"
     }

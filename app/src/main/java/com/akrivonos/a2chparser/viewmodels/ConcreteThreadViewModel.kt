@@ -11,7 +11,7 @@ class ConcreteThreadViewModel : ViewModel() {
     private var postsList: List<Post> = ArrayList()
     private val mutableLiveData: MutableLiveData<List<Post>> = MutableLiveData()
 
-    fun getPostsLiveData(nameBoard: String?, numberThread: String?): MutableLiveData<List<Post>> {
+    fun getPostsLiveData(nameBoard: String, numberThread: String): MutableLiveData<List<Post>> {
         if (postsList.isNotEmpty()) {
             mutableLiveData.value = postsList
         } else {

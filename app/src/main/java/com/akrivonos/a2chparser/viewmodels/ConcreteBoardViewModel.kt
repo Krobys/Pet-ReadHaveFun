@@ -14,7 +14,7 @@ class ConcreteBoardViewModel(application: Application) : AndroidViewModel(applic
     private var mutableLiveData: MutableLiveData<List<Thread>> = MutableLiveData()
     private val context = getApplication<Application>().applicationContext
 
-    fun getThreadsForBoard(boardId: String?): MutableLiveData<List<Thread>> {
+    fun getThreadsForBoard(boardId: String): MutableLiveData<List<Thread>> {
         if (threadsList.isNotEmpty()) {
             mutableLiveData.value = threadsList
         } else {

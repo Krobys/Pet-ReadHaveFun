@@ -3,6 +3,7 @@ package com.akrivonos.a2chparser.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.MainActivity
-import com.akrivonos.a2chparser.MainActivity.Companion.NAME_BOARD
+import com.akrivonos.a2chparser.MainActivity.Companion.ID_BOARD
 import com.akrivonos.a2chparser.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.PostAdapter
@@ -62,8 +63,9 @@ class ConcreteThreadFragment : Fragment() {
 
     private fun startLoadPostsForThread() {
         arguments?.let {
-            it.getString(NAME_BOARD)?.let { nameBoard ->
+            it.getString(ID_BOARD)?.let { nameBoard ->
                 it.getString(NUMBER_THREAD)?.let { numberThread ->
+                    Log.d("test", "$nameBoard, $numberThread")
                     viewModel.getPostsLiveData(nameBoard, numberThread)
                             .observe(this, androidx.lifecycle.Observer<List<Post>> { listPosts ->
                                 if (listPosts.isNotEmpty()) {

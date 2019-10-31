@@ -53,7 +53,7 @@ object RetrofitSearchDvach {
         return this
     }
 
-    fun getThreadsForBoard(nameBoard: String?, observerThreadsSuccess: io.reactivex.Observer<ThreadsModel?>, observerThreadsError: io.reactivex.Observer<List<Thread>?>): RetrofitSearchDvach? {
+    fun getThreadsForBoard(nameBoard: String, observerThreadsSuccess: io.reactivex.Observer<ThreadsModel?>, observerThreadsError: io.reactivex.Observer<List<Thread>?>): RetrofitSearchDvach? {
         val threadsPublishSubjectSuccess = SubjectBuilder.createPublishSubject(observerThreadsSuccess)
         val threadsPublishSubjectError = SubjectBuilder.createPublishSubject(observerThreadsError)
         val modelCall = apiService.getThreadsForBoard(nameBoard)
@@ -81,7 +81,7 @@ object RetrofitSearchDvach {
         return this
     }
 
-    fun getPostsForThread(nameBoard: String?, numberThread: String?, observerPosts: io.reactivex.Observer<List<Post>>): RetrofitSearchDvach? {
+    fun getPostsForThread(nameBoard: String, numberThread: String, observerPosts: io.reactivex.Observer<List<Post>>): RetrofitSearchDvach? {
         val threadsPublishSubject = SubjectBuilder.createPublishSubject(observerPosts)
 
         val modelCall = apiService.getPostsForThread(nameBoard, numberThread)

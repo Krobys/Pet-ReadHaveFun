@@ -3,6 +3,7 @@ package com.akrivonos.a2chparser.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.MainActivity
+import com.akrivonos.a2chparser.MainActivity.Companion.ID_BOARD
+import com.akrivonos.a2chparser.MainActivity.Companion.NAME_BOARD
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter
 import com.akrivonos.a2chparser.interfaces.OpenThreadListener
@@ -64,8 +67,13 @@ class ConcreteBoardFragment : Fragment() {
 
     private fun getBoard(): Board? {
         arguments?.let { argument ->
-            argument.getParcelable<Board>(BOARD_INFO)?.let {
-                return it
+            argument.getString(NAME_BOARD)?.let { nameBoard ->
+                argument.getString(ID_BOARD)?.let { idBoard ->
+                    val board = Board()
+                    board.nameBoards = nameBoard
+                    board.idBoard = idBoard
+                    return board
+                }
             }
         }
         return null
@@ -73,19 +81,21 @@ class ConcreteBoardFragment : Fragment() {
 
     private fun startLoadThreadsForBoard() {
         getBoard()?.let { board ->
-            viewModel.getThreadsForBoard(board.idBoard)
+            board.idBoard?.let { idBoard ->
+                Log.d("test", idBoard)
+                viewModel.getThreadsForBoard(idBoard)
                         .observe(this, androidx.lifecycle.Observer<List<Thread>> {
-                    if (it.isNotEmpty()) {
-                        threadAdapter.apply {
-                            setThreads(it)
-                            notifyDataSetChanged()
-                        }
-                    }
-                    progressBar.visibility = View.GONE
-                })
+                            if (it.isNotEmpty()) {
+                                threadAdapter.apply {
+                                    setThreads(it)
+                                    notifyDataSetChanged()
+                                }
+                            }
+                            progressBar.visibility = View.GONE
+                        })
                 progressBar.visibility = View.VISIBLE
-            toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, board.nameBoards)
             }
+        }
     }
 
     private fun setUpScreen(view: View?, context: Context?) {
@@ -98,6 +108,9 @@ class ConcreteBoardFragment : Fragment() {
             progressBar = it.findViewById(R.id.progressBar)
 
             pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
+            getBoard()?.let { board ->
+                toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, board.nameBoards)
+            }
         }
     }
 
