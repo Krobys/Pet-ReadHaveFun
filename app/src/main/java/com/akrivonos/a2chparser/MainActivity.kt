@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         val bundle = Bundle()
         bundle.putString(NAME_BOARD, nameBoard)
         bundle.putString(NUMBER_THREAD, numberThread)
-        navController.navigate(R.id.navigation_concrete_thread_fragment, bundle)//TODO DOOOO
+        navController.navigate(R.id.navigation_concrete_thread_fragment, bundle)
     }
 
     override fun showContent(pathMedia: String?, mediaType: Int) {
