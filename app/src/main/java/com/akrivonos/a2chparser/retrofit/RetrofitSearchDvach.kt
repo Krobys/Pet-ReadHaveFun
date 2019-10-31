@@ -17,12 +17,12 @@ import java.util.*
 
 object RetrofitSearchDvach {
     private const val BASE_URL = "https://2ch.hk/"
+    private const val RETROFIT_MESSAGE_TAG = "RetrofitMessageTag"
     private val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     private val apiService: ApiRetrofitInterface = retrofit.create(ApiRetrofitInterface::class.java)
-
 
     fun getBoards(observerBoardThemes: io.reactivex.Observer<BoardModel>): RetrofitSearchDvach? {
         val boardsPublishSubject = SubjectBuilder.createPublishSubject(observerBoardThemes)
@@ -44,7 +44,7 @@ object RetrofitSearchDvach {
             }
 
             override fun onFailure(call: Call<BoardModel>, t: Throwable) {
-                Log.d("test", "error message: ${t.message}:")
+                Log.d(RETROFIT_MESSAGE_TAG, "error message: ${t.message}:")
                 if (boardsPublishSubject.hasObservers())
                     boardsPublishSubject.onNext(BoardModel())
             }
@@ -72,7 +72,7 @@ object RetrofitSearchDvach {
             }
 
             override fun onFailure(call: Call<ThreadsModel>, t: Throwable) {
-                Log.d("test", "error message: ${t.message}:")
+                Log.d(RETROFIT_MESSAGE_TAG, "error message: ${t.message}:")
                 if (threadsPublishSubjectError.hasObservers())
                     threadsPublishSubjectError.onNext(ArrayList())
             }
@@ -92,16 +92,14 @@ object RetrofitSearchDvach {
                     if (response.code() == 200) {
                         model?.threads?.get(0)?.posts?.let { threadsPublishSubject.onNext(it) }
                     } else {
-                        Log.d("test", "message: ${response}")
-                        Log.d("test", "message: ${response.message()}")
-                        Log.d("test", "message: ${response.errorBody().toString()}")
+                        Log.d(RETROFIT_MESSAGE_TAG, "message: $response")
                         threadsPublishSubject.onNext(ArrayList())
                     }
                 threadsPublishSubject.onComplete()
             }
 
             override fun onFailure(call: Call<PostModel>, t: Throwable) {
-                Log.d("test", "error message: ${t.message}:")
+                Log.d(RETROFIT_MESSAGE_TAG, "error message: ${t.message}:")
                 if (threadsPublishSubject.hasObservers())
                     threadsPublishSubject.onNext(ArrayList())
             }
@@ -109,5 +107,6 @@ object RetrofitSearchDvach {
         })
         return this
     }
+
 
 }
