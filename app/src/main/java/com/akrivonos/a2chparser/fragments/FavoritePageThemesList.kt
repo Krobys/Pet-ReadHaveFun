@@ -11,9 +11,6 @@ import com.akrivonos.a2chparser.MainActivity
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_BOARD
-import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_COMMENT
-import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_MEDIA
-import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_THREAD
 import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.models.SaveTypeModel
@@ -51,9 +48,9 @@ class FavoritePageThemesList : Fragment() {
     private fun generateSaveList(): ArrayList<SaveTypeModel> {
         val saveTypesArray = ArrayList<SaveTypeModel>()
         saveTypesArray.add(SaveTypeModel(getString(R.string.boards_name_item), SAVE_TYPE_BOARD))
-        saveTypesArray.add(SaveTypeModel(getString(R.string.threads_name_item), SAVE_TYPE_THREAD))
-        saveTypesArray.add(SaveTypeModel(getString(R.string.comments_name_item), SAVE_TYPE_COMMENT))
-        saveTypesArray.add(SaveTypeModel(getString(R.string.media_name_item), SAVE_TYPE_MEDIA))
+        //saveTypesArray.add(SaveTypeModel(getString(R.string.threads_name_item), SAVE_TYPE_THREAD))
+        //saveTypesArray.add(SaveTypeModel(getString(R.string.comments_name_item), SAVE_TYPE_COMMENT))
+        //saveTypesArray.add(SaveTypeModel(getString(R.string.media_name_item), SAVE_TYPE_MEDIA))
         return saveTypesArray
     }
 }
