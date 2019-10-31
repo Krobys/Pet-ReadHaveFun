@@ -7,7 +7,7 @@
 
     <application
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/dvach_icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ch_main_icon_border_only"
         android:supportsRtl="true"
