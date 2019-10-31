@@ -30,12 +30,14 @@ class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, pr
                 boardId: String?)
             : this(binder, openThreadListener, boardId) {
         mediaContentThreadRecView.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.RIGHT, 40))
-        binder.layoutManagerRecycleView = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+        binder.mediaContentRecView.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
         binder.adapter = MediaAdapter(layoutInflater, contentMediaListener)
     }
 
     fun openThread() {
-        openThreadListener.openThread(boardId, binder.thread?.num)
+        binder.thread?.num?.let {
+            openThreadListener.openThread(boardId, it)
+        }
     }
 
     fun expandTextView() {

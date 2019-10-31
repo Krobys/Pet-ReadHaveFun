@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.pojomodel.threadmodel.ThreadsModel
 import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach
-import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
@@ -25,7 +24,6 @@ class ConcreteBoardViewModel(application: Application) : AndroidViewModel(applic
 
                 override fun onNext(threadsModel: ThreadsModel) {
                     threadsModel.let {
-                        SharedPreferenceUtils.setLastBoard(it.board, context)
                         it.threadsForBoard?.let { threads ->
                             threadsList = threads
                             mutableLiveData.value = threads

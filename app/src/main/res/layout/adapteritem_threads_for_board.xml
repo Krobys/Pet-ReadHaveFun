@@ -13,10 +13,6 @@
             type="com.akrivonos.a2chparser.pojomodel.threadmodel.Thread" />
 
         <variable
-            name="layoutManagerRecycleView"
-            type="androidx.recyclerview.widget.RecyclerView.LayoutManager" />
-
-        <variable
             name="adapter"
             type="com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter" />
 
@@ -74,8 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/date_thread"
-                android:adapter="@{adapter}"
-                app:layoutManager="@{layoutManagerRecycleView}">
+                android:adapter="@{adapter}">
 
             </androidx.recyclerview.widget.RecyclerView>
 

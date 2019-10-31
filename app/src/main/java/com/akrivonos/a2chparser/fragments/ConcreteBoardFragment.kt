@@ -22,7 +22,6 @@ import com.akrivonos.a2chparser.models.database.Board
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
-import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
 
 
@@ -50,7 +49,7 @@ class ConcreteBoardFragment : Fragment() {
             toolbarModeListener = it as SetUpToolbarModeListener?
             val showContentMediaListener = it as ShowContentMediaListener
             val openThreadListener = it as OpenThreadListener
-            val boardId = SharedPreferenceUtils.getLastBoard(it)
+            val boardId = getBoard()?.idBoard
             threadAdapter = ThreadAdapter(it, showContentMediaListener, openThreadListener, boardId)
         }
     }
@@ -63,10 +62,18 @@ class ConcreteBoardFragment : Fragment() {
         return view
     }
 
-    private fun startLoadThreadsForBoard() {
+    private fun getBoard(): Board? {
         arguments?.let { argument ->
-            argument.getParcelable<Board>(BOARD_INFO)?.let { it ->
-                viewModel.getThreadsForBoard(it.idBoard)
+            argument.getParcelable<Board>(BOARD_INFO)?.let {
+                return it
+            }
+        }
+        return null
+    }
+
+    private fun startLoadThreadsForBoard() {
+        getBoard()?.let { board ->
+            viewModel.getThreadsForBoard(board.idBoard)
                         .observe(this, androidx.lifecycle.Observer<List<Thread>> {
                     if (it.isNotEmpty()) {
                         threadAdapter.apply {
@@ -77,9 +84,8 @@ class ConcreteBoardFragment : Fragment() {
                     progressBar.visibility = View.GONE
                 })
                 progressBar.visibility = View.VISIBLE
-                toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, it.nameBoards)
+            toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, board.nameBoards)
             }
-        }
     }
 
     private fun setUpScreen(view: View?, context: Context?) {
