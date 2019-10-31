@@ -19,7 +19,9 @@ import com.akrivonos.a2chparser.models.SaveTypeModel
 import com.akrivonos.a2chparser.models.database.Board
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeListener, PageDisplayModeListener, OpenDetailedSavePage, OpenThreadListener, ShowContentMediaListener {
+class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeListener,
+        PageDisplayModeListener, OpenDetailedSavePage, OpenThreadListener,
+        ShowContentMediaListener {
 
     private var toolbar: Toolbar? = null
     private lateinit var navController: NavController
