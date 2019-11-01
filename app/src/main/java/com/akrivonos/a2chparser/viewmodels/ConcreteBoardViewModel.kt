@@ -5,14 +5,17 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.pojomodel.threadmodel.ThreadsModel
-import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach
+import com.akrivonos.a2chparser.retrofit.RetrofitSearch
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 class ConcreteBoardViewModel(application: Application) : AndroidViewModel(application) {
     private var threadsList: List<Thread> = ArrayList()
     private var mutableLiveData: MutableLiveData<List<Thread>> = MutableLiveData()
     private val context = getApplication<Application>().applicationContext
+    @Inject
+    lateinit var retrofit: RetrofitSearch
 
     fun getThreadsForBoard(boardId: String): MutableLiveData<List<Thread>> {
         if (threadsList.isNotEmpty()) {
@@ -53,7 +56,7 @@ class ConcreteBoardViewModel(application: Application) : AndroidViewModel(applic
                 override fun onComplete() {
                 }
             }
-            RetrofitSearchDvach.getThreadsForBoard(boardId, observerSuccess, observerError)
+            retrofit.getThreadsForBoard(boardId, observerSuccess, observerError)
         }
         return mutableLiveData
     }

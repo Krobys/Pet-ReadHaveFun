@@ -3,13 +3,16 @@ package com.akrivonos.a2chparser.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
-import com.akrivonos.a2chparser.retrofit.RetrofitSearchDvach
+import com.akrivonos.a2chparser.retrofit.RetrofitSearch
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 class ConcreteThreadViewModel : ViewModel() {
     private var postsList: List<Post> = ArrayList()
     private val mutableLiveData: MutableLiveData<List<Post>> = MutableLiveData()
+    @Inject
+    lateinit var retrofit: RetrofitSearch
 
     fun getPostsLiveData(nameBoard: String, numberThread: String): MutableLiveData<List<Post>> {
         if (postsList.isNotEmpty()) {
@@ -32,7 +35,7 @@ class ConcreteThreadViewModel : ViewModel() {
                 }
 
             }
-            RetrofitSearchDvach.getPostsForThread(nameBoard, numberThread, observer)
+            retrofit.getPostsForThread(nameBoard, numberThread, observer)
         }
         return mutableLiveData
     }
