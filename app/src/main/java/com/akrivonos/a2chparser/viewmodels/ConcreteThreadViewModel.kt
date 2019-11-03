@@ -2,6 +2,7 @@ package com.akrivonos.a2chparser.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.retrofit.RetrofitSearch
 import io.reactivex.Observer
@@ -14,6 +15,9 @@ class ConcreteThreadViewModel : ViewModel() {
     @Inject
     lateinit var retrofit: RetrofitSearch
 
+    init {
+        DaggerDaggerComponent.create().inject(this)
+    }
     fun getPostsLiveData(nameBoard: String, numberThread: String): MutableLiveData<List<Post>> {
         if (postsList.isNotEmpty()) {
             mutableLiveData.value = postsList

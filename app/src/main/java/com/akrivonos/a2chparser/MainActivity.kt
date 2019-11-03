@@ -1,11 +1,15 @@
 package com.akrivonos.a2chparser
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.Window
+import android.view.animation.LinearInterpolator
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -16,13 +20,18 @@ import com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.Companion
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.SaveTypeModel
 import com.akrivonos.a2chparser.models.database.Board
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeListener,
         PageDisplayModeListener, OpenDetailedSavePage, OpenThreadListener,
-        ShowContentMediaListener {
+        ShowContentMediaListener, ToolbarHider {
+    private val APPBAR_ELEVATION = 14f
 
     private var toolbar: Toolbar? = null
+    private var appBarLayout: AppBarLayout? = null
+    private var containerFragment: FrameLayout? = null
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -34,6 +43,8 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
 
     private fun setUpScreen() {
         toolbar = findViewById(R.id.toolbar)
+        appBarLayout = findViewById(R.id.toolbar_main)
+        containerFragment = findViewById(R.id.container_for_fragment)
         setSupportActionBar(toolbar)
         bottomNavigationView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)
@@ -46,11 +57,11 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
                 setToolbarMode(displayBackButton = true, displayTitle = true)
                 setTitleToolbar(title)
             }
-            Companion.ToolbarMode.BACK_BUTTON -> {
+            Companion.ToolbarMode.MODE_TITLE -> {
                 setToolbarMode(displayBackButton = false, displayTitle = true)
                 setTitleToolbar(title)
             }
-            Companion.ToolbarMode.MODE_TITLE -> setToolbarMode(displayBackButton = true, displayTitle = false)
+            Companion.ToolbarMode.BACK_BUTTON -> setToolbarMode(displayBackButton = true, displayTitle = false)
         }
     }
 
@@ -130,6 +141,31 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         }
     }
 
+    override fun hide() {
+        appBarLayout?.let {
+            it.animate().apply {
+                translationY(-(it.height).toFloat())
+                interpolator = LinearInterpolator()
+                duration = 300
+            }
+        }
+    }
+
+    override fun show() {
+        appBarLayout?.let {
+            it.animate().apply {
+                translationY(0f)
+                interpolator = LinearInterpolator()
+                duration = 300
+                setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        it.elevation = APPBAR_ELEVATION
+                    }
+                })
+            }
+        }
+    }
+
     companion object {
         enum class ToolbarMode {
             FULL, BACK_BUTTON, MODE_TITLE
@@ -139,7 +175,7 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
             FULL, ONLY_TOOLBAR, ONLY_NAVBAR, EMPTY
         }
 
-        const val ID_BOARD = "name_board"
+        const val ID_BOARD = "id_board"
         const val NAME_BOARD = "name_board"
         const val NUMBER_THREAD = "number_thread"
     }

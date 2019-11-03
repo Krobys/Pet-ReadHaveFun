@@ -3,6 +3,7 @@ package com.akrivonos.a2chparser.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.akrivonos.a2chparser.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.PostAdapter
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
+import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
@@ -25,6 +27,7 @@ import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
 class ConcreteThreadFragment : Fragment() {
 
     private var pageDisplayModeListener: PageDisplayModeListener? = null
+    private var toolbarModeListener: SetUpToolbarModeListener? = null
     private lateinit var viewModel: ConcreteThreadViewModel
     private lateinit var postAdapter: PostAdapter
     private lateinit var progressBar: ProgressBar
@@ -49,12 +52,14 @@ class ConcreteThreadFragment : Fragment() {
             adapter = postAdapter
         }
         progressBar = view.findViewById(R.id.progressBar)
-        pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.EMPTY)
+        pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
+        toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.BACK_BUTTON, "")
     }
 
     private fun setUpAdapterAndListeners() {
         activity?.let {
             pageDisplayModeListener = it as PageDisplayModeListener
+            toolbarModeListener = it as SetUpToolbarModeListener
             val showContentListener = it as ShowContentMediaListener
             postAdapter = PostAdapter(it, showContentListener)
         }
@@ -62,9 +67,11 @@ class ConcreteThreadFragment : Fragment() {
 
     private fun startLoadPostsForThread() {
         arguments?.let {
-            it.getString(ID_BOARD)?.let { nameBoard ->
+            it.getString(ID_BOARD)?.let { idBoard ->
                 it.getString(NUMBER_THREAD)?.let { numberThread ->
-                    viewModel.getPostsLiveData(nameBoard, numberThread)
+                    Log.d("test", "idBoard: $idBoard")
+                    Log.d("test", "numberThread: $numberThread")
+                    viewModel.getPostsLiveData(idBoard, numberThread)
                             .observe(this, androidx.lifecycle.Observer<List<Post>> { listPosts ->
                                 if (listPosts.isNotEmpty()) {
                                     postAdapter.apply {

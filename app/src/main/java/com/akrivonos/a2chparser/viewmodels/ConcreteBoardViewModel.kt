@@ -3,6 +3,7 @@ package com.akrivonos.a2chparser.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.pojomodel.threadmodel.ThreadsModel
 import com.akrivonos.a2chparser.retrofit.RetrofitSearch
@@ -16,6 +17,10 @@ class ConcreteBoardViewModel(application: Application) : AndroidViewModel(applic
     private val context = getApplication<Application>().applicationContext
     @Inject
     lateinit var retrofit: RetrofitSearch
+
+    init {
+        DaggerDaggerComponent.create().inject(this)
+    }
 
     fun getThreadsForBoard(boardId: String): MutableLiveData<List<Thread>> {
         if (threadsList.isNotEmpty()) {

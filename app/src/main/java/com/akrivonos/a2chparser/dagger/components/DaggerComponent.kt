@@ -1,13 +1,14 @@
 package com.akrivonos.a2chparser.dagger.components
 
-import com.akrivonos.a2chparser.dagger.modules.NetworkModule
 import com.akrivonos.a2chparser.viewmodels.BoardsViewModel
+import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
+import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
 import dagger.Component
 
 
-@Component(modules = [NetworkModule::class])
+@Component
 interface DaggerComponent {
     fun inject(viewModel: BoardsViewModel)
-    //fun getItemDecoratorUtils() : ItemDecoratorUtils
-    //fun getSharedPreferenceUtils() : SharedPreferenceUtils
+    fun inject(viewModel: ConcreteBoardViewModel)
+    fun inject(viewModel: ConcreteThreadViewModel)
 }
