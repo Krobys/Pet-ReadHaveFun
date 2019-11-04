@@ -1,15 +1,13 @@
 package com.akrivonos.a2chparser
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.Window
-import android.view.animation.LinearInterpolator
-import android.widget.FrameLayout
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -20,18 +18,14 @@ import com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.Companion
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.SaveTypeModel
 import com.akrivonos.a2chparser.models.database.Board
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeListener,
         PageDisplayModeListener, OpenDetailedSavePage, OpenThreadListener,
         ShowContentMediaListener, ToolbarHider {
-    private val APPBAR_ELEVATION = 14f
 
     private var toolbar: Toolbar? = null
-    private var appBarLayout: AppBarLayout? = null
-    private var containerFragment: FrameLayout? = null
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -42,9 +36,7 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
     }
 
     private fun setUpScreen() {
-        toolbar = findViewById(R.id.toolbar)
-        appBarLayout = findViewById(R.id.toolbar_main)
-        containerFragment = findViewById(R.id.container_for_fragment)
+        toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
         bottomNavigationView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)
@@ -141,32 +133,68 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         }
     }
 
-    override fun hide() {
-        appBarLayout?.let {
+    override fun hide(toolbarHeight: Float) {
+        toolbar?.let {
             it.animate().apply {
-                translationY(-(it.height).toFloat())
-                interpolator = LinearInterpolator()
-                duration = 300
+                translationY(-toolbarHeight)
+                interpolator = AccelerateInterpolator(2F)
+                start()
             }
+
+//        appBarLayout?.let {appBar->
+//            appBar.animate().apply {
+//                translationY(-(appBar.height).toFloat())
+//                interpolator = LinearInterpolator()
+//                duration = animationDuration
+//                containerFragment?.requestLayout()
+//                setListener(object : AnimatorListenerAdapter() {
+//                    override fun onAnimationEnd(animation: Animator) {
+//                        appBar.elevation = 0f
+//                    }
+//                })
+//            }
+//
+//            containerFragment?.let{
+//                it.animate().apply {
+//                    translationY(-(appBar.height).toFloat())
+//                    interpolator = LinearInterpolator()
+//                    duration = animationDuration
+//                }
+//            }
+//        }
         }
     }
 
     override fun show() {
-        appBarLayout?.let {
+        toolbar?.let {
             it.animate().apply {
-                translationY(0f)
-                interpolator = LinearInterpolator()
-                duration = 300
-                setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        it.elevation = APPBAR_ELEVATION
-                    }
-                })
+                translationY(0.0F)
+                interpolator = DecelerateInterpolator(2F)
+                start()
             }
         }
+//        appBarLayout?.let {appBar ->
+//            appBar.animate().apply {
+//                translationY(0f)
+//                interpolator = LinearInterpolator()
+//                duration = animationDuration
+//                appBar.elevation = APPBAR_ELEVATION
+//                setListener(object : AnimatorListenerAdapter() {
+//                    override fun onAnimationEnd(animation: Animator) {
+//                        appBar.elevation = APPBAR_ELEVATION
+//                    }
+//                })
+//            }
+//        }
+    }
+
+    override fun moved(distance: Float) {
+        toolbar?.translationY = -(distance)
     }
 
     companion object {
+
+        const val animationDuration: Long = 150
         enum class ToolbarMode {
             FULL, BACK_BUTTON, MODE_TITLE
         }
@@ -174,6 +202,8 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         enum class PageMode {
             FULL, ONLY_TOOLBAR, ONLY_NAVBAR, EMPTY
         }
+
+        const val APPBAR_ELEVATION = 14f
 
         const val ID_BOARD = "id_board"
         const val NAME_BOARD = "name_board"
