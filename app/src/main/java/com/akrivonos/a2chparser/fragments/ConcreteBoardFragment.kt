@@ -20,7 +20,6 @@ import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.database.Board
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
-import com.akrivonos.a2chparser.utils.HidingScrollListener
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
 import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
@@ -108,46 +107,29 @@ class ConcreteBoardFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 50))
                 adapter = threadAdapter
-//                addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//                    var yState: Int = 0
-//
-//                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                        super.onScrollStateChanged(recyclerView, newState)
-//                        if (RecyclerView.SCROLL_STATE_IDLE == newState) {
-//                            // fragProductLl.setVisibility(View.VISIBLE);
-//                            if (yState <= 0) {
-//                                Log.d("test", "show: ")
-//                                toolbarHider?.show()
-//                            } else {
-//                                Log.d("test", "hide: ")
-//                                yState = 0
-//                                toolbarHider?.hide()
-//                            }
-//                        }
-//                    }
-//
-//                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                        super.onScrolled(recyclerView, dx, dy)
-//                        yState = dy
-//                    }
-//                })
-                context?.let { context ->
-                    addOnScrollListener(object : HidingScrollListener(context) {
-                        override fun onMoved(distance: Float) {
-                            toolbarHider?.moved(distance)
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    var yState: Int = 0
+
+                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                        super.onScrollStateChanged(recyclerView, newState)
+                        if (RecyclerView.SCROLL_STATE_IDLE == newState) {
+                            // fragProductLl.setVisibility(View.VISIBLE);
+                            if (yState <= 0) {
+                                Log.d("test", "show: ")
+                                toolbarHider?.show()
+                            } else {
+                                Log.d("test", "hide: ")
+                                yState = 0
+                                toolbarHider?.hide()
+                            }
                         }
+                    }
 
-                        override fun onShow() {
-                            toolbarHider?.show()
-                        }
-
-                        override fun onHide() {
-                            toolbarHider?.hide(mToolbarHeight)
-                        }
-
-                    })
-                }
-
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        yState = dy
+                    }
+                })
             }
             progressBar = it.findViewById(R.id.progressBar)
 
