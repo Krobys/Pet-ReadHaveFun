@@ -1,14 +1,11 @@
 package com.akrivonos.a2chparser
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.Window
-import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -26,7 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeListener,
         PageDisplayModeListener, OpenDetailedSavePage, OpenThreadListener,
-        ShowContentMediaListener, ToolbarHider {
+        ShowContentMediaListener {
     private val APPBAR_ELEVATION = 14f
 
     private var toolbar: Toolbar? = null
@@ -137,31 +134,6 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
                 setCanceledOnTouchOutside(true)
                 requestWindowFeature(Window.FEATURE_NO_TITLE)
                 show()
-            }
-        }
-    }
-
-    override fun hide() {
-        appBarLayout?.let {
-            it.animate().apply {
-                translationY(-(it.height).toFloat())
-                interpolator = LinearInterpolator()
-                duration = 300
-            }
-        }
-    }
-
-    override fun show() {
-        appBarLayout?.let {
-            it.animate().apply {
-                translationY(0f)
-                interpolator = LinearInterpolator()
-                duration = 300
-                setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        it.elevation = APPBAR_ELEVATION
-                    }
-                })
             }
         }
     }
