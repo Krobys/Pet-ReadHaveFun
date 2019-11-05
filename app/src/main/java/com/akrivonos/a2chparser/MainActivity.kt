@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.Window
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -24,11 +23,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeListener,
         PageDisplayModeListener, OpenDetailedSavePage, OpenThreadListener,
         ShowContentMediaListener {
-    private val APPBAR_ELEVATION = 14f
 
     private var toolbar: Toolbar? = null
     private var appBarLayout: AppBarLayout? = null
-    private var containerFragment: FrameLayout? = null
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -41,7 +38,6 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
     private fun setUpScreen() {
         toolbar = findViewById(R.id.toolbar)
         appBarLayout = findViewById(R.id.toolbar_main)
-        containerFragment = findViewById(R.id.container_for_fragment)
         setSupportActionBar(toolbar)
         bottomNavigationView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)
