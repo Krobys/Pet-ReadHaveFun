@@ -16,7 +16,6 @@ import com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.Companion
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.SaveTypeModel
 import com.akrivonos.a2chparser.models.database.Board
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -25,7 +24,6 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         ShowContentMediaListener {
 
     private var toolbar: Toolbar? = null
-    private var appBarLayout: AppBarLayout? = null
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -37,7 +35,6 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
 
     private fun setUpScreen() {
         toolbar = findViewById(R.id.toolbar)
-        appBarLayout = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
         bottomNavigationView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)
