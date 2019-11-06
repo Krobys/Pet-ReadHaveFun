@@ -3,7 +3,6 @@ package com.akrivonos.a2chparser.viewholders
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
@@ -23,7 +22,7 @@ class PostViewHolder(private var binder: AdapteritemPostForThreadBinding) : Recy
             : this(binder) {
 
         mediaContentThreadRecView.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.RIGHT, 40))
-        binder.layoutManagerRecycleView = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+        binder.layoutManagerRecycleView = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         binder.adapter = MediaAdapter(layoutInflater, contentMediaListener)
     }
 

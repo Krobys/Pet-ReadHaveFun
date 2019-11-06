@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +29,7 @@ class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, pr
                 boardId: String?)
             : this(binder, openThreadListener, boardId) {
         mediaContentThreadRecView.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.RIGHT, 40))
-        binder.mediaContentRecView.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+        binder.mediaContentRecView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         binder.adapter = MediaAdapter(layoutInflater, contentMediaListener)
     }
 
