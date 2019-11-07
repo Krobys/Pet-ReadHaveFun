@@ -114,8 +114,8 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
     override fun openBoard(board: Board?) {
         board?.let {
             val bundle = Bundle()
-            bundle.putString(NAME_BOARD, board.nameBoards)
             bundle.putString(ID_BOARD, board.idBoard)
+            bundle.putString(NAME_BOARD, board.nameBoards)
             navController.navigate(R.id.navigation_concrete_board_fragment, bundle)
         }
     }
@@ -128,6 +128,9 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
                 requestWindowFeature(Window.FEATURE_NO_TITLE)
                 show()
             }
+//            val intent = Intent(Intent.ACTION_VIEW)
+//            intent.data = Uri.parse(pathMedia)
+//            startActivity(intent)
         }
     }
 

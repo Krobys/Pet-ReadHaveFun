@@ -3,7 +3,6 @@ package com.akrivonos.a2chparser.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,9 +70,7 @@ class ConcreteBoardFragment : Fragment() {
                 argument.getString(ID_BOARD)?.let { idBoard ->
                     val board = Board()
                     board.nameBoards = nameBoard
-                    Log.d("test", "nameBoard2: $nameBoard")
                     board.idBoard = idBoard
-                    Log.d("test", "idBoard: $idBoard")
                     return board
                 }
             }

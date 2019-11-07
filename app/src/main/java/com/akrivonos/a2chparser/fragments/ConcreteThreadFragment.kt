@@ -3,7 +3,6 @@ package com.akrivonos.a2chparser.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,8 +68,6 @@ class ConcreteThreadFragment : Fragment() {
         arguments?.let {
             it.getString(ID_BOARD)?.let { idBoard ->
                 it.getString(NUMBER_THREAD)?.let { numberThread ->
-                    Log.d("test", "idBoard: $idBoard")
-                    Log.d("test", "numberThread: $numberThread")
                     viewModel.getPostsLiveData(idBoard, numberThread)
                             .observe(this, androidx.lifecycle.Observer<List<Post>> { listPosts ->
                                 if (listPosts.isNotEmpty()) {

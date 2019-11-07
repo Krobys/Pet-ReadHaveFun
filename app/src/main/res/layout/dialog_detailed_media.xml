@@ -13,6 +13,10 @@
         <variable
             name="srcMedia"
             type="String" />
+
+        <variable
+            name="activity"
+            type="com.akrivonos.a2chparser.MainActivity" />
     </data>
 
     <RelativeLayout
@@ -20,22 +24,18 @@
         android:layout_height="wrap_content"
         android:background="@color/colorGrayDark">
 
-        <VideoView
+        <com.github.rtoshiro.view.video.FullscreenVideoLayout
             android:id="@+id/videoViewMediaDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
             android:visibility="@{isVideo ? View.VISIBLE : View.GONE}"
             app:videoUrlLoad="@{srcMedia}" />
 
         <ImageView
             android:id="@+id/imageViewMediaDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
