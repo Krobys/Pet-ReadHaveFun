@@ -1,17 +1,14 @@
 package com.akrivonos.a2chparser
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.akrivonos.a2chparser.dialogs.MediaZoomedDialog
 import com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.Companion.INFO_SAVE_PAGE
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.SaveTypeModel
@@ -122,15 +119,22 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
 
     override fun showContent(pathMedia: String?, mediaType: Int) {
         pathMedia?.let {
-            MediaZoomedDialog(this, it, mediaType).apply {
-                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                setCanceledOnTouchOutside(true)
-                requestWindowFeature(Window.FEATURE_NO_TITLE)
-                show()
-            }
+            //            MediaZoomedDialog(this, it, mediaType).apply {
+//                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                setCanceledOnTouchOutside(true)
+//                requestWindowFeature(Window.FEATURE_NO_TITLE)
+//                show()
+//            }
+
 //            val intent = Intent(Intent.ACTION_VIEW)
 //            intent.data = Uri.parse(pathMedia)
 //            startActivity(intent)
+
+            Intent(this, MediaScreen::class.java).apply {
+                putExtra(PATH_MEDIA, pathMedia)
+                putExtra(MEDIA_TYPE, mediaType)
+                startActivity(this)
+            }
         }
     }
 
@@ -146,5 +150,8 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         const val ID_BOARD = "id_board"
         const val NAME_BOARD = "name_board"
         const val NUMBER_THREAD = "number_thread"
+
+        const val PATH_MEDIA = "path_media"
+        const val MEDIA_TYPE = "type_media"
     }
 }

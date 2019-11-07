@@ -27,7 +27,7 @@ android {
         enabled = true
     }
 
-    kapt{
+    kapt {
         generateStubs = true
     }
 }
