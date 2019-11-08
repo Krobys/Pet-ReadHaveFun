@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,6 +76,12 @@ class ConcreteThreadFragment : Fragment() {
                                         postsList = listPosts
                                         notifyDataSetChanged()
                                     }
+                                } else {
+                                    val error = layoutInflater.inflate(R.layout.error_message_404, null, false)
+                                    val layoutParamsError = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+                                    layoutParamsError.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+                                    error.layoutParams = layoutParamsError
+                                    view?.findViewById<RelativeLayout>(R.id.concrete_thread)?.addView(error)
                                 }
                                 progressBar.visibility = View.GONE
                             })

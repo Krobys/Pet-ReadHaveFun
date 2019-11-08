@@ -63,17 +63,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                app:imageUrlAsyncLoad="@{pathPhoto}" />
+                isVideo="@{false}"
+                android:contentDescription="@string/media"
+                app:imageUrl="@{pathPhoto}" />
 
             <ImageView
                 android:id="@+id/play_icon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
+                android:contentDescription="@string/media"
                 android:background="@android:drawable/ic_media_play"
                 android:visibility="@{playIconState ? View.VISIBLE : View.GONE}" />
         </RelativeLayout>
-
 
     </RelativeLayout>
 </layout>

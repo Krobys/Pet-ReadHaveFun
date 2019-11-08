@@ -7,4 +7,11 @@
     <string name="threads_name_item">Threads</string>
     <string name="boards">Boards</string>
     <string name="saved">Saved</string>
+    <string name="dvach">Два.ч</string>
+    <string name="dvach_icon">dvach icon</string>
+    <string name="error_image">error image</string>
+    <string name="_404_n">404 Ничего не найдено</string>
+    <string name="download_button">download button</string>
+    <string name="close_button">close button</string>
+    <string name="media">media</string>
 </resources>

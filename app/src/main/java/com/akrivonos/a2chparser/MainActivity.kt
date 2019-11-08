@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         }
     }
 
-    override fun showContent(pathMedia: String?, mediaType: Int) {
+    override fun showContent(pathMedia: String?, mediaType: Int, nameMedia: String?) {
         pathMedia?.let {
             //            MediaZoomedDialog(this, it, mediaType).apply {
 //                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -132,7 +132,8 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
 
             Intent(this, MediaScreen::class.java).apply {
                 putExtra(PATH_MEDIA, pathMedia)
-                putExtra(MEDIA_TYPE, mediaType)
+                putExtra(TYPE_MEDIA, mediaType)
+                putExtra(NAME_MEDIA, nameMedia)
                 startActivity(this)
             }
         }
@@ -152,6 +153,7 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         const val NUMBER_THREAD = "number_thread"
 
         const val PATH_MEDIA = "path_media"
-        const val MEDIA_TYPE = "type_media"
+        const val TYPE_MEDIA = "type_media"
+        const val NAME_MEDIA = "name_media"
     }
 }

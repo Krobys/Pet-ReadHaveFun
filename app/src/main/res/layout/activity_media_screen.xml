@@ -15,12 +15,28 @@
             name="srcMedia"
             type="String" />
 
+        <variable
+            name="parentActivity"
+            type="com.akrivonos.a2chparser.MediaScreen" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MediaScreen">
+
+        <ImageButton
+            android:id="@+id/download_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_file_download_black_24dp"
+            android:contentDescription="@string/download_button"
+            android:onClick="@{() -> parentActivity.downloadMedia()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.github.rtoshiro.view.video.FullscreenVideoLayout
             android:id="@+id/videoViewMediaDialog"
@@ -32,7 +48,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:videoUrlLoad="@{srcMedia}" />
+            app:isVideo="@{isVideo}"
+            app:videoUrl="@{srcMedia}" />
 
         <ImageView
             android:id="@+id/imageViewMediaDialog"
@@ -40,10 +57,12 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:visibility="@{isVideo ? View.GONE : View.VISIBLE}"
-            app:imageUrlAsyncLoad="@{srcMedia}"
+            android:contentDescription="@string/dvach_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/videoViewMediaDialog"
+            app:imageUrl="@{srcMedia}"
+            app:isVideo="@{isVideo}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
@@ -54,6 +73,18 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/close_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_close_black_24dp"
+            android:contentDescription="@string/close_button"
+            android:onClick="@{() -> parentActivity.closeActivity()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
