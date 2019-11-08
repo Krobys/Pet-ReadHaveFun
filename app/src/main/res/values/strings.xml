@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Read&amp;Have Fun</string>
-
     <string name="boards_name_item">Boards</string>
     <string name="media_name_item">Media</string>
     <string name="comments_name_item">Comments</string>
@@ -14,4 +13,6 @@
     <string name="download_button">download button</string>
     <string name="close_button">close button</string>
     <string name="media">media</string>
+    <string name="hint_search_view">your request</string>
+
 </resources>

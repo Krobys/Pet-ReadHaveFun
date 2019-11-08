@@ -53,7 +53,7 @@ class ConcreteThreadFragment : Fragment() {
         }
         progressBar = view.findViewById(R.id.progressBar)
         pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
-        toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.BACK_BUTTON, "")
+        toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, "")
     }
 
     private fun setUpAdapterAndListeners() {

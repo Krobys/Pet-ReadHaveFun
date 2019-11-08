@@ -3,10 +3,11 @@ package com.akrivonos.a2chparser.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +28,7 @@ import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
 import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
 
 
-class ConcreteBoardFragment : Fragment() {
+class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var threadAdapter: ThreadAdapter
     private var pageDisplayModeListener: PageDisplayModeListener? = null
@@ -35,6 +36,7 @@ class ConcreteBoardFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var viewModel: ConcreteBoardViewModel
     private lateinit var recyclerView: RecyclerView
+    private var searchView: SearchView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpAdapterAndListeners()
@@ -59,6 +61,7 @@ class ConcreteBoardFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_concrete_board, container, false)
+        setHasOptionsMenu(true)
         setUpScreen(view, context)
         startLoadThreadsForBoard()
         return view
@@ -113,6 +116,51 @@ class ConcreteBoardFragment : Fragment() {
                 toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, board.nameBoards)
             }
         }
+    }
+
+    private fun setUpSearchView(menu: Menu) {
+        menu.findItem(R.id.action_search)?.let {
+            searchView = it.actionView as SearchView
+            searchView?.apply {
+                isIconified = true
+                setOnQueryTextListener(this@ConcreteBoardFragment)
+                (this.findViewById(R.id.search_close_btn) as ImageView).setOnClickListener {
+                    clearFocus()
+                    threadAdapter.undoFilter()
+                    isIconified = true
+                }
+            }
+
+        }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        query?.let {
+            searchView?.apply {
+                clearFocus()
+            }
+            threadAdapter.filter(it)
+            Log.d("test", "onQueryTextSubmit: ")
+            return true
+        }
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        newText?.let {
+            if (it.length > 1) {
+                threadAdapter.filter(it)
+                return true
+            }
+        }
+        return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        Log.d("test", "onCreateOptionsMenu: ")
+        inflater.inflate(R.menu.menu_detailed_search, menu)
+        setUpSearchView(menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
 }
