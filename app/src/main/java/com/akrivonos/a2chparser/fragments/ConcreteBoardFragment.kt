@@ -3,7 +3,6 @@ package com.akrivonos.a2chparser.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -125,9 +124,10 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
                 isIconified = true
                 setOnQueryTextListener(this@ConcreteBoardFragment)
                 (this.findViewById(R.id.search_close_btn) as ImageView).setOnClickListener {
-                    clearFocus()
                     threadAdapter.undoFilter()
+                    clearFocus()
                     isIconified = true
+                    isIconified = true//х2 потому что не срабатывает х1
                 }
             }
 
@@ -140,7 +140,6 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
                 clearFocus()
             }
             threadAdapter.filter(it)
-            Log.d("test", "onQueryTextSubmit: ")
             return true
         }
         return false
@@ -157,7 +156,6 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        Log.d("test", "onCreateOptionsMenu: ")
         inflater.inflate(R.menu.menu_detailed_search, menu)
         setUpSearchView(menu)
         super.onCreateOptionsMenu(menu, inflater)

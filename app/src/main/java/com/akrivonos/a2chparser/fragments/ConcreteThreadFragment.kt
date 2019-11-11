@@ -3,11 +3,11 @@ package com.akrivonos.a2chparser.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,13 +24,15 @@ import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
 
-class ConcreteThreadFragment : Fragment() {
+class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
     private lateinit var viewModel: ConcreteThreadViewModel
     private lateinit var postAdapter: PostAdapter
     private lateinit var progressBar: ProgressBar
+    private var searchView: SearchView? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         setUpAdapterAndListeners()
@@ -40,6 +42,7 @@ class ConcreteThreadFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_concrete_thread, container, false)
+        setHasOptionsMenu(true)
         setUpScreen(view)
         startLoadPostsForThread()
         return view
@@ -73,7 +76,7 @@ class ConcreteThreadFragment : Fragment() {
                             .observe(this, androidx.lifecycle.Observer<List<Post>> { listPosts ->
                                 if (listPosts.isNotEmpty()) {
                                     postAdapter.apply {
-                                        postsList = listPosts
+                                        setPosts(listPosts)
                                         notifyDataSetChanged()
                                     }
                                 } else {
@@ -95,4 +98,46 @@ class ConcreteThreadFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(ConcreteThreadViewModel::class.java)
     }
 
+    private fun setUpSearchView(menu: Menu) {
+        menu.findItem(R.id.action_search)?.let {
+            searchView = it.actionView as SearchView
+            searchView?.apply {
+                isIconified = true
+                setOnQueryTextListener(this@ConcreteThreadFragment)
+                (this.findViewById(R.id.search_close_btn) as ImageView).setOnClickListener {
+                    clearFocus()
+                    postAdapter.undoFilter()
+                    isIconified = true
+                }
+            }
+
+        }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        query?.let {
+            searchView?.apply {
+                clearFocus()
+            }
+            postAdapter.filter(it)
+            return true
+        }
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        newText?.let {
+            if (it.length > 1) {
+                postAdapter.filter(it)
+                return true
+            }
+        }
+        return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_detailed_search, menu)
+        setUpSearchView(menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 }
