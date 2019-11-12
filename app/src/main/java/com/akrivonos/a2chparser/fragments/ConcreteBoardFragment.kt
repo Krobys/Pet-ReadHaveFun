@@ -130,7 +130,6 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
                     isIconified = true//х2 потому что не срабатывает х1
                 }
             }
-
         }
     }
 

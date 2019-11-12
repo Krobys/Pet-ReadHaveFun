@@ -108,9 +108,9 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
                     clearFocus()
                     postAdapter.undoFilter()
                     isIconified = true
+                    isIconified = true//х2 потому что не срабатывает х1
                 }
             }
-
         }
     }
 
