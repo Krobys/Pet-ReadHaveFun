@@ -2,6 +2,7 @@ package com.akrivonos.a2chparser
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -139,6 +140,23 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         }
     }
 
+    override fun onBackPressed() {
+        val fm = supportFragmentManager
+        var backPressedListener: OnBackPressedFragmentsListener? = null
+        val navHostFragments = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.childFragmentManager?.primaryNavigationFragment
+        if (navHostFragments is OnBackPressedFragmentsListener) {
+            backPressedListener = navHostFragments
+        }
+        Log.d("test", "fm size: ${fm.fragments.size}")
+
+        if (backPressedListener != null) {
+            backPressedListener.onBackPressed()
+        } else {
+            Log.d("test", "super:")
+            super.onBackPressed()
+        }
+    }
+
     companion object {
         enum class ToolbarMode {
             FULL, BACK_BUTTON, MODE_TITLE
@@ -156,4 +174,6 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         const val TYPE_MEDIA = "type_media"
         const val NAME_MEDIA = "name_media"
     }
+
+
 }

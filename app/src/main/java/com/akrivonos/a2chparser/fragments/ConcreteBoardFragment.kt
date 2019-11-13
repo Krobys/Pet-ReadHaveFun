@@ -135,9 +135,7 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         query?.let {
-            searchView?.apply {
-                clearFocus()
-            }
+            searchView?.clearFocus()
             threadAdapter.filter(it)
             return true
         }

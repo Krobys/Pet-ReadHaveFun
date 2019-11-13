@@ -20,17 +20,15 @@ import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardThemeAdapter
 import com.akrivonos.a2chparser.dialogs.AdulthoodDialog
-import com.akrivonos.a2chparser.interfaces.CallBack
-import com.akrivonos.a2chparser.interfaces.OpenBoardListener
-import com.akrivonos.a2chparser.interfaces.OpenDetailsBoardsBottomSheetListener
-import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
+import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.BoardsViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
-class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
+class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
+        OnBackPressedFragmentsListener {
 
     private var sheetBehavior: BottomSheetBehavior<*>? = null
     private var bottomSheet: FrameLayout? = null
@@ -158,6 +156,16 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener {
                 notifyDataSetChanged()
             }
             sheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+    }
+
+    override fun onBackPressed() {
+        sheetBehavior?.let { sheetBehavior ->
+            if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            } else {
+                activity?.finish()
+            }
         }
     }
 
