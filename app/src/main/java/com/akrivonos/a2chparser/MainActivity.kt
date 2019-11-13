@@ -119,17 +119,6 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
 
     override fun showContent(pathMedia: String?, mediaType: Int, nameMedia: String?) {
         pathMedia?.let {
-            //            MediaZoomedDialog(this, it, mediaType).apply {
-//                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//                setCanceledOnTouchOutside(true)
-//                requestWindowFeature(Window.FEATURE_NO_TITLE)
-//                show()
-//            }
-
-//            val intent = Intent(Intent.ACTION_VIEW)
-//            intent.data = Uri.parse(pathMedia)
-//            startActivity(intent)
-
             Intent(this, MediaScreen::class.java).apply {
                 putExtra(PATH_MEDIA, pathMedia)
                 putExtra(TYPE_MEDIA, mediaType)
@@ -140,18 +129,13 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
     }
 
     override fun onBackPressed() {
-        val fm = supportFragmentManager
         var backPressedListener: OnBackPressedFragmentsListener? = null
-        val navHostFragments = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.childFragmentManager?.primaryNavigationFragment
-        if (navHostFragments is OnBackPressedFragmentsListener) {
-            backPressedListener = navHostFragments
+        supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.childFragmentManager?.primaryNavigationFragment?.let {
+            if (it is OnBackPressedFragmentsListener) {
+                backPressedListener = it
+            }
         }
-
-        if (backPressedListener != null) {
-            backPressedListener.onBackPressed()
-        } else {
-            super.onBackPressed()
-        }
+        backPressedListener?.onBackPressed() ?: super.onBackPressed()
     }
 
     companion object {
