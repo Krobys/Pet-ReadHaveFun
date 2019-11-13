@@ -2,7 +2,6 @@ package com.akrivonos.a2chparser
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -147,12 +146,10 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         if (navHostFragments is OnBackPressedFragmentsListener) {
             backPressedListener = navHostFragments
         }
-        Log.d("test", "fm size: ${fm.fragments.size}")
 
         if (backPressedListener != null) {
             backPressedListener.onBackPressed()
         } else {
-            Log.d("test", "super:")
             super.onBackPressed()
         }
     }
