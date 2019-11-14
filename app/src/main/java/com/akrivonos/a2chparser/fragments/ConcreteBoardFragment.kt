@@ -16,6 +16,7 @@ import com.akrivonos.a2chparser.MainActivity.Companion.ID_BOARD
 import com.akrivonos.a2chparser.MainActivity.Companion.NAME_BOARD
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter
+import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.akrivonos.a2chparser.interfaces.OpenThreadListener
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
@@ -25,6 +26,7 @@ import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
 import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
+import javax.inject.Inject
 
 
 class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -36,8 +38,13 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var viewModel: ConcreteBoardViewModel
     private lateinit var recyclerView: RecyclerView
     private var searchView: SearchView? = null
+
+    @Inject
+    lateinit var itemDecoratorUtils: ItemDecoratorUtils
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DaggerDaggerComponent.create().inject(this)
         setUpAdapterAndListeners()
         setUpViewModel()
     }
@@ -105,7 +112,7 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
             recyclerView = it.findViewById(R.id.board_threads_rec_view)
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(context)
-                addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 50))
+                addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 50))
                 adapter = threadAdapter
             }
             progressBar = it.findViewById(R.id.progressBar)

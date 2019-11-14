@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter
+import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.akrivonos.a2chparser.databinding.AdapteritemPostForThreadBinding
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
@@ -21,7 +22,7 @@ class PostViewHolder(private var binder: AdapteritemPostForThreadBinding) : Recy
                 contentMediaListener: ShowContentMediaListener)
             : this(binder) {
 
-        mediaContentThreadRecView.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.RIGHT, 40))
+        mediaContentThreadRecView.addItemDecoration(DaggerDaggerComponent.create().getItemDecorator().createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.RIGHT, 40))
         binder.layoutManagerRecycleView = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         binder.adapter = MediaAdapter(layoutInflater, contentMediaListener)
     }

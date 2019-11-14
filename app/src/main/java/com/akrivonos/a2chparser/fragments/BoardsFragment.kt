@@ -19,6 +19,7 @@ import com.akrivonos.a2chparser.MainActivity
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardThemeAdapter
+import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.akrivonos.a2chparser.dialogs.AdulthoodDialog
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
@@ -26,6 +27,7 @@ import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.BoardsViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import javax.inject.Inject
 
 class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
         OnBackPressedFragmentsListener {
@@ -38,8 +40,14 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
     private lateinit var boardConcreteAdapter: BoardConcreteAdapter
     private lateinit var viewModel: BoardsViewModel
 
+    @Inject
+    lateinit var sharedPreferenceUtils: SharedPreferenceUtils
+    @Inject
+    lateinit var itemDecoratorUtils: ItemDecoratorUtils
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DaggerDaggerComponent.create().inject(this)
         setUpAdapterAndListeners()
         setUpViewModel()
     }
@@ -68,7 +76,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
         boardAdapter?.let {
             if (!it.isSet) {
                 context?.let {
-                    if (!SharedPreferenceUtils.isAdultSettingsSet(context)) {
+                    if (!sharedPreferenceUtils.isAdultSettingsSet(context)) {
                         showAdultDialog(context)
                     } else {
                         startLoadBoards()
@@ -96,7 +104,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
         if (!(view == null || context == null)) {
             view.findViewById<RecyclerView>(R.id.boards_rec_view).apply {
                 layoutManager = LinearLayoutManager(context)
-                addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 20))
+                addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 20))
                 adapter = boardAdapter
             }
             progressBarBoards = view.findViewById(R.id.progressBarBoardsTheme)
@@ -133,7 +141,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
             boardConcreteAdapter = BoardConcreteAdapter(activity, openBoardListener)
             val bottomSheetBoardsRecView = bottomSheet?.findViewById<RecyclerView>(R.id.rec_view_boards_for_theme)
             bottomSheetBoardsRecView?.layoutManager = LinearLayoutManager(activity)
-            bottomSheetBoardsRecView?.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 15))
+            bottomSheetBoardsRecView?.addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 15))
             bottomSheetBoardsRecView?.adapter = boardConcreteAdapter
             val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {

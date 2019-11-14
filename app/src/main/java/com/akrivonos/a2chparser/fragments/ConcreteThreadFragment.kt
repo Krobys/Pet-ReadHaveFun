@@ -17,12 +17,14 @@ import com.akrivonos.a2chparser.MainActivity.Companion.ID_BOARD
 import com.akrivonos.a2chparser.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.PostAdapter
+import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
+import javax.inject.Inject
 
 class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
 
@@ -31,10 +33,15 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var viewModel: ConcreteThreadViewModel
     private lateinit var postAdapter: PostAdapter
     private lateinit var progressBar: ProgressBar
+
+    @Inject
+    lateinit var itemDecoratorUtils: ItemDecoratorUtils
+
     private var searchView: SearchView? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        DaggerDaggerComponent.create().inject(this)
         setUpAdapterAndListeners()
         setUpViewModel()
     }
@@ -51,7 +58,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun setUpScreen(view: View) {
         view.findViewById<RecyclerView>(R.id.concrete_thread_recycle_view)?.apply {
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 50))
+            addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 50))
             adapter = postAdapter
         }
         progressBar = view.findViewById(R.id.progressBar)

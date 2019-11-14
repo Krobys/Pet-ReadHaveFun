@@ -1,7 +1,7 @@
 package com.akrivonos.a2chparser.pojomodel.boardmodel
 
 import android.content.Context
-import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
+import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -40,7 +40,7 @@ class BoardModel {
         val boardThemes = ArrayList<BoardTheme>()
         var isAdult = false
         context?.let {
-            isAdult = SharedPreferenceUtils.getAdultSetting(it)
+            isAdult = DaggerDaggerComponent.create().getPreferenceUtils().getAdultSetting(it)
         }
         if (isAdult)
             boardThemes.add(BoardTheme(adult))

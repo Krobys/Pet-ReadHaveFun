@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter
+import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.akrivonos.a2chparser.databinding.AdapteritemThreadsForBoardBinding
 import com.akrivonos.a2chparser.interfaces.OpenThreadListener
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
@@ -28,7 +29,8 @@ class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, pr
                 openThreadListener: OpenThreadListener,
                 boardId: String?)
             : this(binder, openThreadListener, boardId) {
-        mediaContentThreadRecView.addItemDecoration(ItemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.RIGHT, 40))
+        mediaContentThreadRecView.addItemDecoration(DaggerDaggerComponent.create().getItemDecorator()
+                .createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.RIGHT, 40))
         binder.mediaContentRecView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         binder.adapter = MediaAdapter(layoutInflater, contentMediaListener)
     }
