@@ -40,7 +40,7 @@ class FavoritePageThemesList : Fragment() {
     private fun setUpScreen() {
         binding.recViewSavedThemes?.apply{
             layoutManager = LinearLayoutManager(context)
-            adapter =SaveListTypesAdapter(context, activity as OpenDetailedSavePage).apply {
+            adapter = SaveListTypesAdapter(context, activity as OpenDetailedSavePage).apply {
                 setSaveTypeList(generateSaveList())
                 notifyDataSetChanged()
             }
