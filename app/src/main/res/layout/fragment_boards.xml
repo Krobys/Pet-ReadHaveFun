@@ -31,7 +31,9 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <include layout="@layout/content_boards_for_theme" />
+        <include
+            android:id="@+id/bottom_sheet_detailed_boards"
+            layout="@layout/content_boards_for_theme" />
 
         <ProgressBar
             android:id="@+id/progressBarBoardsTheme"

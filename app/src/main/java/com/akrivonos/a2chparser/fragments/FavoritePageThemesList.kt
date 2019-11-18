@@ -4,19 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.MainActivity
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_BOARD
+import com.akrivonos.a2chparser.databinding.FragmentFavoritePageBinding
 import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.models.SaveTypeModel
 
 class FavoritePageThemesList : Fragment() {
 
+    private lateinit var binding: FragmentFavoritePageBinding
     private lateinit var pageDisplayListener: PageDisplayModeListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,19 +32,21 @@ class FavoritePageThemesList : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_favorite_page, container, false)
-        setUpScreen(view)
-        return view
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite_page, container, false)
+        setUpScreen()
+        return binding.root
     }
 
-    private fun setUpScreen(view: View) {
-        val savesThemesRecView = view.findViewById<RecyclerView>(R.id.rec_view_saved_themes)
-        val adapter = SaveListTypesAdapter(context, activity as OpenDetailedSavePage)
-        savesThemesRecView?.layoutManager = LinearLayoutManager(context)
-        savesThemesRecView?.adapter = adapter
+    private fun setUpScreen() {
+        binding.recViewSavedThemes?.apply{
+            layoutManager = LinearLayoutManager(context)
+            adapter =SaveListTypesAdapter(context, activity as OpenDetailedSavePage).apply {
+                setSaveTypeList(generateSaveList())
+                notifyDataSetChanged()
+            }
+        }
         pageDisplayListener.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
-        adapter.setSaveTypeList(generateSaveList())
-        adapter.notifyDataSetChanged()
+
     }
 
     private fun generateSaveList(): ArrayList<SaveTypeModel> {

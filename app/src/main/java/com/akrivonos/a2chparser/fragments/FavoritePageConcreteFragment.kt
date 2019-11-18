@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,9 +18,9 @@ import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Co
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_MEDIA
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_THREAD
 import com.akrivonos.a2chparser.database.RoomAppDatabase
+import com.akrivonos.a2chparser.databinding.FragmentFavoritePageConcreteBinding
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
-import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
 import com.akrivonos.a2chparser.models.SaveTypeModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -27,8 +28,8 @@ import io.reactivex.schedulers.Schedulers
 
 class FavoritePageConcreteFragment : Fragment() {
 
+    private lateinit var binding: FragmentFavoritePageConcreteBinding
     private lateinit var pageDisplayListener: PageDisplayModeListener
-    private lateinit var toolbarModeListener: SetUpToolbarModeListener
     private lateinit var disposable: Disposable
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyMessage: RelativeLayout
@@ -40,33 +41,31 @@ class FavoritePageConcreteFragment : Fragment() {
 
     private fun setUpListeners() {
         pageDisplayListener = activity as PageDisplayModeListener
-        toolbarModeListener = activity as SetUpToolbarModeListener
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_favorite_page_concrete, container, false)
-        setUpScreen(view)
-        return view
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite_page_concrete, container, false)
+        setUpScreen()
+        return binding.root
     }
 
-    private fun setUpScreen(view: View) {
-        recyclerView = view.findViewById(R.id.rec_view_concrete_saves)
+    private fun setUpScreen() {
+        recyclerView = binding.recViewConcreteSaves
         recyclerView.layoutManager = LinearLayoutManager(context)
-        pageDisplayListener.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
-        emptyMessage = view.findViewById(R.id.empty_message)
+        pageDisplayListener.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
+        emptyMessage = binding.empMes as RelativeLayout
         setUpTypePage()
     }
 
     private fun setUpTypePage() {
         val saveTypeModel = arguments?.getParcelable<SaveTypeModel>(INFO_SAVE_PAGE)
-        val context = context
-        if (context != null) {
-            val database = RoomAppDatabase.getAppDataBase(context)
+        context?.let{
+            val database = RoomAppDatabase.getAppDataBase(it)
             if (database != null) {
                 when (saveTypeModel?.typeSaveItem) {
                     SAVE_TYPE_BOARD -> {
-                        val boardConcreteAdapter = BoardConcreteAdapter(context, activity as OpenBoardListener)
+                        val boardConcreteAdapter = BoardConcreteAdapter(it, activity as OpenBoardListener)
                         recyclerView.adapter = boardConcreteAdapter
                         disposable = database.boardsDao().getSavedBoardsList()
                                 .subscribeOn(Schedulers.io())
@@ -88,7 +87,6 @@ class FavoritePageConcreteFragment : Fragment() {
                 }
             }
         }
-        toolbarModeListener.setMode(MainActivity.Companion.ToolbarMode.FULL, saveTypeModel?.nameSave)
     }
 
     private fun showEmptyMessage() {

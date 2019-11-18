@@ -5,19 +5,19 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.SearchView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.MainActivity
 import com.akrivonos.a2chparser.MainActivity.Companion.ID_BOARD
 import com.akrivonos.a2chparser.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.PostAdapter
 import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
+import com.akrivonos.a2chparser.databinding.FragmentConcreteThreadBinding
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
@@ -27,12 +27,11 @@ import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
 import javax.inject.Inject
 
 class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
-
+    private lateinit var binding: FragmentConcreteThreadBinding
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
     private lateinit var viewModel: ConcreteThreadViewModel
     private lateinit var postAdapter: PostAdapter
-    private lateinit var progressBar: ProgressBar
 
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
@@ -48,20 +47,19 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_concrete_thread, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_concrete_thread, container, false)
         setHasOptionsMenu(true)
-        setUpScreen(view)
+        setUpScreen()
         startLoadPostsForThread()
-        return view
+        return binding.root
     }
 
-    private fun setUpScreen(view: View) {
-        view.findViewById<RecyclerView>(R.id.concrete_thread_recycle_view)?.apply {
+    private fun setUpScreen() {
+       binding.concreteThreadRecycleView?.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 50))
             adapter = postAdapter
         }
-        progressBar = view.findViewById(R.id.progressBar)
         pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
         toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, "")
     }
@@ -93,9 +91,9 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
                                     error.layoutParams = layoutParamsError
                                     view?.findViewById<RelativeLayout>(R.id.concrete_thread)?.addView(error)
                                 }
-                                progressBar.visibility = View.GONE
+                                binding.progressBar.visibility = View.GONE
                             })
-                    progressBar.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.VISIBLE
                 }
             }
         }

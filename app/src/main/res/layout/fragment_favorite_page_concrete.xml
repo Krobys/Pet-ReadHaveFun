@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.FavoritePageConcreteFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rec_view_concrete_saves"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <data>
 
-    <include
-        layout="@layout/empty_message"
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:visibility="gone" />
-</FrameLayout>
+        android:layout_height="match_parent"
+        tools:context=".fragments.FavoritePageConcreteFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_view_concrete_saves"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include
+            android:id="@+id/emp_mes"
+            layout="@layout/empty_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="55dp"
+            android:visibility="gone" />
+    </FrameLayout>
+</layout>

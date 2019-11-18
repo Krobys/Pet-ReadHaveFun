@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ProgressBar
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,6 +21,7 @@ import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardThemeAdapter
 import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
+import com.akrivonos.a2chparser.databinding.FragmentBoardsBinding
 import com.akrivonos.a2chparser.dialogs.AdulthoodDialog
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
@@ -31,12 +33,11 @@ import javax.inject.Inject
 
 class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
         OnBackPressedFragmentsListener {
-
+    private lateinit var binding: FragmentBoardsBinding
     private var sheetBehavior: BottomSheetBehavior<*>? = null
     private var bottomSheet: FrameLayout? = null
     private var boardAdapter: BoardThemeAdapter? = null
     private var pageDisplayModeListener: PageDisplayModeListener? = null
-    private var progressBarBoards: ProgressBar? = null
     private lateinit var boardConcreteAdapter: BoardConcreteAdapter
     private lateinit var viewModel: BoardsViewModel
 
@@ -66,10 +67,10 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val fragmentView = inflater.inflate(R.layout.fragment_boards, container, false)
-        setUpScreen(fragmentView, context)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_boards, container, false)
+        setUpScreen()
         manageLoadBoardsInformation()
-        return fragmentView
+        return binding.root
     }
 
     private fun manageLoadBoardsInformation() {
@@ -100,16 +101,13 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
         }
     }
 
-    private fun setUpScreen(view: View?, context: Context?) {
-        if (!(view == null || context == null)) {
-            view.findViewById<RecyclerView>(R.id.boards_rec_view).apply {
+    private fun setUpScreen() {
+            binding.boardsRecView.apply {
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 20))
                 adapter = boardAdapter
             }
-            progressBarBoards = view.findViewById(R.id.progressBarBoardsTheme)
-            setUpBottomSheetCurrent(view)
-        }
+            setUpBottomSheetCurrent()
         pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
     }
 
@@ -121,15 +119,15 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
                     notifyDataSetChanged()
                 }
             }
-            progressBarBoards?.visibility = View.GONE
+            binding.progressBarBoardsTheme?.visibility = View.GONE
         })
-        progressBarBoards?.visibility = View.VISIBLE
+        binding.progressBarBoardsTheme?.visibility = View.VISIBLE
     }
 
-    private fun setUpBottomSheetCurrent(view: View) {
+    private fun setUpBottomSheetCurrent() {
         val activity = activity
         if (activity != null) {
-            bottomSheet = view.findViewById(R.id.bottom_sheet_detailed_boards)
+            bottomSheet = binding.bottomSheetDetailedBoards as FrameLayout
             sheetBehavior = BottomSheetBehavior.from(bottomSheet)
             sheetBehavior?.apply {
                 isHideable = true
