@@ -9,18 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ProgressBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.akrivonos.a2chparser.MainActivity
 import com.akrivonos.a2chparser.R
+import com.akrivonos.a2chparser.activities.MainActivity
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardThemeAdapter
-import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
+import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentBoardsBinding
 import com.akrivonos.a2chparser.dialogs.AdulthoodDialog
 import com.akrivonos.a2chparser.interfaces.*
@@ -32,15 +30,15 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import javax.inject.Inject
 
 class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
-        OnBackPressedFragmentsListener {
+        OnBackPressedFragmentsListener, Injectable {
     private lateinit var binding: FragmentBoardsBinding
     private var sheetBehavior: BottomSheetBehavior<*>? = null
     private var bottomSheet: FrameLayout? = null
     private var boardAdapter: BoardThemeAdapter? = null
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private lateinit var boardConcreteAdapter: BoardConcreteAdapter
-    private lateinit var viewModel: BoardsViewModel
-
+    @Inject
+    lateinit var viewModel: BoardsViewModel
     @Inject
     lateinit var sharedPreferenceUtils: SharedPreferenceUtils
     @Inject
@@ -48,15 +46,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DaggerDaggerComponent.create().inject(this)
         setUpAdapterAndListeners()
-        setUpViewModel()
-    }
-
-    private fun setUpViewModel() {
-        activity?.let {
-            viewModel = ViewModelProviders.of(it).get(BoardsViewModel::class.java)
-        }
     }
 
     private fun setUpAdapterAndListeners() {

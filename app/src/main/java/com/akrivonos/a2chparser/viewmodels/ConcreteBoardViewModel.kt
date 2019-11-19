@@ -1,9 +1,8 @@
 package com.akrivonos.a2chparser.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
+import androidx.lifecycle.ViewModel
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.pojomodel.threadmodel.ThreadsModel
 import com.akrivonos.a2chparser.retrofit.RetrofitSearch
@@ -11,16 +10,9 @@ import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class ConcreteBoardViewModel(application: Application) : AndroidViewModel(application) {
+class ConcreteBoardViewModel@Inject constructor(private var retrofit: RetrofitSearch, private var context: Context) : ViewModel() {
     private var threadsList: List<Thread> = ArrayList()
     private var mutableLiveData: MutableLiveData<List<Thread>> = MutableLiveData()
-    private val context = getApplication<Application>().applicationContext
-    @Inject
-    lateinit var retrofit: RetrofitSearch
-
-    init {
-        DaggerDaggerComponent.create().inject(this)
-    }
 
     fun getThreadsForBoard(boardId: String): MutableLiveData<List<Thread>> {
         if (threadsList.isNotEmpty()) {

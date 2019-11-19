@@ -9,14 +9,13 @@ import android.widget.RelativeLayout
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.akrivonos.a2chparser.MainActivity
-import com.akrivonos.a2chparser.MainActivity.Companion.ID_BOARD
-import com.akrivonos.a2chparser.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.R
+import com.akrivonos.a2chparser.activities.MainActivity
+import com.akrivonos.a2chparser.activities.MainActivity.Companion.ID_BOARD
+import com.akrivonos.a2chparser.activities.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.adapters.recviewadapters.PostAdapter
-import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
+import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteThreadBinding
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
@@ -26,13 +25,14 @@ import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
 import javax.inject.Inject
 
-class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
+class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injectable {
     private lateinit var binding: FragmentConcreteThreadBinding
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
-    private lateinit var viewModel: ConcreteThreadViewModel
     private lateinit var postAdapter: PostAdapter
 
+    @Inject
+    lateinit var viewModel: ConcreteThreadViewModel
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
 
@@ -40,9 +40,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        DaggerDaggerComponent.create().inject(this)
         setUpAdapterAndListeners()
-        setUpViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -97,10 +95,6 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener {
                 }
             }
         }
-    }
-
-    private fun setUpViewModel() {
-        viewModel = ViewModelProviders.of(this).get(ConcreteThreadViewModel::class.java)
     }
 
     private fun setUpSearchView(menu: Menu) {

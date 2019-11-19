@@ -1,7 +1,8 @@
 package com.akrivonos.a2chparser.pojomodel.boardmodel
 
 import android.content.Context
-import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
+import androidx.room.Ignore
+import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -36,11 +37,14 @@ class BoardModel {
     @Expose
     var japan: ArrayList<BoardConcrete>? = null
 
+    var preferenceUtils: SharedPreferenceUtils = SharedPreferenceUtils()
+
+    @Ignore
     fun getBoardThemes(context: Context?): List<BoardTheme>? {
         val boardThemes = ArrayList<BoardTheme>()
         var isAdult = false
         context?.let {
-            isAdult = DaggerDaggerComponent.create().getPreferenceUtils().getAdultSetting(it)
+            isAdult = preferenceUtils.getAdultSetting(it)
         }
         if (isAdult)
             boardThemes.add(BoardTheme(adult))

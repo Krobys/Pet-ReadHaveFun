@@ -5,10 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.akrivonos.a2chparser.models.database.Board
+import com.akrivonos.a2chparser.models.database.FilterItem
 
-@Database(entities = [Board::class], version = 1, exportSchema = false)
+@Database(entities = [Board::class, FilterItem::class], version = 2, exportSchema = false)
 abstract class RoomAppDatabase : RoomDatabase() {
     abstract fun boardsDao(): BoardsDao
+    abstract fun filterItemDao(): FilterItemDao
 
     companion object {
         private var INSTANCE: RoomAppDatabase? = null
@@ -25,5 +27,7 @@ abstract class RoomAppDatabase : RoomDatabase() {
         fun destroyDataBase() {
             INSTANCE = null
         }
+
+        const val DATABASE_NAME = "database.save"
     }
 }

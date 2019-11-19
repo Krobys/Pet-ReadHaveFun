@@ -7,14 +7,13 @@ import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.akrivonos.a2chparser.MainActivity
-import com.akrivonos.a2chparser.MainActivity.Companion.ID_BOARD
-import com.akrivonos.a2chparser.MainActivity.Companion.NAME_BOARD
 import com.akrivonos.a2chparser.R
+import com.akrivonos.a2chparser.activities.MainActivity
+import com.akrivonos.a2chparser.activities.MainActivity.Companion.ID_BOARD
+import com.akrivonos.a2chparser.activities.MainActivity.Companion.NAME_BOARD
 import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter
-import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
+import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteBoardBinding
 import com.akrivonos.a2chparser.interfaces.OpenThreadListener
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
@@ -28,27 +27,22 @@ import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
 import javax.inject.Inject
 
 
-class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
+class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Injectable {
 
     private lateinit var binding: FragmentConcreteBoardBinding
     private lateinit var threadAdapter: ThreadAdapter
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
-    private lateinit var viewModel: ConcreteBoardViewModel
     private var searchView: SearchView? = null
 
+    @Inject
+    lateinit var viewModel: ConcreteBoardViewModel
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DaggerDaggerComponent.create().inject(this)
         setUpAdapterAndListeners()
-        setUpViewModel()
-    }
-
-    private fun setUpViewModel() {
-        viewModel = ViewModelProviders.of(this).get(ConcreteBoardViewModel::class.java)
     }
 
     private fun setUpAdapterAndListeners() {
@@ -131,6 +125,12 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener {
                     isIconified = true//х2 потому что не срабатывает х1
                 }
             }
+        }
+    }
+
+    private fun setUpFilterButton(menu: Menu){
+        menu.findItem(R.id.filter_button)?.let {
+
         }
     }
 

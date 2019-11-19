@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter
-import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.akrivonos.a2chparser.databinding.AdapteritemThreadsForBoardBinding
 import com.akrivonos.a2chparser.interfaces.OpenThreadListener
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
@@ -21,7 +20,7 @@ import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, private val openThreadListener: OpenThreadListener, private var boardId: String?) : RecyclerView.ViewHolder(binder.root) {
 
     private val mediaContentThreadRecView: RecyclerView = binder.root.findViewById(R.id.media_content_rec_view)
-
+    private var itemDecoratorUtils: ItemDecoratorUtils = ItemDecoratorUtils()
     constructor(binder: AdapteritemThreadsForBoardBinding,
                 context: Context,
                 layoutInflater: LayoutInflater,
@@ -29,7 +28,7 @@ class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, pr
                 openThreadListener: OpenThreadListener,
                 boardId: String?)
             : this(binder, openThreadListener, boardId) {
-        mediaContentThreadRecView.addItemDecoration(DaggerDaggerComponent.create().getItemDecorator()
+        mediaContentThreadRecView.addItemDecoration(itemDecoratorUtils
                 .createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.RIGHT, 40))
         binder.mediaContentRecView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         binder.adapter = MediaAdapter(layoutInflater, contentMediaListener)

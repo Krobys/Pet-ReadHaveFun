@@ -7,12 +7,15 @@ import android.view.View
 import android.view.Window
 import android.widget.TextView
 import com.akrivonos.a2chparser.R
-import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.akrivonos.a2chparser.interfaces.CallBack
+import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
+import javax.inject.Inject
 
 class AdulthoodDialog(context: Context, private val callBack: CallBack) : Dialog(context) {
 
-    private val sharedPreferenceUtils = DaggerDaggerComponent.create().getPreferenceUtils()
+    @Inject
+    lateinit var sharedPreferenceUtils: SharedPreferenceUtils
+
     private val onClickListenerChoose = View.OnClickListener { view ->
         val adultSetting: Boolean = when (view.id) {
             R.id.btn_accept -> true

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".DvachApplication"
         android:allowBackup="false"
         android:icon="@drawable/dvach_icon"
         android:label="@string/app_name"
@@ -15,12 +16,12 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".MediaScreen"
+            android:name=".activities.MediaScreen"
             android:configChanges="orientation|screenSize">
 
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:alwaysRetainTaskState="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

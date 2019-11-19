@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser
+package com.akrivonos.a2chparser.activities
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
@@ -8,9 +8,10 @@ import android.os.Environment.DIRECTORY_DOWNLOADS
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.akrivonos.a2chparser.MainActivity.Companion.NAME_MEDIA
-import com.akrivonos.a2chparser.MainActivity.Companion.PATH_MEDIA
-import com.akrivonos.a2chparser.MainActivity.Companion.TYPE_MEDIA
+import com.akrivonos.a2chparser.R
+import com.akrivonos.a2chparser.activities.MainActivity.Companion.NAME_MEDIA
+import com.akrivonos.a2chparser.activities.MainActivity.Companion.PATH_MEDIA
+import com.akrivonos.a2chparser.activities.MainActivity.Companion.TYPE_MEDIA
 import com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter
 import com.akrivonos.a2chparser.databinding.ActivityMediaScreenBinding
 import com.tbruyelle.rxpermissions2.RxPermissions

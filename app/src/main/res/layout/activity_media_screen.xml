@@ -17,14 +17,14 @@
 
         <variable
             name="parentActivity"
-            type="com.akrivonos.a2chparser.MediaScreen" />
+            type="com.akrivonos.a2chparser.activities.MediaScreen" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MediaScreen">
+        tools:context=".activities.MediaScreen">
 
         <ImageButton
             android:id="@+id/download_button"

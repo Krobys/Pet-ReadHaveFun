@@ -1,23 +1,18 @@
 package com.akrivonos.a2chparser.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.akrivonos.a2chparser.dagger.components.DaggerDaggerComponent
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.retrofit.RetrofitSearch
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class ConcreteThreadViewModel : ViewModel() {
+class ConcreteThreadViewModel @Inject constructor(private var retrofit: RetrofitSearch, private var context: Context) : ViewModel() {
     private var postsList: List<Post> = ArrayList()
     private val mutableLiveData: MutableLiveData<List<Post>> = MutableLiveData()
-    @Inject
-    lateinit var retrofit: RetrofitSearch
 
-    init {
-        DaggerDaggerComponent.create().inject(this)
-    }
     fun getPostsLiveData(nameBoard: String, numberThread: String): MutableLiveData<List<Post>> {
         if (postsList.isNotEmpty()) {
             mutableLiveData.value = postsList

@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser
+package com.akrivonos.a2chparser.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.Companion.INFO_SAVE_PAGE
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.SaveTypeModel
@@ -40,15 +41,15 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
 
     override fun setMode(mode: ToolbarMode, title: String?) {
         when (mode) {
-            Companion.ToolbarMode.FULL -> {
+            ToolbarMode.FULL -> {
                 setToolbarMode(displayBackButton = true, displayTitle = true)
                 setTitleToolbar(title)
             }
-            Companion.ToolbarMode.MODE_TITLE -> {
+            ToolbarMode.MODE_TITLE -> {
                 setToolbarMode(displayBackButton = false, displayTitle = true)
                 setTitleToolbar(title)
             }
-            Companion.ToolbarMode.BACK_BUTTON -> setToolbarMode(displayBackButton = true, displayTitle = false)
+            ToolbarMode.BACK_BUTTON -> setToolbarMode(displayBackButton = true, displayTitle = false)
         }
     }
 
@@ -77,10 +78,10 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
 
     override fun setPageMode(mode: PageMode) {
         when (mode) {
-            Companion.PageMode.FULL -> setPageDisplay(isToolbar = true, isNavBar = true)
-            Companion.PageMode.ONLY_NAVBAR -> setPageDisplay(isToolbar = false, isNavBar = true)
-            Companion.PageMode.ONLY_TOOLBAR -> setPageDisplay(isToolbar = true, isNavBar = false)
-            Companion.PageMode.EMPTY -> setPageDisplay(isToolbar = false, isNavBar = false)
+            PageMode.FULL -> setPageDisplay(isToolbar = true, isNavBar = true)
+            PageMode.ONLY_NAVBAR -> setPageDisplay(isToolbar = false, isNavBar = true)
+            PageMode.ONLY_TOOLBAR -> setPageDisplay(isToolbar = true, isNavBar = false)
+            PageMode.EMPTY -> setPageDisplay(isToolbar = false, isNavBar = false)
         }
     }
 
