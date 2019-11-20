@@ -3,19 +3,25 @@ package com.akrivonos.a2chparser.viewmodels
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.akrivonos.a2chparser.interfaces.FilteredItem
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.retrofit.RetrofitSearch
+import com.akrivonos.a2chparser.utils.DFilterItems
+import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class ConcreteThreadViewModel @Inject constructor(private var retrofit: RetrofitSearch, private var context: Context) : ViewModel() {
-    private var postsList: List<Post> = ArrayList()
-    private val mutableLiveData: MutableLiveData<List<Post>> = MutableLiveData()
+class ConcreteThreadViewModel @Inject constructor(private var retrofit: RetrofitSearch,
+                                                  private var context: Context,
+                                                  private val filter: DFilterItems,
+                                                  private val sharedPreferenceUtils: SharedPreferenceUtils) : ViewModel() {
+    private var postsList: List<FilteredItem> = ArrayList()
+    private val mutableLiveData: MutableLiveData<List<FilteredItem>> = MutableLiveData()
 
-    fun getPostsLiveData(nameBoard: String, numberThread: String): MutableLiveData<List<Post>> {
+    fun getPostsLiveData(nameBoard: String, numberThread: String): MutableLiveData<List<FilteredItem>> {
         if (postsList.isNotEmpty()) {
-            mutableLiveData.value = postsList
+            postValue(postsList)
         } else {
             val observer = object : Observer<List<Post>> {
                 override fun onComplete() {
@@ -26,7 +32,7 @@ class ConcreteThreadViewModel @Inject constructor(private var retrofit: Retrofit
 
                 override fun onNext(postList: List<Post>) {
                     postsList = postList
-                    mutableLiveData.value = postList
+                    postValue(postList)
                 }
 
                 override fun onError(e: Throwable) {
@@ -37,5 +43,13 @@ class ConcreteThreadViewModel @Inject constructor(private var retrofit: Retrofit
             retrofit.getPostsForThread(nameBoard, numberThread, observer)
         }
         return mutableLiveData
+    }
+
+    private fun postValue(postList: List<FilteredItem>){
+        if(sharedPreferenceUtils.isFilterThreadsEnable(context)){
+            mutableLiveData.value = postList
+        }else{
+            mutableLiveData.value = postList
+        }
     }
 }

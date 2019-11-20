@@ -9,6 +9,7 @@ import android.widget.RelativeLayout
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,7 @@ import com.akrivonos.a2chparser.activities.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.adapters.recviewadapters.PostAdapter
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteThreadBinding
+import com.akrivonos.a2chparser.interfaces.FilteredItem
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
@@ -60,7 +62,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
     }
 
     private fun setUpScreen() {
-       binding.concreteThreadRecycleView?.apply {
+       binding.concreteThreadRecycleView.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 50))
             adapter = postAdapter
@@ -83,25 +85,30 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
             it.getString(ID_BOARD)?.let { idBoard ->
                 it.getString(NUMBER_THREAD)?.let { numberThread ->
                     viewModel.getPostsLiveData(idBoard, numberThread)
-                            .observe(this, androidx.lifecycle.Observer<List<Post>> { listPosts ->
-                                if (listPosts.isNotEmpty()) {
-                                    postAdapter.apply {
-                                        setPosts(listPosts)
-                                        notifyDataSetChanged()
-                                    }
-                                } else {
-                                    val error = layoutInflater.inflate(R.layout.error_message_404, null, false)
-                                    val layoutParamsError = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
-                                    layoutParamsError.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
-                                    error.layoutParams = layoutParamsError
-                                    view?.findViewById<RelativeLayout>(R.id.concrete_thread)?.addView(error)
-                                }
-                                binding.progressBar.visibility = View.GONE
-                            })
+                            .observe(this, Observer {list-> showThreadList(list) })
                     binding.progressBar.visibility = View.VISIBLE
                 }
             }
         }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun showThreadList(listItems: List<FilteredItem>) {
+        val listPosts: List<Post> = listItems as List<Post>
+            if (listPosts.isNotEmpty()) {
+                postAdapter.apply {
+                    setPosts(listPosts)
+                    notifyDataSetChanged()
+                }
+            } else {
+                val error = layoutInflater.inflate(R.layout.error_message_404, null, false)
+                val layoutParamsError = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+                layoutParamsError.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+                error.layoutParams = layoutParamsError
+                view?.findViewById<RelativeLayout>(R.id.concrete_thread)?.addView(error)
+            }
+            binding.progressBar.visibility = View.GONE
+
     }
 
     private fun setUpSearchView(menu: Menu) {

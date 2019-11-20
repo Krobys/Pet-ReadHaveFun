@@ -7,6 +7,7 @@ import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,10 +18,7 @@ import com.akrivonos.a2chparser.activities.MainActivity.Companion.NAME_BOARD
 import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteBoardBinding
-import com.akrivonos.a2chparser.interfaces.OpenThreadListener
-import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
-import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
-import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
+import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.database.Board
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
@@ -90,20 +88,24 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
         getBoard()?.let { board ->
             board.idBoard?.let { idBoard ->
                 viewModel.getThreadsForBoard(idBoard)
-                        .observe(this, androidx.lifecycle.Observer<List<Thread>> {
-                            if (it.isNotEmpty()) {
-                                threadAdapter.apply {
-                                    setThreads(it)
-                                    notifyDataSetChanged()
-                                }
-                            }
-                            binding.progressBar.visibility = View.GONE
-                            binding.boardThreadsRecView.visibility = View.VISIBLE
-                        })
+                        .observe(this, Observer { showThreadList(it) })
                 binding.boardThreadsRecView.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
             }
         }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun showThreadList(listItems: List<FilteredItem>){
+        val listThreads: List<Thread> = listItems as List<Thread>
+        if (listItems.isNotEmpty()) {
+            threadAdapter.apply {
+                setThreads(listThreads)
+                notifyDataSetChanged()
+            }
+        }
+        binding.progressBar.visibility = View.GONE
+        binding.boardThreadsRecView.visibility = View.VISIBLE
     }
 
     private fun setUpScreen() {

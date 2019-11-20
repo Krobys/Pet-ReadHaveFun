@@ -41,7 +41,7 @@ class BoardConcreteAdapter(context: Context, private val openBoardListener: Open
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardConcreteViewHolder {
         val binding = DataBindingUtil.inflate<AdapteritemConcreteBoardBinding>(layoutInflater, R.layout.adapteritem_concrete_board, parent, false)
-        return BoardConcreteViewHolder(binding, openBoardListener, appDatabase!!)
+        return BoardConcreteViewHolder(binding, openBoardListener, appDatabase?.boardsDao()!!)
     }
 
     override fun onBindViewHolder(holder: BoardConcreteViewHolder, position: Int) {

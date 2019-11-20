@@ -22,7 +22,7 @@ class SaveConcreteBoardsAdapter(context: Context?, private val openBoardListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardConcreteViewHolder {
         val binding: AdapteritemConcreteBoardBinding = DataBindingUtil.inflate(layoutInflater, R.layout.adapteritem_concrete_board, parent, false)
-        return BoardConcreteViewHolder(binding, openBoardListener, roomAppDatabase)
+        return BoardConcreteViewHolder(binding, openBoardListener, roomAppDatabase.boardsDao())
     }
 
     override fun getItemCount(): Int = boardsList.size

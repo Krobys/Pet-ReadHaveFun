@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [AndroidSupportInjectionModule::class, DatabaseModule::class,
-    NetworkModule::class, AppModule::class, ActivityBuildersModule::class, FragmentsBuilderModule::class,
+    AppModule::class, ActivityBuildersModule::class, FragmentsBuilderModule::class,
     ViewModelModule::class])
 interface AppComponent {
     fun inject(application : DvachApplication)
