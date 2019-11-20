@@ -7,6 +7,8 @@ import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.activities.MainActivity
@@ -34,15 +36,19 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
     private var searchView: SearchView? = null
-
+    private lateinit var viewModel: ConcreteBoardViewModel
     @Inject
-    lateinit var viewModel: ConcreteBoardViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpAdapterAndListeners()
+    }
+
+    private fun setUpViewModel(){
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ConcreteBoardViewModel::class.java)
     }
 
     private fun setUpAdapterAndListeners() {
@@ -60,6 +66,7 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_concrete_board, container, false)
         setHasOptionsMenu(true)
+        setUpViewModel()
         setUpScreen()
         startLoadThreadsForBoard()
         return binding.root

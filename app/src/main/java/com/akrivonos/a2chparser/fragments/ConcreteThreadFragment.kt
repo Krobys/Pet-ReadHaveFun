@@ -9,6 +9,8 @@ import android.widget.RelativeLayout
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.activities.MainActivity
@@ -30,9 +32,9 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
     private lateinit var postAdapter: PostAdapter
-
+    private lateinit var viewModel: ConcreteThreadViewModel
     @Inject
-    lateinit var viewModel: ConcreteThreadViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
 
@@ -43,10 +45,15 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
         setUpAdapterAndListeners()
     }
 
+    private fun setUpViewModel(){
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ConcreteThreadViewModel::class.java)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_concrete_thread, container, false)
         setHasOptionsMenu(true)
+        setUpViewModel()
         setUpScreen()
         startLoadPostsForThread()
         return binding.root

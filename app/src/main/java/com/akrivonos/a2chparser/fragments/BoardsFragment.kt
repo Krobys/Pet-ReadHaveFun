@@ -12,6 +12,8 @@ import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
@@ -37,8 +39,9 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
     private var boardAdapter: BoardThemeAdapter? = null
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private lateinit var boardConcreteAdapter: BoardConcreteAdapter
+    private lateinit var viewModel: BoardsViewModel
     @Inject
-    lateinit var viewModel: BoardsViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var sharedPreferenceUtils: SharedPreferenceUtils
     @Inject
@@ -47,6 +50,12 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpAdapterAndListeners()
+    }
+
+    private fun setUpViewModel(){
+        activity?.let{
+            viewModel = ViewModelProviders.of(it, viewModelFactory).get(BoardsViewModel::class.java)
+        }
     }
 
     private fun setUpAdapterAndListeners() {
@@ -58,6 +67,7 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_boards, container, false)
+        setUpViewModel()
         setUpScreen()
         manageLoadBoardsInformation()
         return binding.root
