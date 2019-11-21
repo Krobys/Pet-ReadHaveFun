@@ -37,7 +37,7 @@ class BoardModel {
     @Expose
     var japan: ArrayList<BoardConcrete>? = null
 
-    var preferenceUtils: SharedPreferenceUtils = SharedPreferenceUtils()
+    private var preferenceUtils: SharedPreferenceUtils = SharedPreferenceUtils()
 
     @Ignore
     fun getBoardThemes(context: Context?): List<BoardTheme>? {

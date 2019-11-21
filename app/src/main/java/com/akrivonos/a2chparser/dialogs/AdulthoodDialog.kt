@@ -9,12 +9,10 @@ import android.widget.TextView
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.interfaces.CallBack
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
-import javax.inject.Inject
 
 class AdulthoodDialog(context: Context, private val callBack: CallBack) : Dialog(context) {
 
-    @Inject
-    lateinit var sharedPreferenceUtils: SharedPreferenceUtils
+    private var sharedPreferenceUtils: SharedPreferenceUtils = SharedPreferenceUtils()
 
     private val onClickListenerChoose = View.OnClickListener { view ->
         val adultSetting: Boolean = when (view.id) {

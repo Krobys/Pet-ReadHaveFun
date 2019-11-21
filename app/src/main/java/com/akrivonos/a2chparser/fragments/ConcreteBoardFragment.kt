@@ -1,6 +1,9 @@
 package com.akrivonos.a2chparser.fragments
 
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
@@ -18,6 +21,7 @@ import com.akrivonos.a2chparser.activities.MainActivity.Companion.NAME_BOARD
 import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteBoardBinding
+import com.akrivonos.a2chparser.dialogs.FilterSettingsDialog
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.database.Board
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
@@ -139,7 +143,24 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
 
     private fun setUpFilterButton(menu: Menu){
         menu.findItem(R.id.filter_button)?.let {
+            it.setOnMenuItemClickListener {
+                showFilterSettingsDialog(context)
+                true
+            }
+        }
+    }
 
+    private fun showFilterSettingsDialog(context: Context?) {
+        context?.let {
+            FilterSettingsDialog(it, object : CallBack {
+                override fun call() {
+                    startLoadThreadsForBoard()
+                }
+            }).apply {
+                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setCanceledOnTouchOutside(true)
+                show()
+            }
         }
     }
 
@@ -165,6 +186,7 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_detailed_search, menu)
         setUpSearchView(menu)
+        setUpFilterButton(menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

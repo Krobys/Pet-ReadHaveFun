@@ -21,56 +21,57 @@ class ConcreteBoardViewModel@Inject constructor(private var retrofit: RetrofitSe
     private var threadsList: List<FilteredItem> = ArrayList()
     private var mutableLiveData: MutableLiveData<List<FilteredItem>> = MutableLiveData()
 
+    private val observerSuccess = object : Observer<ThreadsModel?> {
+        override fun onSubscribe(d: Disposable) {
+        }
+
+        override fun onNext(threadsModel: ThreadsModel) {
+            threadsModel.let {
+                it.threadsForBoard?.let { threads ->
+                    threadsList = threads
+                    postValue(threads)
+                }
+            }
+        }
+
+        override fun onError(e: Throwable) {
+
+        }
+
+        override fun onComplete() {
+        }
+    }
+    private val observerError = object : Observer<List<Thread>?> {
+        override fun onSubscribe(d: Disposable) {
+        }
+
+        override fun onNext(threads: List<Thread>) {
+            postValue(threads)
+        }
+
+        override fun onError(e: Throwable) {
+
+        }
+
+        override fun onComplete() {
+        }
+    }
+
     fun getThreadsForBoard(boardId: String): MutableLiveData<List<FilteredItem>> {
         if (threadsList.isNotEmpty()) {
             postValue(threadsList)
         } else {
-            val observerSuccess = object : Observer<ThreadsModel?> {
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onNext(threadsModel: ThreadsModel) {
-                    threadsModel.let {
-                        it.threadsForBoard?.let { threads ->
-                            threadsList = threads
-                            postValue(threads)
-                        }
-                    }
-                }
-
-                override fun onError(e: Throwable) {
-
-                }
-
-                override fun onComplete() {
-                }
-            }
-            val observerError = object : Observer<List<Thread>?> {
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onNext(threads: List<Thread>) {
-                    postValue(threads)
-                }
-
-                override fun onError(e: Throwable) {
-
-                }
-
-                override fun onComplete() {
-                }
-            }
             retrofit.getThreadsForBoard(boardId, observerSuccess, observerError)
         }
         return mutableLiveData
     }
 
-    private fun postValue(postList: List<FilteredItem>){
-        if(sharedPreferenceUtils.isFilterThreadsEnable(context)){
+    private fun postValue(threadList: List<FilteredItem>){
+        if(sharedPreferenceUtils.isFilterEnable(context)){
             val consumer = Consumer<List<FilteredItem>> { t -> mutableLiveData.value = t }
-            filter.filter(postList, consumer)
+            filter.filter(threadList, consumer)
         }else{
-            mutableLiveData.value = postList
+            mutableLiveData.value = threadList
         }
     }
 }

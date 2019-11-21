@@ -17,23 +17,21 @@ class DFilterItems @Inject constructor(private val preferenceUtils: SharedPrefer
                                        private val filterItemDao: FilterItemDao){
     private var disposable: Disposable? = null
 
-    fun switchFilter(){
-            preferenceUtils.changeFilterThreadStatus(context)
-    }
-
     fun filter(originalList: List<FilteredItem>, observerFilter: io.reactivex.functions.Consumer<List<FilteredItem>>){
                 val subjectFilter = SubjectBuilder.createPublishSubject(observerFilter)
                 disposable = filterItemDao.getFilteredItemsList()
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
                         .map { listOfFilters->
-                            val filteredList = ArrayList<FilteredItem>()
-                            for (filteredItem: FilteredItem in originalList){
-                                filteredItem.getText()?.let{ comment->
-                                    for (filterItem: FilterItem in listOfFilters){
-                                        filterItem.filterText?.let{filterText->
-                                            if (comment.contains(filterText)){
-                                                filteredList.add(filteredItem)
+                            val filteredList: ArrayList<FilteredItem> = ArrayList(originalList)
+                            if(listOfFilters.isNotEmpty()){
+                                for (filteredItem: FilteredItem in originalList){
+                                    filteredItem.getText()?.let{ comment->
+                                        for (filterItem: FilterItem in listOfFilters){
+                                            filterItem.filterText?.let{filterText->
+                                                if (comment.contains(filterText)){
+                                                    filteredList.remove(filteredItem)
+                                                }
                                             }
                                         }
                                     }

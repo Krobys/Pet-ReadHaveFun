@@ -46,7 +46,7 @@ class ConcreteThreadViewModel @Inject constructor(private var retrofit: Retrofit
     }
 
     private fun postValue(postList: List<FilteredItem>){
-        if(sharedPreferenceUtils.isFilterThreadsEnable(context)){
+        if(sharedPreferenceUtils.isFilterEnable(context)){
             mutableLiveData.value = postList
         }else{
             mutableLiveData.value = postList

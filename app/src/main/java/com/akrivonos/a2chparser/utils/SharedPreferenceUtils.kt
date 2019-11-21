@@ -25,15 +25,13 @@ class SharedPreferenceUtils @Inject constructor() {
         return sharedPreferences.getBoolean(Companion.ADULT_SET_FLAG, false)
     }
 
-    fun changeFilterThreadStatus(context: Context?){
-        context?.let{
-            PreferenceManager.getDefaultSharedPreferences(context).edit()
-                    .putBoolean(THREAD_FILTER_STATUS, !isFilterThreadsEnable(context))
-                    .apply()
-        }
+    fun setFilterStatusEnabled(context: Context?, boolean: Boolean){
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putBoolean(THREAD_FILTER_STATUS, boolean)
+                .apply()
     }
 
-    fun isFilterThreadsEnable(context: Context?): Boolean {
+    fun isFilterEnable(context: Context?): Boolean {
         context?.let {
             val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
             return sharedPreferences.getBoolean(THREAD_FILTER_STATUS, false)
