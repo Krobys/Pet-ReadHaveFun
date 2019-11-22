@@ -17,6 +17,7 @@ import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Co
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_COMMENT
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_MEDIA
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_THREAD
+import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.database.BoardsDao
 import com.akrivonos.a2chparser.databinding.FragmentFavoritePageConcreteBinding
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener
@@ -27,7 +28,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class FavoritePageConcreteFragment : Fragment() {
+class FavoritePageConcreteFragment : Fragment(), Injectable {
 
     private lateinit var binding: FragmentFavoritePageConcreteBinding
     private lateinit var pageDisplayListener: PageDisplayModeListener

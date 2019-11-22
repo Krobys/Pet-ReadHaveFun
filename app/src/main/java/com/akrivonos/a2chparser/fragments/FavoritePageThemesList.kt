@@ -11,12 +11,13 @@ import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.activities.MainActivity
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_BOARD
+import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentFavoritePageBinding
 import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage
 import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
 import com.akrivonos.a2chparser.models.SaveTypeModel
 
-class FavoritePageThemesList : Fragment() {
+class FavoritePageThemesList : Fragment(), Injectable {
 
     private lateinit var binding: FragmentFavoritePageBinding
     private lateinit var pageDisplayListener: PageDisplayModeListener
