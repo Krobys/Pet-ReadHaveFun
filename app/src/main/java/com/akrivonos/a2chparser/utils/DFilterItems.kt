@@ -26,9 +26,9 @@ class DFilterItems @Inject constructor(private val preferenceUtils: SharedPrefer
                             val filteredList: ArrayList<FilteredItem> = ArrayList(originalList)
                             if(listOfFilters.isNotEmpty()){
                                 for (filteredItem: FilteredItem in originalList){
-                                    filteredItem.getText()?.let{ comment->
+                                    filteredItem.getText()?.toLowerCase()?.let{ comment->
                                         for (filterItem: FilterItem in listOfFilters){
-                                            filterItem.filterText?.let{filterText->
+                                            filterItem.filterText?.toLowerCase()?.let{filterText->
                                                 if (comment.contains(filterText)){
                                                     filteredList.remove(filteredItem)
                                                 }

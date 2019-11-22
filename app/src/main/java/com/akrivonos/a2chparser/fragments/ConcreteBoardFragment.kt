@@ -91,10 +91,10 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
     private fun startLoadThreadsForBoard() {
         getBoard()?.let { board ->
             board.idBoard?.let { idBoard ->
-                viewModel.getThreadsForBoard(idBoard)
-                        .observe(this, Observer { showThreadList(it) })
                 binding.boardThreadsRecView.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
+                viewModel.getThreadsForBoard(idBoard)
+                        .observe(this, Observer { showThreadList(it) })
             }
         }
     }

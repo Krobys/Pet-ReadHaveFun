@@ -2,6 +2,8 @@ package com.akrivonos.a2chparser.fragments
 
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
@@ -20,10 +22,8 @@ import com.akrivonos.a2chparser.activities.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.adapters.recviewadapters.PostAdapter
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteThreadBinding
-import com.akrivonos.a2chparser.interfaces.FilteredItem
-import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
-import com.akrivonos.a2chparser.interfaces.SetUpToolbarModeListener
-import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
+import com.akrivonos.a2chparser.dialogs.FilterSettingsDialog
+import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
@@ -84,16 +84,16 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
         arguments?.let {
             it.getString(ID_BOARD)?.let { idBoard ->
                 it.getString(NUMBER_THREAD)?.let { numberThread ->
-                    viewModel.getPostsLiveData(idBoard, numberThread)
-                            .observe(this, Observer {list-> showThreadList(list) })
                     binding.progressBar.visibility = View.VISIBLE
+                    viewModel.getPostsLiveData(idBoard, numberThread)
+                            .observe(this, Observer {list-> showPostList(list) })
                 }
             }
         }
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun showThreadList(listItems: List<FilteredItem>) {
+    private fun showPostList(listItems: List<FilteredItem>) {
         val listPosts: List<Post> = listItems as List<Post>
             if (listPosts.isNotEmpty()) {
                 postAdapter.apply {
@@ -105,7 +105,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
                 val layoutParamsError = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
                 layoutParamsError.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
                 error.layoutParams = layoutParamsError
-                view?.findViewById<RelativeLayout>(R.id.concrete_thread)?.addView(error)
+                view?.findViewById<RelativeLayout>(R.id.concrete_thread)?.addView(error)//TODO заменить на изменение видимости вью в лейауте
             }
             binding.progressBar.visibility = View.GONE
 
@@ -123,6 +123,29 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
                     isIconified = true
                     isIconified = true//х2 потому что не срабатывает х1
                 }
+            }
+        }
+    }
+
+    private fun setUpFilterButton(menu: Menu){
+        menu.findItem(R.id.filter_button)?.let {
+            it.setOnMenuItemClickListener {
+                showFilterSettingsDialog(context)
+                true
+            }
+        }
+    }
+
+    private fun showFilterSettingsDialog(context: Context?) {
+        context?.let {
+            FilterSettingsDialog(it, object : CallBack {
+                override fun call() {
+                    startLoadPostsForThread()
+                }
+            }).apply {
+                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setCanceledOnTouchOutside(true)
+                show()
             }
         }
     }
@@ -151,6 +174,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_detailed_search, menu)
         setUpSearchView(menu)
+        setUpFilterButton(menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 }

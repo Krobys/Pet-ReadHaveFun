@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
@@ -12,31 +11,27 @@
             type="com.akrivonos.a2chparser.viewholders.FilterItemViewHolder" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
+        android:layout_height="50dp">
 
         <TextView
             android:id="@+id/filter_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
             android:layout_marginStart="16dp"
-            android:text="@{filterItem.filterText}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@{filterItem.filterText}" />
 
         <ImageButton
             android:id="@+id/button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginTop="3dp"
             android:layout_marginEnd="10dp"
-            android:onClick="@{()->holder.removeFilterItem(filterItem)}"
+            android:layout_marginBottom="3dp"
             android:background="@drawable/ic_close_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:onClick="@{()->holder.removeFilterItem(filterItem)}" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

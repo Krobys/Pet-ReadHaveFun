@@ -50,7 +50,7 @@ class FilterSettingsDialog(context: Context, private var callBack: CallBack) : D
         filter_recview?.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = filterAdapter
-            filterAdapter.refreshActualFilterList()
+            filterAdapter.subscribeActualFilterList()
         }
     }
 
@@ -60,12 +60,10 @@ class FilterSettingsDialog(context: Context, private var callBack: CallBack) : D
                 override fun call(t: String) {
                     FilterItem().let { filterItem ->
                         filterItem.filterText = t
-                        database?.filterItemDao()?.addFilteredItem(filterItem)?.let{completable ->
-                            completable
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe{filterAdapter.refreshActualFilterList()}
-                        }
+                        database?.filterItemDao()?.addFilteredItem(filterItem)
+                                ?.subscribeOn(Schedulers.io())
+                                ?.observeOn(AndroidSchedulers.mainThread())
+                                ?.subscribe()
                     }
                 }
             }).apply {

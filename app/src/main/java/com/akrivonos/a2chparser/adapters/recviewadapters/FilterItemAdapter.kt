@@ -32,9 +32,9 @@ class FilterItemAdapter(context: Context) : RecyclerView.Adapter<FilterItemViewH
         holder.setFilterItem(listFilters[position])
     }
 
-    fun refreshActualFilterList(){
-        appDatabase?.filterItemDao()?.getFilteredItemsList()?.let{single->
-            single
+    fun subscribeActualFilterList(){
+        appDatabase?.filterItemDao()?.getFilteredItemsList()?.let{obs->
+            obs
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe{ listFilters ->
@@ -49,7 +49,7 @@ class FilterItemAdapter(context: Context) : RecyclerView.Adapter<FilterItemViewH
             appDatabase?.filterItemDao()?.removeFilteredItems(it.filterText)?.let{completable->
                 completable
                         .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe{
                             val position = listFilters.indexOf(it)
                             listFilters.removeAt(position)

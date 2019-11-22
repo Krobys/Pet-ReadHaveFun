@@ -6,13 +6,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.akrivonos.a2chparser.models.database.FilterItem
 import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.Observable
 
 @Dao
 interface FilterItemDao {
 
     @Query("SELECT * FROM filteritem")
-    fun getFilteredItemsList(): Single<List<FilterItem>>
+    fun getFilteredItemsList(): Observable<List<FilterItem>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addFilteredItem(filterItem: FilterItem?): Completable
