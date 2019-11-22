@@ -1,7 +1,6 @@
 package com.akrivonos.a2chparser.viewmodels
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.akrivonos.a2chparser.interfaces.FilteredItem
@@ -68,13 +67,10 @@ class ConcreteBoardViewModel@Inject constructor(private var retrofit: RetrofitSe
     }
 
     private fun postValue(threadList: List<FilteredItem>){
-        Log.d("test", "postValue:")
         if(sharedPreferenceUtils.isFilterEnable(context)){
-            val consumer = Consumer<List<FilteredItem>> { t -> mutableLiveData.value = t
-                Log.d("test", "post with filter:")}
+            val consumer = Consumer<List<FilteredItem>> { t -> mutableLiveData.value = t }
             filter.filter(threadList, consumer)
         }else{
-            Log.d("test", "post without filter:")
             mutableLiveData.value = threadList
         }
     }
