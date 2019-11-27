@@ -27,6 +27,7 @@ import com.akrivonos.a2chparser.models.database.Board
 import com.akrivonos.a2chparser.pojomodel.threadmodel.Thread
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
+import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
 import javax.inject.Inject
 
@@ -43,6 +44,8 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
+    @Inject
+    lateinit var sharedPreferenceUtils: SharedPreferenceUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,17 +147,19 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
     private fun setUpFilterButton(menu: Menu){
         menu.findItem(R.id.filter_button)?.let {
             it.setOnMenuItemClickListener {
-                showFilterSettingsDialog(context)
+                showFilterSettingsDialog(context, it)
                 true
             }
+            setUpFilterStateIcon(it, (sharedPreferenceUtils.isFilterEnable(context)))
         }
     }
 
-    private fun showFilterSettingsDialog(context: Context?) {
-        context?.let {
-            FilterSettingsDialog(it, object : CallBack {
+    private fun showFilterSettingsDialog(context: Context?, menuItem: MenuItem?) {
+        context?.let { context ->
+            FilterSettingsDialog(context, object : CallBack {
                 override fun call() {
                     startLoadThreadsForBoard()
+                    setUpFilterStateIcon(menuItem, (sharedPreferenceUtils.isFilterEnable(context)))
                 }
             }).apply {
                 window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -162,6 +167,12 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
                 show()
             }
         }
+    }
+
+    private fun setUpFilterStateIcon(menuItem: MenuItem?, boolean: Boolean) {
+        menuItem?.setIcon(if (boolean)
+            R.drawable.filter_on
+        else R.drawable.filter_off)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
