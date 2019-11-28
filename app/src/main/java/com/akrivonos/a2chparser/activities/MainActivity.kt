@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.akrivonos.a2chparser.R
+import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter
 import com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.Companion.INFO_SAVE_PAGE
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.SaveTypeModel
@@ -96,7 +98,14 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
             View.GONE
     }
 
-    override fun openSavePage(saveTypeModel: SaveTypeModel) {
+    override fun openSavePage(saveTypeModel: SaveTypeModel?) {
+        saveTypeModel?.let {
+            //TODO сделать все типы и убрать этот код
+            if (it.typeSaveItem == SaveListTypesAdapter.SAVE_TYPE_NOVALUE) {
+                Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show()
+                return
+            }
+        }
         val bundle = Bundle()
         bundle.putParcelable(INFO_SAVE_PAGE, saveTypeModel)
         navController.navigate(R.id.navigation_saved_page_concrete_fragment, bundle)
