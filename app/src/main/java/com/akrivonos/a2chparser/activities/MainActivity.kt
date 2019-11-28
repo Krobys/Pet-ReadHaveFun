@@ -73,9 +73,7 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
     }
 
     private fun setTitleToolbar(titleToolbar: String?) {
-        val actionBar = supportActionBar
-        actionBar?.title = titleToolbar
-
+        supportActionBar?.title = titleToolbar
     }
 
     override fun setPageMode(mode: PageMode) {
