@@ -50,7 +50,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
         setUpAdapterAndListeners()
     }
 
-    private fun setUpViewModel(){
+    private fun setUpViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ConcreteThreadViewModel::class.java)
     }
 
@@ -65,7 +65,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
     }
 
     private fun setUpScreen() {
-       binding.concreteThreadRecycleView.apply {
+        binding.concreteThreadRecycleView.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 50))
             adapter = postAdapter
@@ -89,7 +89,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
                 it.getString(NUMBER_THREAD)?.let { numberThread ->
                     binding.progressBar.visibility = View.VISIBLE
                     viewModel.getPostsLiveData(idBoard, numberThread)
-                            .observe(this, Observer {list-> showPostList(list) })
+                            .observe(this, Observer { list -> showPostList(list) })
                 }
             }
         }
@@ -98,19 +98,19 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
     @Suppress("UNCHECKED_CAST")
     private fun showPostList(listItems: List<FilteredItem>) {
         val listPosts: List<Post> = listItems as List<Post>
-            if (listPosts.isNotEmpty()) {
-                postAdapter.apply {
-                    setPosts(listPosts)
-                    notifyDataSetChanged()
-                }
-            } else {
-                val error = layoutInflater.inflate(R.layout.error_message_404, null, false)
-                val layoutParamsError = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
-                layoutParamsError.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
-                error.layoutParams = layoutParamsError
-                view?.findViewById<RelativeLayout>(R.id.concrete_thread)?.addView(error)//TODO заменить на изменение видимости вью в лейауте
+        if (listPosts.isNotEmpty()) {
+            postAdapter.apply {
+                setPosts(listPosts)
+                notifyDataSetChanged()
             }
-            binding.progressBar.visibility = View.GONE
+        } else {
+            val error = layoutInflater.inflate(R.layout.error_message_404, null, false)
+            val layoutParamsError = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+            layoutParamsError.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+            error.layoutParams = layoutParamsError
+            view?.findViewById<RelativeLayout>(R.id.concrete_thread)?.addView(error)//TODO заменить на изменение видимости вью в лейауте
+        }
+        binding.progressBar.visibility = View.GONE
 
     }
 
@@ -130,7 +130,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
         }
     }
 
-    private fun setUpFilterButton(menu: Menu){
+    private fun setUpFilterButton(menu: Menu) {
         menu.findItem(R.id.filter_button)?.let {
             it.setOnMenuItemClickListener {
                 showFilterSettingsDialog(context, it)
