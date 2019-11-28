@@ -3,7 +3,6 @@ package com.akrivonos.a2chparser.adapters.recviewadapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
@@ -22,6 +21,8 @@ class PostAdapter(private val context: Context, private val contentMediaListener
     var fullPostList = ArrayList<Post>()
     var filteredPostList = ArrayList<Post>()
     private var disposable: Disposable? = null
+    private var filterStatus: Boolean = false
+
 
     fun setPosts(posts: List<Post>?) {
         posts?.let {
@@ -39,6 +40,7 @@ class PostAdapter(private val context: Context, private val contentMediaListener
     }
 
     fun filter(textFilter: String) {
+        filterStatus = true
         filteredPostList.clear()
         disposable?.dispose()
         disposable = Observable.just(fullPostList)
@@ -59,14 +61,16 @@ class PostAdapter(private val context: Context, private val contentMediaListener
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     notifyDataSetChanged()
-                    Toast.makeText(context, "search count ${postsList.size}", Toast.LENGTH_SHORT).show()
                 }
     }
 
     fun undoFilter() {
+        filterStatus = false
         postsList = fullPostList
         notifyDataSetChanged()
     }
+
+    fun isFilterEnable(): Boolean = filterStatus
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = DataBindingUtil.inflate<AdapteritemPostForThreadBinding>(layoutInflater, R.layout.adapteritem_post_for_thread, parent, false)

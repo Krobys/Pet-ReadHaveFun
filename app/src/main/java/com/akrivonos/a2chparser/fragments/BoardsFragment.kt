@@ -166,13 +166,11 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
     }
 
     override fun onBackPressed() {
-        sheetBehavior?.let { sheetBehavior ->
-            if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            } else {
+        if (sheetBehavior != null && sheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+        } else {
                 activity?.finish()
             }
-        }
     }
 
 }

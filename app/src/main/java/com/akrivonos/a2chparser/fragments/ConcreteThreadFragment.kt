@@ -30,7 +30,7 @@ import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
 import javax.inject.Inject
 
-class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injectable {
+class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injectable, OnBackPressedFragmentsListener {
     private lateinit var binding: FragmentConcreteThreadBinding
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
@@ -121,10 +121,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
                 isIconified = true
                 setOnQueryTextListener(this@ConcreteThreadFragment)
                 (this.findViewById(R.id.search_close_btn) as ImageView).setOnClickListener {
-                    clearFocus()
-                    postAdapter.undoFilter()
-                    isIconified = true
-                    isIconified = true//х2 потому что не срабатывает х1
+                    undoFilter()
                 }
             }
         }
@@ -137,6 +134,15 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
                 true
             }
             setUpFilterStateIcon(it, (sharedPreferenceUtils.isFilterEnable(context)))
+        }
+    }
+
+    private fun undoFilter() {
+        searchView?.apply {
+            postAdapter.undoFilter()
+            clearFocus()
+            isIconified = true
+            isIconified = true//х2 потому что не срабатывает х1
         }
     }
 
@@ -187,5 +193,13 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
         setUpSearchView(menu)
         setUpFilterButton(menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onBackPressed() {
+        if (postAdapter.isFilterEnable()) {
+            undoFilter()
+        } else {
+            (activity as MainActivity).pressBackSuper()
+        }
     }
 }

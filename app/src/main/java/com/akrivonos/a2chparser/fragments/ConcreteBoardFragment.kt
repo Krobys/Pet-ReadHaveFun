@@ -32,7 +32,7 @@ import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
 import javax.inject.Inject
 
 
-class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Injectable {
+class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Injectable, OnBackPressedFragmentsListener {
 
     private lateinit var binding: FragmentConcreteBoardBinding
     private lateinit var threadAdapter: ThreadAdapter
@@ -135,12 +135,18 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
                 isIconified = true
                 setOnQueryTextListener(this@ConcreteBoardFragment)
                 (this.findViewById(R.id.search_close_btn) as ImageView).setOnClickListener {
-                    threadAdapter.undoFilter()
-                    clearFocus()
-                    isIconified = true
-                    isIconified = true//х2 потому что не срабатывает х1
+                    undoFilter()
                 }
             }
+        }
+    }
+
+    private fun undoFilter() {
+        searchView?.apply {
+            threadAdapter.undoFilter()
+            clearFocus()
+            isIconified = true
+            isIconified = true//х2 потому что не срабатывает х1
         }
     }
 
@@ -199,6 +205,14 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
         setUpSearchView(menu)
         setUpFilterButton(menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onBackPressed() {
+        if (threadAdapter.isFilterEnable()) {
+            undoFilter()
+        } else {
+            (activity as MainActivity).pressBackSuper()
+        }
     }
 
 }

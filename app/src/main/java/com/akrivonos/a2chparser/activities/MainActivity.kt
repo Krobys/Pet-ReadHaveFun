@@ -139,6 +139,10 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         backPressedListener?.onBackPressed() ?: super.onBackPressed()
     }
 
+    fun pressBackSuper() {
+        super.onBackPressed()
+    }
+
     companion object {
         enum class ToolbarMode {
             FULL, BACK_BUTTON, MODE_TITLE

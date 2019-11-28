@@ -3,7 +3,6 @@ package com.akrivonos.a2chparser.adapters.recviewadapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
@@ -24,6 +23,7 @@ class ThreadAdapter(private val context: Context, private val contentMediaListen
     private var filteredThreads = ArrayList<Thread>()
     private var disposable: Disposable? = null
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+    private var filterStatus: Boolean = false
 
     fun setThreads(threads: List<Thread>?) {
         threads?.let {
@@ -33,6 +33,7 @@ class ThreadAdapter(private val context: Context, private val contentMediaListen
     }
 
     fun filter(textFilter: String) {
+        filterStatus = true
         filteredThreads.clear()
         disposable?.dispose()
         disposable = Observable.just(fullThreads)
@@ -53,14 +54,16 @@ class ThreadAdapter(private val context: Context, private val contentMediaListen
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     notifyDataSetChanged()
-                    Toast.makeText(context, "search count ${threads.size}", Toast.LENGTH_SHORT).show()
                 }
     }
 
     fun undoFilter() {
         threads = fullThreads
+        filterStatus = false
         notifyDataSetChanged()
     }
+
+    fun isFilterEnable(): Boolean = filterStatus
 
     override fun getItemViewType(position: Int): Int {
         val thread = threads[position]
