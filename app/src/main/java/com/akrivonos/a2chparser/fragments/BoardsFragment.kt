@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -112,16 +113,30 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
     }
 
     private fun startLoadBoards() {
-        viewModel.getBoardThemes().observe(this, Observer<List<BoardTheme>> { boardThemes ->
+        Log.d("test", "startLoadBoards: ")
+        binding.progressBarBoardsTheme?.visibility = View.VISIBLE
+        viewModel.getBoardThemes().observe(this, Observer<List<BoardTheme>?> { boardThemes ->
+            Log.d("test", "observerWOrker: ")
             boardThemes?.let {
                 boardAdapter?.apply {
+                    Log.d("test", "setAdapterDataotNull: ")
                     setBoardThemes(it)
                     notifyDataSetChanged()
+                    hideErrorMsg()
                 }
-            }
+            } ?: showErrorMsg()
             binding.progressBarBoardsTheme?.visibility = View.GONE
         })
-        binding.progressBarBoardsTheme?.visibility = View.VISIBLE
+    }
+
+    private fun showErrorMsg() {
+        Log.d("test", "showErr: ")
+        binding.errorDownloadingMessage?.visibility = View.VISIBLE
+    }
+
+    private fun hideErrorMsg() {
+        Log.d("test", "hideErr: ")
+        binding.errorDownloadingMessage?.visibility = View.INVISIBLE
     }
 
     private fun setUpBottomSheetCurrent() {

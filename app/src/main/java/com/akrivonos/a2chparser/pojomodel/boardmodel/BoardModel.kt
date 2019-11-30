@@ -1,6 +1,7 @@
 package com.akrivonos.a2chparser.pojomodel.boardmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Ignore
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.google.gson.annotations.Expose
@@ -42,20 +43,43 @@ class BoardModel {
     @Ignore
     fun getBoardThemes(context: Context?): List<BoardTheme>? {
         val boardThemes = ArrayList<BoardTheme>()
+        val boardTestThemes = ArrayList<BoardTheme?>()
         var isAdult = false
         context?.let {
             isAdult = preferenceUtils.getAdultSetting(it)
         }
-        if (isAdult)
-            boardThemes.add(BoardTheme(adult))
-        boardThemes.add(BoardTheme(games))
-        boardThemes.add(BoardTheme(politic))
-        boardThemes.add(BoardTheme(custom))
-        boardThemes.add(BoardTheme(different))
-        boardThemes.add(BoardTheme(art))
-        boardThemes.add(BoardTheme(theme))
-        boardThemes.add(BoardTheme(tech))
-        boardThemes.add(BoardTheme(japan))
+        boardThemes.apply {
+            if (isAdult)
+                add(BoardTheme(adult))
+            add(BoardTheme(games))
+            add(BoardTheme(politic))
+            add(BoardTheme(custom))
+            add(BoardTheme(different))
+            add(BoardTheme(art))
+            add(BoardTheme(theme))
+            add(BoardTheme(tech))
+            add(BoardTheme(japan))
+        }
+
+        boardTestThemes.apply {
+            if (isAdult)
+                add(BoardTheme(adult))
+            add(BoardTheme(games))
+            add(BoardTheme(politic))
+            add(BoardTheme(custom))
+            add(BoardTheme(different))
+            add(BoardTheme(art))
+            add(BoardTheme(theme))
+            add(BoardTheme(tech))
+            add(BoardTheme(japan))
+        }
+
+        for (boardTheme in boardTestThemes) {
+            if (boardTheme?.boardThemeName == null) {
+                Log.d("test", "is null: ")
+                return null
+            }
+        }
         return boardThemes
     }
 

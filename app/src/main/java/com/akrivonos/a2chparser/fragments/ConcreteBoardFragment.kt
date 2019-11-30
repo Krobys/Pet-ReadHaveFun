@@ -96,23 +96,35 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
             board.idBoard?.let { idBoard ->
                 binding.boardThreadsRecView.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
+                hideErrorMsg()
                 viewModel.getThreadsForBoard(idBoard)
                         .observe(this, Observer { showThreadList(it) })
             }
-        }
+        } ?: showErrorMsg()
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun showThreadList(listItems: List<FilteredItem>){
-        val listThreads: List<Thread> = listItems as List<Thread>
-        if (listItems.isNotEmpty()) {
-            threadAdapter.apply {
-                setThreads(listThreads)
-                notifyDataSetChanged()
+    private fun showThreadList(listItems: List<FilteredItem>?) {
+        listItems?.let {
+            val listThreads: List<Thread> = it as List<Thread>
+            if (listItems.isNotEmpty()) {
+                threadAdapter.apply {
+                    setThreads(listThreads)
+                    notifyDataSetChanged()
+                }
             }
         }
+
         binding.progressBar.visibility = View.GONE
         binding.boardThreadsRecView.visibility = View.VISIBLE
+    }
+
+    private fun showErrorMsg() {
+        binding.errorDownloadingMessage?.visibility = View.VISIBLE
+    }
+
+    private fun hideErrorMsg() {
+        binding.errorDownloadingMessage?.visibility = View.INVISIBLE
     }
 
     private fun setUpScreen() {

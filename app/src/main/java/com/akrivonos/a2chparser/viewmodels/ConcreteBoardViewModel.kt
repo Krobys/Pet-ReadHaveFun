@@ -19,7 +19,7 @@ class ConcreteBoardViewModel@Inject constructor(private var retrofit: RetrofitSe
                                                 private val filter: DFilterItems,
                                                 private val sharedPreferenceUtils: SharedPreferenceUtils) : ViewModel() {
     private var threadsList: List<FilteredItem> = ArrayList()
-    private var mutableLiveData: MutableLiveData<List<FilteredItem>> = MutableLiveData()
+    private var mutableLiveData: MutableLiveData<List<FilteredItem>?> = MutableLiveData()
 
     private val observerSuccess = object : Observer<ThreadsModel?> {
         override fun onSubscribe(d: Disposable) {
@@ -30,7 +30,7 @@ class ConcreteBoardViewModel@Inject constructor(private var retrofit: RetrofitSe
                 it.threadsForBoard?.let { threads ->
                     threadsList = threads
                     postValue(threads)
-                }
+                } ?: mutableLiveData.setValue(null)
             }
         }
 
@@ -57,7 +57,7 @@ class ConcreteBoardViewModel@Inject constructor(private var retrofit: RetrofitSe
         }
     }
 
-    fun getThreadsForBoard(boardId: String): MutableLiveData<List<FilteredItem>> {
+    fun getThreadsForBoard(boardId: String): MutableLiveData<List<FilteredItem>?> {
         if (threadsList.isNotEmpty()) {
             postValue(threadsList)
         } else {
