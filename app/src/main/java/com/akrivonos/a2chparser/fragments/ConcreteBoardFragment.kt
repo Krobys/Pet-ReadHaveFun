@@ -100,7 +100,7 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
                 viewModel.getThreadsForBoard(idBoard)
                         .observe(this, Observer { showThreadList(it) })
             }
-        } ?: showErrorMsg()
+        }
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -112,8 +112,9 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
                     setThreads(listThreads)
                     notifyDataSetChanged()
                 }
+                hideErrorMsg()
             }
-        }
+        } ?: showErrorMsg()
 
         binding.progressBar.visibility = View.GONE
         binding.boardThreadsRecView.visibility = View.VISIBLE
@@ -138,6 +139,7 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
             getBoard()?.let { board ->
                 toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, board.nameBoards)
             }
+        binding.errorDownloadingMessage.setOnClickListener { startLoadThreadsForBoard() }
     }
 
     private fun setUpSearchView(menu: Menu) {

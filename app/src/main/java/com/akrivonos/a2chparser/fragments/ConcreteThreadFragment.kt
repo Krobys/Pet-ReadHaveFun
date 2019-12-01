@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -70,6 +69,7 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
             addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 50))
             adapter = postAdapter
         }
+        binding.errorDownloadingMessage.setOnClickListener { startLoadPostsForThread() }
         pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
         toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, "")
     }
@@ -84,9 +84,11 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
     }
 
     private fun startLoadPostsForThread() {
+
         arguments?.let {
             it.getString(ID_BOARD)?.let { idBoard ->
                 it.getString(NUMBER_THREAD)?.let { numberThread ->
+                    hideErrorMsg()
                     binding.progressBar.visibility = View.VISIBLE
                     viewModel.getPostsLiveData(idBoard, numberThread)
                             .observe(this, Observer { list -> showPostList(list) })
@@ -103,15 +105,20 @@ class ConcreteThreadFragment : Fragment(), SearchView.OnQueryTextListener, Injec
                 setPosts(listPosts)
                 notifyDataSetChanged()
             }
+            hideErrorMsg()
         } else {
-            val error = layoutInflater.inflate(R.layout.error_message_404, null, false)
-            val layoutParamsError = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
-            layoutParamsError.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
-            error.layoutParams = layoutParamsError
-            view?.findViewById<RelativeLayout>(R.id.concrete_thread)?.addView(error)//TODO заменить на изменение видимости вью в лейауте
+            showErrorMsg()
         }
         binding.progressBar.visibility = View.GONE
 
+    }
+
+    private fun showErrorMsg() {
+        binding.errorDownloadingMessage?.visibility = View.VISIBLE
+    }
+
+    private fun hideErrorMsg() {
+        binding.errorDownloadingMessage?.visibility = View.INVISIBLE
     }
 
     private fun setUpSearchView(menu: Menu) {

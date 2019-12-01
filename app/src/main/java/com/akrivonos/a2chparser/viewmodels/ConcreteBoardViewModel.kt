@@ -30,7 +30,7 @@ class ConcreteBoardViewModel@Inject constructor(private var retrofit: RetrofitSe
                 it.threadsForBoard?.let { threads ->
                     threadsList = threads
                     postValue(threads)
-                } ?: mutableLiveData.setValue(null)
+                }
             }
         }
 
@@ -46,7 +46,7 @@ class ConcreteBoardViewModel@Inject constructor(private var retrofit: RetrofitSe
         }
 
         override fun onNext(threads: List<Thread>) {
-            postValue(threads)
+            mutableLiveData.value = null
         }
 
         override fun onError(e: Throwable) {

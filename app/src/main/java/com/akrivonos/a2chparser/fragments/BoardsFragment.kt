@@ -109,10 +109,12 @@ class BoardsFragment : Fragment(), OpenDetailsBoardsBottomSheetListener,
                 adapter = boardAdapter
             }
             setUpBottomSheetCurrent()
+        binding.errorDownloadingMessage.setOnClickListener { startLoadBoards() }
         pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
     }
 
     private fun startLoadBoards() {
+        hideErrorMsg()
         Log.d("test", "startLoadBoards: ")
         binding.progressBarBoardsTheme?.visibility = View.VISIBLE
         viewModel.getBoardThemes().observe(this, Observer<List<BoardTheme>?> { boardThemes ->
