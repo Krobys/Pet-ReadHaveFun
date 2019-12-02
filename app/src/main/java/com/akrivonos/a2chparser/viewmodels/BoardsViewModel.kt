@@ -2,15 +2,17 @@ package com.akrivonos.a2chparser.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardModel
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
-import com.akrivonos.a2chparser.retrofit.RetrofitSearch
-import io.reactivex.disposables.Disposable
+import com.akrivonos.a2chparser.retrofit.ApiRetrofitInterface
+import com.rxchainretrier.base.BaseViewModel
+import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
-class BoardsViewModel @Inject constructor(private var retrofit: RetrofitSearch, private var context: Context) : ViewModel() {
+class BoardsViewModel @Inject constructor(private var retrofit: ApiRetrofitInterface, private var context: Context) : BaseViewModel() {
     private var listBoardsTheme: List<BoardTheme> = ArrayList()
     private val mutableLiveData: MutableLiveData<List<BoardTheme>> = MutableLiveData()
 
@@ -18,29 +20,18 @@ class BoardsViewModel @Inject constructor(private var retrofit: RetrofitSearch, 
         if (listBoardsTheme.isNotEmpty()) {
             mutableLiveData.value = listBoardsTheme
         } else {
-            val observer = object : io.reactivex.Observer<BoardModel> {
-                lateinit var disposable: Disposable
-                override fun onSubscribe(d: Disposable) {
-                    disposable = d
-                }
+            disposable += retrofit.boards
+                    .subscribeOn(Schedulers.io())
+                    .subscribeBy(onSuccess = { boardModel ->
+                        boardModel.getBoardThemes(context)?.let {
+                            listBoardsTheme = it
+                            mutableLiveData.value = it
+                        }
+                    }, onError = {
+                        Timber.d(it)
+                        messageEvent.postValue(it.message)
+                    })
 
-                override fun onNext(boardModel: BoardModel) {
-                    boardModel.getBoardThemes(context)?.let {
-                        listBoardsTheme = it
-                        mutableLiveData.value = it
-                    }
-                }
-
-                override fun onError(e: Throwable) {
-
-                }
-
-                override fun onComplete() {
-                    disposable.dispose()
-                }
-            }
-
-            retrofit.getBoards(observer)
         }
         return mutableLiveData
     }

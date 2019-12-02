@@ -15,6 +15,10 @@
         <variable
             name="adapter"
             type="com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter" />
+
+        <variable
+            name="viewModel"
+            type="com.akrivonos.a2chparser.viewmodels.BoardsViewModel"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
