@@ -34,7 +34,7 @@ dependencies {
     def lifecycle_version = "2.1.0"
     def dagger_version = "2.23.1"
     def multidex_version = "2.0.1"
-    def retrofit_version = "2.6.0"
+    def retrofit_version = "2.6.2"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -48,9 +48,9 @@ dependencies {
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    //implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    //implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
     implementation "io.reactivex.rxjava2:rxjava:2.2.10"
     implementation 'com.github.bumptech.glide:glide:4.10.0'

@@ -4,6 +4,7 @@ import androidx.multidex.MultiDexApplication
 import com.akrivonos.a2chparser.dagger.AppInjector
 import com.akrivonos.a2chparser.dagger.components.AppComponent
 import com.akrivonos.a2chparser.dagger.components.DaggerAppComponent
+import com.akrivonos.a2chparser.provider.AppProvider
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -27,6 +28,7 @@ class DvachApplication : MultiDexApplication(), HasAndroidInjector {
                 .build()
         appComponent.inject(this)
         AppInjector.init(this)
+        AppProvider.appInstance = this
     }
 
 

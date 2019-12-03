@@ -1,10 +1,11 @@
-package com.rxchainretrier.network
+package com.akrivonos.a2chparser.retrofit
 
 import android.app.Application
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.akrivonos.a2chparser.base.BaseActivity
 import com.akrivonos.a2chparser.dagger.components.DaggerAppComponent
+import com.akrivonos.a2chparser.provider.AppProvider
 import io.reactivex.*
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
@@ -16,7 +17,8 @@ class RxRetryCallAdapter<R>(private val originalAdapter : CallAdapter<R, *>) : C
     private val retrySubject = DaggerAppComponent.builder().build().getAppSubject()
 
     override fun adapt(call : Call<R>) : Any {
-        return when (val adaptedValue = originalAdapter.adapt(call)) {
+        val adaptedValue = originalAdapter.adapt(call)
+        return when(adaptedValue) {
             is Completable -> {
                 adaptedValue.doOnError(this::sendBroadcast)
                         .retryWhen {
@@ -61,7 +63,7 @@ class RxRetryCallAdapter<R>(private val originalAdapter : CallAdapter<R, *>) : C
     override fun responseType() : Type = originalAdapter.responseType()
 
     private fun sendBroadcast(throwable : Throwable) {
-        val app : Application = DaggerAppComponent.builder().build().getAppInstance()
+        val app : Application = AppProvider.appInstance
         Timber.e(throwable)
         LocalBroadcastManager.getInstance(app).sendBroadcast(Intent(BaseActivity.ERROR_ACTION))
     }

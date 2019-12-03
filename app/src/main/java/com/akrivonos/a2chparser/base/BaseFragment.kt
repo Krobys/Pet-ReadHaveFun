@@ -8,17 +8,22 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.akrivonos.a2chparser.BR
 import com.akrivonos.a2chparser.base.BaseActionListener
+import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.nonNullObserve
+import javax.inject.Inject
 
-abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment() {
+abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(), Injectable {
     protected abstract val layoutId : Int
     protected abstract val viewModelClass : Class<VM>
     protected lateinit var binding : B
+    @Inject
+    protected lateinit var viewModelFactory: ViewModelProvider.Factory
     protected val viewModel : VM by lazy {
-        ViewModelProviders.of(this).get(viewModelClass)
+        ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
     }
     protected var baseActionListener : BaseActionListener? = null
 
@@ -26,8 +31,11 @@ abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.setVariable(BR.viewModel, viewModel)
         binding.executePendingBindings()
+        doOnCreateView()
         return binding.root
     }
+
+    abstract fun doOnCreateView()
 
     override fun onViewCreated(view : View, savedInstanceState : Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -9,8 +9,8 @@ import retrofit2.http.Path
 
 interface ApiRetrofitInterface {
 
-    @get:GET("makaba/mobile.fcgi?task=get_boards")
-    val boards: Single<BoardModel>
+    @GET("makaba/mobile.fcgi?task=get_boards")
+    fun getBoardsa(): Single<BoardModel>
 
     @GET("{nameBoard}/catalog.json")
     fun getThreadsForBoard(@Path("nameBoard") nameBoard: String?): Single<ThreadsModel>

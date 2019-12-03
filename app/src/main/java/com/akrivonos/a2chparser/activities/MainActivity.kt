@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter
+import com.akrivonos.a2chparser.base.BaseActivity
+import com.akrivonos.a2chparser.databinding.ActivityMainBinding
 import com.akrivonos.a2chparser.fragments.FavoritePageConcreteFragment.Companion.INFO_SAVE_PAGE
 import com.akrivonos.a2chparser.interfaces.*
 import com.akrivonos.a2chparser.models.SaveTypeModel
@@ -19,9 +20,12 @@ import com.akrivonos.a2chparser.models.database.Board
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeListener,
+class MainActivity : BaseActivity<ActivityMainBinding>(), OpenBoardListener, SetUpToolbarModeListener,
         PageDisplayModeListener, OpenDetailedSavePage, OpenThreadListener,
         ShowContentMediaListener {
+
+    override val layoutId: Int
+        get() = R.layout.activity_main
 
     private var toolbar: Toolbar? = null
     private lateinit var navController: NavController
@@ -29,7 +33,6 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         setUpScreen()
     }
 
@@ -167,6 +170,5 @@ class MainActivity : AppCompatActivity(), OpenBoardListener, SetUpToolbarModeLis
         const val TYPE_MEDIA = "type_media"
         const val NAME_MEDIA = "name_media"
     }
-
 
 }

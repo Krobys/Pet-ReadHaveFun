@@ -161,7 +161,7 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
     }
 
     private fun showFilterSettingsDialog(context: Context?, menuItem: MenuItem?) {
-        context?.let { context ->
+        context?.let {
             FilterSettingsDialog(context, object : CallBack {
                 override fun call() {
                     startLoadThreadsForBoard()
