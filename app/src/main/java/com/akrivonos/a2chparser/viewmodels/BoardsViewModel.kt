@@ -2,10 +2,11 @@ package com.akrivonos.a2chparser.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.akrivonos.a2chparser.base.BaseViewModel
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
 import com.akrivonos.a2chparser.provider.AppProvider
 import com.akrivonos.a2chparser.retrofit.ApiRetrofitInterface
-import com.rxchainretrier.base.BaseViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -22,17 +23,27 @@ class BoardsViewModel @Inject constructor(private var context: Context) : BaseVi
         if (listBoardsTheme.isNotEmpty()) {
             mutableLiveData.value = listBoardsTheme
         } else {
-            disposable += retrofit.getBoardsa()
+            Timber.d("getBoards")
+            disposable += retrofit.getBoards()
                     .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnError{
+                        Timber.d("Error timber")
+                        Timber.d(it)
+                        messageEvent.postValue(it.message)
+                    }
                     .subscribeBy(onSuccess = { boardModel ->
                         boardModel.getBoardThemes(context)?.let {
+                            Timber.d("Success")
                             listBoardsTheme = it
                             mutableLiveData.value = it
                         }
                     }, onError = {
+                        Timber.d("Error timber")
                         Timber.d(it)
                         messageEvent.postValue(it.message)
                     })
+
         }
         return mutableLiveData
     }

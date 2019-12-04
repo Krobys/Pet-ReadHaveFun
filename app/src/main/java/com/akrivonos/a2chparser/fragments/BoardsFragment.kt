@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +15,6 @@ import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.activities.MainActivity
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardThemeAdapter
-import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentBoardsBinding
 import com.akrivonos.a2chparser.dialogs.AdulthoodDialog
 import com.akrivonos.a2chparser.interfaces.*
@@ -27,7 +27,7 @@ import com.rxchainretrier.base.BaseFragment
 import javax.inject.Inject
 
 class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), OpenDetailsBoardsBottomSheetListener,
-        OnBackPressedFragmentsListener, Injectable {
+        OnBackPressedFragmentsListener {
 
     private var sheetBehavior: BottomSheetBehavior<*>? = null
     private var bottomSheet: FrameLayout? = null
@@ -37,6 +37,9 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
 
     override val viewModelClass: Class<BoardsViewModel>
         get() = BoardsViewModel::class.java
+
+    override var progressBar: ProgressBar? = null
+
     override val layoutId: Int
         get() = R.layout.fragment_boards
 
@@ -56,7 +59,7 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
         boardAdapter = BoardThemeAdapter(context, boardsBottomSheetListener)
     }
 
-    override fun doOnCreateView() {
+    override fun doAfterCreateView() {
         setUpScreen()
         manageLoadBoardsInformation()
     }
@@ -95,6 +98,7 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
                 addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 20))
                 adapter = boardAdapter
             }
+            progressBar = binding.progressBarBoardsTheme
             setUpBottomSheetCurrent()
         pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
     }
@@ -160,5 +164,6 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
                 activity?.finish()
             }
     }
+
 
 }

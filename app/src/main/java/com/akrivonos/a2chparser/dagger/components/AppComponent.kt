@@ -6,7 +6,6 @@ import com.akrivonos.a2chparser.dagger.modules.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
-import io.reactivex.subjects.PublishSubject
 import javax.inject.Singleton
 
 @Singleton
@@ -15,8 +14,6 @@ import javax.inject.Singleton
     ViewModelModule::class])
 interface AppComponent {
     fun inject(application : DvachApplication)
-
-    fun getAppSubject() : PublishSubject<Unit>
 
     fun getAppInstance() : Application
 

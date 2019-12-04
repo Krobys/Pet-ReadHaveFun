@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.akrivonos.a2chparser.BuildConfig
-import com.akrivonos.a2chparser.dagger.components.DaggerAppComponent
+import com.akrivonos.a2chparser.provider.AppProvider
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity(), BaseActionListener {
@@ -29,7 +29,7 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity(), BaseActi
                     snackbar = Snackbar.make(binding.root, "Error happened", Snackbar.LENGTH_INDEFINITE)
                             .setAction("Try again") {
                                 snackbar = null
-                                DaggerAppComponent.builder().build().getAppSubject().onNext(Unit)
+                                AppProvider.provideRetrySubject().onNext(Unit)
                             }
                     snackbar?.show()
                 }

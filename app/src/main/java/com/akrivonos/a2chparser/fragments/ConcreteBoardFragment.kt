@@ -5,14 +5,14 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.activities.MainActivity
@@ -29,19 +29,26 @@ import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
+import com.rxchainretrier.base.BaseFragment
 import javax.inject.Inject
 
 
-class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Injectable, OnBackPressedFragmentsListener {
+class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcreteBoardBinding>(), SearchView.OnQueryTextListener, Injectable, OnBackPressedFragmentsListener {
 
-    private lateinit var binding: FragmentConcreteBoardBinding
     private lateinit var threadAdapter: ThreadAdapter
     private var pageDisplayModeListener: PageDisplayModeListener? = null
     private var toolbarModeListener: SetUpToolbarModeListener? = null
     private var searchView: SearchView? = null
-    private lateinit var viewModel: ConcreteBoardViewModel
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+
+    override val viewModelClass: Class<ConcreteBoardViewModel>
+        get() = ConcreteBoardViewModel::class.java
+
+    override var progressBar: ProgressBar? = null
+    override val layoutId: Int
+        get() =  R.layout.fragment_concrete_board
+
+
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
     @Inject
@@ -50,10 +57,6 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpAdapterAndListeners()
-    }
-
-    private fun setUpViewModel(){
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ConcreteBoardViewModel::class.java)
     }
 
     private fun setUpAdapterAndListeners() {
@@ -67,14 +70,10 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_concrete_board, container, false)
+    override fun doAfterCreateView() {
         setHasOptionsMenu(true)
-        setUpViewModel()
         setUpScreen()
         startLoadThreadsForBoard()
-        return binding.root
     }
 
     private fun getBoard(): Board? {
@@ -121,7 +120,7 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
                 addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 50))
                 adapter = threadAdapter
             }
-
+            progressBar = binding.progressBar
             pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
             getBoard()?.let { board ->
                 toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, board.nameBoards)
@@ -214,5 +213,7 @@ class ConcreteBoardFragment : Fragment(), SearchView.OnQueryTextListener, Inject
             (activity as MainActivity).pressBackSuper()
         }
     }
+
+
 
 }

@@ -2,12 +2,14 @@ package com.akrivonos.a2chparser.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.akrivonos.a2chparser.base.BaseViewModel
 import com.akrivonos.a2chparser.interfaces.FilteredItem
 import com.akrivonos.a2chparser.retrofit.ApiRetrofitInterface
 import com.akrivonos.a2chparser.utils.DFilterItems
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
-import com.rxchainretrier.base.BaseViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -24,8 +26,9 @@ class ConcreteThreadViewModel @Inject constructor(private var retrofit: ApiRetro
         if (postsList.isNotEmpty()) {
             postValue(postsList)
         } else {
-            retrofit.getPostsForThread(nameBoard, numberThread)
+            disposable += retrofit.getPostsForThread(nameBoard, numberThread)
                     .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribeBy(onSuccess = {postModel ->
                         postModel.threads?.get(0)?.posts?.let{
                             postValue(it)

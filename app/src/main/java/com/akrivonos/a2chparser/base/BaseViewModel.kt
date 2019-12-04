@@ -1,4 +1,4 @@
-package com.rxchainretrier.base
+package com.akrivonos.a2chparser.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
