@@ -16,35 +16,38 @@ class RxRetryCallAdapter<R>(private val originalAdapter : CallAdapter<R, *>) : C
         val adaptedValue = originalAdapter.adapt(call)
         return when (adaptedValue) {
             is Completable -> {
-                adaptedValue.doOnError(this::sendBroadcast)
+                adaptedValue.doOnError(this::sendBroadcastError)
                         .retryWhen {
                             AppProvider.provideRetrySubject().toFlowable(BackpressureStrategy.LATEST)
                                     .observeOn(Schedulers.io())
                         }
             }
             is Single<*> -> {
-                adaptedValue.doOnError(this::sendBroadcast)
+                adaptedValue.onErrorResumeNext{
+                    sendBroadcastError(it)
+                    Single.error(it)
+                }
                         .retryWhen {
                             AppProvider.provideRetrySubject().toFlowable(BackpressureStrategy.LATEST)
                                     .observeOn(Schedulers.io())
                         }
             }
             is Maybe<*> -> {
-                adaptedValue.doOnError(this::sendBroadcast)
+                adaptedValue.doOnError(this::sendBroadcastError)
                         .retryWhen {
                             AppProvider.provideRetrySubject().toFlowable(BackpressureStrategy.LATEST)
                                     .observeOn(Schedulers.io())
                         }
             }
             is Observable<*> -> {
-                adaptedValue.doOnError(this::sendBroadcast)
+                adaptedValue.doOnError(this::sendBroadcastError)
                         .retryWhen {
                             AppProvider.provideRetrySubject()
                                     .observeOn(Schedulers.io())
                         }
             }
             is Flowable<*> -> {
-                adaptedValue.doOnError(this::sendBroadcast)
+                adaptedValue.doOnError(this::sendBroadcastError)
                         .retryWhen {
                             AppProvider.provideRetrySubject().toFlowable(BackpressureStrategy.LATEST)
                                     .observeOn(Schedulers.io())
@@ -58,8 +61,8 @@ class RxRetryCallAdapter<R>(private val originalAdapter : CallAdapter<R, *>) : C
 
     override fun responseType() : Type = originalAdapter.responseType()
 
-    private fun sendBroadcast(throwable : Throwable) {
-        Timber.e(throwable)
-        LocalBroadcastManager.getInstance(AppProvider.appInstance).sendBroadcast(Intent(BaseActivity.ERROR_ACTION))
-    }
+        private fun sendBroadcastError(throwable : Throwable) {
+            Timber.e(throwable)
+            LocalBroadcastManager.getInstance(AppProvider.appInstance).sendBroadcast(Intent(BaseActivity.ERROR_ACTION))
+        }
 }

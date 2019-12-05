@@ -32,16 +32,16 @@ class BoardsViewModel @Inject constructor(private var context: Context) : BaseVi
                         Timber.d(it)
                         messageEvent.postValue(it.message)
                     }
-                    .subscribeBy(onSuccess = { boardModel ->
+                    .subscribeBy(onError = {
+                        Timber.d("Error timber")
+                        Timber.d(it)
+                        messageEvent.postValue(it.message)
+                    }, onSuccess = { boardModel ->
                         boardModel.getBoardThemes(context)?.let {
                             Timber.d("Success")
                             listBoardsTheme = it
                             mutableLiveData.value = it
                         }
-                    }, onError = {
-                        Timber.d("Error timber")
-                        Timber.d(it)
-                        messageEvent.postValue(it.message)
                     })
 
         }
