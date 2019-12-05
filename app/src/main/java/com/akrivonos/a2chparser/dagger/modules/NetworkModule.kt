@@ -15,25 +15,19 @@ object NetworkModule {
     @JvmStatic
     @Singleton
     @Provides
-    fun provideRetrofit(rxRetryCallAdapterFactory: RxRetryCallAdapterFactory): Retrofit {
+    fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(rxRetryCallAdapterFactory)
+                .addCallAdapterFactory(RxRetryCallAdapterFactory.create())
                 .build()
     }
 
     @JvmStatic
     @Singleton
     @Provides
-    fun provideApiRetrofitInterface(retrofit: Retrofit): ApiRetrofitInterface{
+    fun provideApiRetrofitInterface(retrofit: Retrofit): ApiRetrofitInterface {
         return retrofit.create(ApiRetrofitInterface::class.java)
     }
 
-    @JvmStatic
-    @Singleton
-    @Provides
-    fun provideRxRetryCallAdapterFactory(): RxRetryCallAdapterFactory{
-        return RxRetryCallAdapterFactory()
-    }
 }

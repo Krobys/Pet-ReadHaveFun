@@ -40,7 +40,7 @@ class FavoritePageThemesList : Fragment(), Injectable {
     }
 
     private fun setUpScreen() {
-        binding.recViewSavedThemes.apply{
+        binding.recViewSavedThemes.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = SaveListTypesAdapter(context, activity as OpenDetailedSavePage).apply {
                 setSaveTypeList(generateSaveList())

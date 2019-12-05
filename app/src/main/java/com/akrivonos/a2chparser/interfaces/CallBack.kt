@@ -4,6 +4,6 @@ interface CallBack {
     fun call()
 }
 
-interface CallBackP<T>{
+interface CallBackP<T> {
     fun call(t: T)
 }

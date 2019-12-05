@@ -12,7 +12,6 @@ import io.reactivex.functions.Consumer
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import javax.inject.Inject
 
 class ConcreteThreadViewModel @Inject constructor(private var retrofit: ApiRetrofitInterface,
@@ -29,23 +28,20 @@ class ConcreteThreadViewModel @Inject constructor(private var retrofit: ApiRetro
             disposable += retrofit.getPostsForThread(nameBoard, numberThread)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onSuccess = {postModel ->
-                        postModel.threads?.get(0)?.posts?.let{
+                    .subscribeBy(onSuccess = { postModel ->
+                        postModel.threads?.get(0)?.posts?.let {
                             postValue(it)
                         }
-                    }, onError = {
-                        Timber.d(it)
-                        messageEvent.postValue(it.message)
                     })
         }
         return mutableLiveData
     }
 
-    private fun postValue(postList: List<FilteredItem>){
-        if(sharedPreferenceUtils.isFilterEnable(context)){
+    private fun postValue(postList: List<FilteredItem>) {
+        if (sharedPreferenceUtils.isFilterEnable(context)) {
             val consumer = Consumer<List<FilteredItem>> { t -> mutableLiveData.value = t }
             filter.filter(postList, consumer)
-        }else{
+        } else {
             mutableLiveData.value = postList
         }
     }

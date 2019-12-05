@@ -26,14 +26,15 @@ class FilterSettingsDialog(context: Context, private var callBack: CallBack) : D
     private var database = RoomAppDatabase.getAppDataBase(context)
     private var filterAdapter: FilterItemAdapter = FilterItemAdapter(context)
     private val onClickListenerChoose = View.OnClickListener { view ->
-        when(view.id){
-            R.id.switch_filter -> {}
+        when (view.id) {
+            R.id.switch_filter -> {
+            }
             R.id.save_button -> {
                 sharedPreferenceUtils.setFilterStatusEnabled(context, switch_filter.isChecked)
                 callBack.call()
                 dismiss()
             }
-            R.id.add_filter_button ->{
+            R.id.add_filter_button -> {
                 showFilterSettingsDialog(getContext())
             }
         }

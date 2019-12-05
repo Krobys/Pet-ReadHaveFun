@@ -13,10 +13,10 @@ import kotlinx.android.synthetic.main.add_filter_item_dialog.*
 class FilterItemDialog(context: Context, callBack: CallBackP<String>) : Dialog(context) {
 
     private val onClickListenerChoose = View.OnClickListener { view ->
-        when(view.id){
+        when (view.id) {
             R.id.save_filter_item -> {
-                filter_edittext.text.toString().let{
-                    if (validateFilterValue(it)){
+                filter_edittext.text.toString().let {
+                    if (validateFilterValue(it)) {
                         callBack.call(it)
                         dismiss()
                     }
@@ -36,10 +36,10 @@ class FilterItemDialog(context: Context, callBack: CallBackP<String>) : Dialog(c
         cancel_filter_item.setOnClickListener(onClickListenerChoose)
     }
 
-    private fun validateFilterValue(filterText: String?): Boolean{
-        filterText?.let{
-            when(true){
-                TextUtils.isEmpty(it) ->{
+    private fun validateFilterValue(filterText: String?): Boolean {
+        filterText?.let {
+            when (true) {
+                TextUtils.isEmpty(it) -> {
                     error_message.text = "Введите что нибудь в поле выше!"
                     return false
                 }

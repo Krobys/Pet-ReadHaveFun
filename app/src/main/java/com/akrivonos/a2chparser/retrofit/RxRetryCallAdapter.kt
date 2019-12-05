@@ -2,8 +2,8 @@ package com.akrivonos.a2chparser.retrofit
 
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.akrivonos.a2chparser.base.BaseActivity
 import com.akrivonos.a2chparser.provider.AppProvider
+import com.rxchainretrier.base.BaseFragment.Companion.ERROR_ACTION
 import io.reactivex.*
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
@@ -11,8 +11,8 @@ import retrofit2.CallAdapter
 import timber.log.Timber
 import java.lang.reflect.Type
 
-class RxRetryCallAdapter<R>(private val originalAdapter : CallAdapter<R, *>) : CallAdapter<R, Any> {
-    override fun adapt(call : Call<R>) : Any {
+class RxRetryCallAdapter<R>(private val originalAdapter: CallAdapter<R, *>) : CallAdapter<R, Any> {
+    override fun adapt(call: Call<R>): Any {
         val adaptedValue = originalAdapter.adapt(call)
         return when (adaptedValue) {
             is Completable -> {
@@ -23,10 +23,7 @@ class RxRetryCallAdapter<R>(private val originalAdapter : CallAdapter<R, *>) : C
                         }
             }
             is Single<*> -> {
-                adaptedValue.onErrorResumeNext{
-                    sendBroadcastError(it)
-                    Single.error(it)
-                }
+                adaptedValue.doOnError(this::sendBroadcastError)
                         .retryWhen {
                             AppProvider.provideRetrySubject().toFlowable(BackpressureStrategy.LATEST)
                                     .observeOn(Schedulers.io())
@@ -59,10 +56,10 @@ class RxRetryCallAdapter<R>(private val originalAdapter : CallAdapter<R, *>) : C
         }
     }
 
-    override fun responseType() : Type = originalAdapter.responseType()
+    override fun responseType(): Type = originalAdapter.responseType()
 
-        private fun sendBroadcastError(throwable : Throwable) {
-            Timber.e(throwable)
-            LocalBroadcastManager.getInstance(AppProvider.appInstance).sendBroadcast(Intent(BaseActivity.ERROR_ACTION))
-        }
+    private fun sendBroadcastError(throwable: Throwable) {
+        Timber.e(throwable)
+        LocalBroadcastManager.getInstance(AppProvider.appInstance).sendBroadcast(Intent(ERROR_ACTION))
+    }
 }

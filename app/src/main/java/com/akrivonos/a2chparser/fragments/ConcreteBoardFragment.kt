@@ -46,7 +46,7 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
 
     override var progressBar: ProgressBar? = null
     override val layoutId: Int
-        get() =  R.layout.fragment_concrete_board
+        get() = R.layout.fragment_concrete_board
 
 
     @Inject
@@ -102,7 +102,7 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun showThreadList(listItems: List<FilteredItem>){
+    private fun showThreadList(listItems: List<FilteredItem>) {
         val listThreads: List<Thread> = listItems as List<Thread>
         if (listItems.isNotEmpty()) {
             threadAdapter.apply {
@@ -115,16 +115,16 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
     }
 
     private fun setUpScreen() {
-            binding.boardThreadsRecView.apply {
-                layoutManager = LinearLayoutManager(context)
-                addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 50))
-                adapter = threadAdapter
-            }
-            progressBar = binding.progressBar
-            pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
-            getBoard()?.let { board ->
-                toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, board.nameBoards)
-            }
+        binding.boardThreadsRecView.apply {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 50))
+            adapter = threadAdapter
+        }
+        progressBar = binding.progressBar
+        pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
+        getBoard()?.let { board ->
+            toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, board.nameBoards)
+        }
     }
 
     private fun setUpSearchView(menu: Menu) {
@@ -149,7 +149,7 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
         }
     }
 
-    private fun setUpFilterButton(menu: Menu){
+    private fun setUpFilterButton(menu: Menu) {
         menu.findItem(R.id.filter_button)?.let {
             it.setOnMenuItemClickListener {
                 showFilterSettingsDialog(context, it)
@@ -213,7 +213,6 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
             (activity as MainActivity).pressBackSuper()
         }
     }
-
 
 
 }

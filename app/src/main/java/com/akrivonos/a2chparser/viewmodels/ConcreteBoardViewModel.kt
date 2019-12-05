@@ -12,13 +12,12 @@ import io.reactivex.functions.Consumer
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import javax.inject.Inject
 
-class ConcreteBoardViewModel@Inject constructor(private var retrofit: ApiRetrofitInterface,
-                                                private var context: Context,
-                                                private val filter: DFilterItems,
-                                                private val sharedPreferenceUtils: SharedPreferenceUtils) : BaseViewModel() {
+class ConcreteBoardViewModel @Inject constructor(private var retrofit: ApiRetrofitInterface,
+                                                 private var context: Context,
+                                                 private val filter: DFilterItems,
+                                                 private val sharedPreferenceUtils: SharedPreferenceUtils) : BaseViewModel() {
     private var threadsList: List<FilteredItem> = ArrayList()
     private var mutableLiveData: MutableLiveData<List<FilteredItem>> = MutableLiveData()
 
@@ -29,27 +28,23 @@ class ConcreteBoardViewModel@Inject constructor(private var retrofit: ApiRetrofi
             disposable += retrofit.getThreadsForBoard(boardId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy (onSuccess = {threadsModel->
+                    .subscribeBy(onSuccess = { threadsModel ->
                         threadsModel.let {
                             it.threadsForBoard?.let { threads ->
                                 threadsList = threads
                                 postValue(threads)
                             }
                         }
-                    }, onError = {
-                        Timber.d("onError")
-                        Timber.d(it)
-                        messageEvent.postValue(it.message)
                     })
         }
         return mutableLiveData
     }
 
-    private fun postValue(threadList: List<FilteredItem>){
-        if(sharedPreferenceUtils.isFilterEnable(context)){
+    private fun postValue(threadList: List<FilteredItem>) {
+        if (sharedPreferenceUtils.isFilterEnable(context)) {
             val consumer = Consumer<List<FilteredItem>> { t -> mutableLiveData.value = t }
             filter.filter(threadList, consumer)
-        }else{
+        } else {
             mutableLiveData.value = threadList
         }
     }

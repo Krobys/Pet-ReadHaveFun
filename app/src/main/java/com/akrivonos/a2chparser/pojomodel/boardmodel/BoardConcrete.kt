@@ -1,6 +1,6 @@
 package com.akrivonos.a2chparser.pojomodel.boardmodel
 
-class BoardConcrete{
+class BoardConcrete {
     var bump_limit: Float = 0.toFloat()
     var category: String? = null
     var default_name: String? = null

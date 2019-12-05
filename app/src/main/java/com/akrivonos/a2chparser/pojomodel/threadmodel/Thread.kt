@@ -4,7 +4,7 @@ import com.akrivonos.a2chparser.interfaces.FilteredItem
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Thread : FilteredItem{
+class Thread : FilteredItem {
     override fun getText(): String? = comment
 
     @SerializedName("banned")

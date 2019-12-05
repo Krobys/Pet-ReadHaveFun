@@ -1,6 +1,7 @@
 package com.akrivonos.a2chparser.viewholders
 
 import androidx.recyclerview.widget.RecyclerView
+import com.akrivonos.a2chparser.BuildConfig
 import com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter.Companion.ITEM_TYPE_VIDEO
 import com.akrivonos.a2chparser.databinding.AdapteritemMediaPhotoBinding
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
@@ -16,11 +17,11 @@ class MediaViewHolder(private var binder: AdapteritemMediaPhotoBinding, private 
 
     fun setUpMediaItem(fileMedia: File?) {
         fileMedia?.let {
-            val STANDART_PATH = "https://2ch.hk"
-            mediaPathFull = STANDART_PATH + it.path
+            val standardPath = BuildConfig.BASE_URL.dropLast(1)
+            mediaPathFull = standardPath + it.path
             nameMedia = it.name
 
-            val mediaPathThumbnail = STANDART_PATH + it.thumbnail
+            val mediaPathThumbnail = standardPath + it.thumbnail
 
             binder.file = it
             binder.pathPhoto = mediaPathThumbnail

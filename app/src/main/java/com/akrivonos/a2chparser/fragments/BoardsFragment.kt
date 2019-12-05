@@ -93,13 +93,13 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
     }
 
     private fun setUpScreen() {
-            binding.boardsRecView.apply {
-                layoutManager = LinearLayoutManager(context)
-                addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 20))
-                adapter = boardAdapter
-            }
-            progressBar = binding.progressBarBoardsTheme
-            setUpBottomSheetCurrent()
+        binding.boardsRecView.apply {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 20))
+            adapter = boardAdapter
+        }
+        progressBar = binding.progressBarBoardsTheme
+        setUpBottomSheetCurrent()
         pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
     }
 
@@ -161,8 +161,8 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
         if (sheetBehavior != null && sheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         } else {
-                activity?.finish()
-            }
+            activity?.finish()
+        }
     }
 
 

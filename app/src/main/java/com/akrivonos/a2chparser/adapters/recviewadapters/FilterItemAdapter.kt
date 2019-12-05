@@ -32,12 +32,12 @@ class FilterItemAdapter(context: Context) : RecyclerView.Adapter<FilterItemViewH
         holder.setFilterItem(listFilters[position])
     }
 
-    fun subscribeActualFilterList(){
-        appDatabase?.filterItemDao()?.getFilteredItemsList()?.let{obs->
+    fun subscribeActualFilterList() {
+        appDatabase?.filterItemDao()?.getFilteredItemsList()?.let { obs ->
             obs
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe{ listFilters ->
+                    .subscribe { listFilters ->
                         this.listFilters = ArrayList(listFilters)
                         notifyDataSetChanged()
                     }
@@ -45,15 +45,16 @@ class FilterItemAdapter(context: Context) : RecyclerView.Adapter<FilterItemViewH
     }
 
     override fun remove(item: ItemRemovable) {
-        (item as FilterItem).let{
-            appDatabase?.filterItemDao()?.removeFilteredItems(it.filterText)?.let{completable->
+        (item as FilterItem).let {
+            appDatabase?.filterItemDao()?.removeFilteredItems(it.filterText)?.let { completable ->
                 completable
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe{
+                        .subscribe {
                             val position = listFilters.indexOf(it)
                             listFilters.removeAt(position)
-                            notifyItemRemoved(position)}
+                            notifyItemRemoved(position)
+                        }
             }
         }
     }

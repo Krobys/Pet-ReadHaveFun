@@ -11,9 +11,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuildersModule {
 
     @Binds
-    abstract fun bindDvachApplication(app: DvachApplication) : Application
+    abstract fun bindDvachApplication(app: DvachApplication): Application
 
     @ContributesAndroidInjector
-    abstract fun bindMainActivity() : MainActivity
+    abstract fun bindMainActivity(): MainActivity
 
 }

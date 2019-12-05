@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.akrivonos.a2chparser.base.BaseViewModel
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
-import com.akrivonos.a2chparser.provider.AppProvider
 import com.akrivonos.a2chparser.retrofit.ApiRetrofitInterface
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
@@ -14,10 +13,10 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
-class BoardsViewModel @Inject constructor(private var context: Context) : BaseViewModel() {
+class BoardsViewModel @Inject constructor(private var retrofit: ApiRetrofitInterface,
+                                          private var context: Context) : BaseViewModel() {
     private var listBoardsTheme: List<BoardTheme> = ArrayList()
     private val mutableLiveData: MutableLiveData<List<BoardTheme>> = MutableLiveData()
-    val retrofit : ApiRetrofitInterface = AppProvider.provideApiService()
 
     fun getBoardThemes(): MutableLiveData<List<BoardTheme>> {
         if (listBoardsTheme.isNotEmpty()) {
@@ -27,16 +26,12 @@ class BoardsViewModel @Inject constructor(private var context: Context) : BaseVi
             disposable += retrofit.getBoards()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnError{
+                    .doOnError {
                         Timber.d("Error timber")
                         Timber.d(it)
                         messageEvent.postValue(it.message)
                     }
-                    .subscribeBy(onError = {
-                        Timber.d("Error timber")
-                        Timber.d(it)
-                        messageEvent.postValue(it.message)
-                    }, onSuccess = { boardModel ->
+                    .subscribeBy(onSuccess = { boardModel ->
                         boardModel.getBoardThemes(context)?.let {
                             Timber.d("Success")
                             listBoardsTheme = it

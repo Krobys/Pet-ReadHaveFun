@@ -16,8 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.akrivonos.a2chparser.BR
+import com.akrivonos.a2chparser.BuildConfig
 import com.akrivonos.a2chparser.base.BaseActionListener
-import com.akrivonos.a2chparser.base.BaseActivity.Companion.ERROR_ACTION
 import com.akrivonos.a2chparser.base.BaseViewModel
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.nonNullObserve
@@ -27,19 +27,19 @@ import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(), Injectable {
-    protected abstract val layoutId : Int
-    protected abstract val viewModelClass : Class<VM>
+    protected abstract val layoutId: Int
+    protected abstract val viewModelClass: Class<VM>
     protected abstract var progressBar: ProgressBar?
-    protected lateinit var binding : B
-    private var snackBar : Snackbar? = null
+    protected lateinit var binding: B
+    private var snackBar: Snackbar? = null
     @Inject
     protected lateinit var viewModelFactory: ViewModelProvider.Factory
-    protected val viewModel : VM by lazy {
+    protected val viewModel: VM by lazy {
         ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
     }
-    private var baseActionListener : BaseActionListener? = null
+    private var baseActionListener: BaseActionListener? = null
 
-    override fun onCreateView(inflater : LayoutInflater, container : ViewGroup?, savedInstanceState : Bundle?) : View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.setVariable(BR.viewModel, viewModel)
         binding.executePendingBindings()
@@ -47,7 +47,7 @@ abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(
     }
 
     private val chainErrorReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context : Context?, intent : Intent?) {
+        override fun onReceive(context: Context?, intent: Intent?) {
             Timber.d("on REceive")
             if (intent?.action == ERROR_ACTION) {
                 if (snackBar == null) {
@@ -66,9 +66,9 @@ abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(
 
     abstract fun doAfterCreateView()
 
-    override fun onViewCreated(view : View, savedInstanceState : Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("view created, snackBar null: ${snackBar==null}")
+        Timber.d("view created, snackBar null: ${snackBar == null}")
         doAfterCreateView()
         viewModel.messageEvent.nonNullObserve(this) {
             Timber.d("messageEvent")
@@ -93,11 +93,7 @@ abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(
 
     }
 
-    override fun onDestroyView() {
-        //snackBar?.dismiss()
-        super.onDestroyView()
-    }
-    override fun onAttach(context : Context) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         baseActionListener = activity as? BaseActionListener
     }
@@ -105,5 +101,9 @@ abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(
     override fun onDetach() {
         super.onDetach()
         baseActionListener = null
+    }
+
+    companion object {
+        const val ERROR_ACTION = "${BuildConfig.APPLICATION_ID}.action.ERROR"
     }
 }

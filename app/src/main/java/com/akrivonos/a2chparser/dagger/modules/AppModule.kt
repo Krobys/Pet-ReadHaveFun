@@ -12,9 +12,8 @@ object AppModule {
     @JvmStatic
     @Provides
     @Singleton
-    fun provideContext(application: Application): Context{
+    fun provideContext(application: Application): Context {
         return application
     }
-
 
 }

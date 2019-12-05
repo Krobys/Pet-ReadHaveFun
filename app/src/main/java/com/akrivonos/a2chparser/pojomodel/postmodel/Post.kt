@@ -5,7 +5,7 @@ import com.akrivonos.a2chparser.pojomodel.threadmodel.File
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Post : FilteredItem{
+class Post : FilteredItem {
     override fun getText(): String? = comment
 
     @SerializedName("banned")

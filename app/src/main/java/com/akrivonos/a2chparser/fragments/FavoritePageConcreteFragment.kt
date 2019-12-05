@@ -37,6 +37,7 @@ class FavoritePageConcreteFragment : Fragment(), Injectable {
     private lateinit var emptyMessage: RelativeLayout
     @Inject
     lateinit var boardsDao: BoardsDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpListeners()
@@ -63,29 +64,29 @@ class FavoritePageConcreteFragment : Fragment(), Injectable {
 
     private fun setUpTypePage() {
         val saveTypeModel = arguments?.getParcelable<SaveTypeModel>(INFO_SAVE_PAGE)
-        context?.let{
-                when (saveTypeModel?.typeSaveItem) {
-                    SAVE_TYPE_BOARD -> {
-                        val boardConcreteAdapter = BoardConcreteAdapter(it, activity as OpenBoardListener)
-                        recyclerView.adapter = boardConcreteAdapter
-                        disposable = boardsDao.getSavedBoardsList()
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe { boardList ->
-                                    if (boardList.isNotEmpty()) {
-                                        boardConcreteAdapter.setBoards(boardList)
-                                        boardConcreteAdapter.notifyDataSetChanged()
-                                        hideEmptyMessage()
-                                    } else {
-                                        showEmptyMessage()
-                                    }
-
+        context?.let {
+            when (saveTypeModel?.typeSaveItem) {
+                SAVE_TYPE_BOARD -> {
+                    val boardConcreteAdapter = BoardConcreteAdapter(it, activity as OpenBoardListener)
+                    recyclerView.adapter = boardConcreteAdapter
+                    disposable = boardsDao.getSavedBoardsList()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe { boardList ->
+                                if (boardList.isNotEmpty()) {
+                                    boardConcreteAdapter.setBoards(boardList)
+                                    boardConcreteAdapter.notifyDataSetChanged()
+                                    hideEmptyMessage()
+                                } else {
+                                    showEmptyMessage()
                                 }
-                    }
-                    SAVE_TYPE_THREAD -> TODO()
-                    SAVE_TYPE_COMMENT -> TODO()
-                    SAVE_TYPE_MEDIA -> TODO()
+
+                            }
                 }
+                SAVE_TYPE_THREAD -> TODO()
+                SAVE_TYPE_COMMENT -> TODO()
+                SAVE_TYPE_MEDIA -> TODO()
+            }
         }
     }
 

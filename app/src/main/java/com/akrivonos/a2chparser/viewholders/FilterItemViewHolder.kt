@@ -10,12 +10,12 @@ class FilterItemViewHolder(private var binding: AdapteritemFilteritemBinding,
                            private val removeItemListener: ItemRemoveListener)
     : RecyclerView.ViewHolder(binding.root) {
 
-    fun removeFilterItem(filterItem: FilterItem){
+    fun removeFilterItem(filterItem: FilterItem) {
         Log.d("test", "remove:")
         removeItemListener.remove(filterItem)
     }
 
-    fun setFilterItem(filterItem: FilterItem){
+    fun setFilterItem(filterItem: FilterItem) {
         binding.filterItem = filterItem
         binding.holder = this
     }

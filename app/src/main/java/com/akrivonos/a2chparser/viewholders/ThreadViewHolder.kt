@@ -21,6 +21,7 @@ class ThreadViewHolder(private var binder: AdapteritemThreadsForBoardBinding, pr
 
     private val mediaContentThreadRecView: RecyclerView = binder.root.findViewById(R.id.media_content_rec_view)
     private var itemDecoratorUtils: ItemDecoratorUtils = ItemDecoratorUtils()
+
     constructor(binder: AdapteritemThreadsForBoardBinding,
                 context: Context,
                 layoutInflater: LayoutInflater,
