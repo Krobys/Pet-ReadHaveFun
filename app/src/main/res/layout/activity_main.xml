@@ -23,12 +23,18 @@
                 android:layout_gravity="top"
                 android:fitsSystemWindows="true">
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/collapsing_toolbar_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_collapseMode="pin"
-                    app:layout_scrollFlags="scroll|enterAlways|snap" />
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,6 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 app:defaultNavHost="true"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 app:navGraph="@navigation/main_graph" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
