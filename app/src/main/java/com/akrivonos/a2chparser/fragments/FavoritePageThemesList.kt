@@ -15,13 +15,13 @@ import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Co
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentFavoritePageBinding
 import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage
-import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
+import com.akrivonos.a2chparser.interfaces.NavBarDisplayModeListener
 import com.akrivonos.a2chparser.models.SaveTypeModel
 
 class FavoritePageThemesList : Fragment(), Injectable {
 
     private lateinit var binding: FragmentFavoritePageBinding
-    private lateinit var pageDisplayListener: PageDisplayModeListener
+    private lateinit var pageDisplayListener: NavBarDisplayModeListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +29,7 @@ class FavoritePageThemesList : Fragment(), Injectable {
     }
 
     private fun setUpListeners() {
-        pageDisplayListener = activity as PageDisplayModeListener
+        pageDisplayListener = activity as NavBarDisplayModeListener
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +47,7 @@ class FavoritePageThemesList : Fragment(), Injectable {
                 notifyDataSetChanged()
             }
         }
-        pageDisplayListener.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
+        pageDisplayListener.setNavbarMode(MainActivity.Companion.NavbarMode.VISIBLE)
 
     }
 

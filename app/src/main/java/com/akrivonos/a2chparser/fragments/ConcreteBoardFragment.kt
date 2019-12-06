@@ -1,6 +1,7 @@
 package com.akrivonos.a2chparser.fragments
 
 
+import android.app.ActionBar
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,6 +12,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,14 +33,16 @@ import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
 import com.rxchainretrier.base.BaseFragment
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_concrete_board.*
+import timber.log.Timber
 import javax.inject.Inject
 
 
 class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcreteBoardBinding>(), SearchView.OnQueryTextListener, Injectable, OnBackPressedFragmentsListener {
 
     private lateinit var threadAdapter: ThreadAdapter
-    private var pageDisplayModeListener: PageDisplayModeListener? = null
-    private var toolbarModeListener: SetUpToolbarModeListener? = null
+    private var pageDisplayModeListener: NavBarDisplayModeListener? = null
     private var searchView: SearchView? = null
 
 
@@ -61,8 +66,7 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
 
     private fun setUpAdapterAndListeners() {
         activity?.let {
-            pageDisplayModeListener = it as PageDisplayModeListener?
-            toolbarModeListener = it as SetUpToolbarModeListener?
+            pageDisplayModeListener = it as NavBarDisplayModeListener?
             val showContentMediaListener = it as ShowContentMediaListener
             val openThreadListener = it as OpenThreadListener
             val boardId = getBoard()?.idBoard
@@ -71,8 +75,8 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
     }
 
     override fun doAfterCreateView() {
-        setHasOptionsMenu(true)
         setUpScreen()
+        setHasOptionsMenu(true)
         startLoadThreadsForBoard()
     }
 
@@ -120,10 +124,11 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
             addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 50))
             adapter = threadAdapter
         }
+        (activity as? MainActivity)?.setSupportActionBar(toolbar)
         progressBar = binding.progressBar
-        pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
+        pageDisplayModeListener?.setNavbarMode(MainActivity.Companion.NavbarMode.INVISIBLE)
         getBoard()?.let { board ->
-            toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, board.nameBoards)
+            activity?.actionBar?.title = board.nameBoards
         }
     }
 
@@ -203,8 +208,14 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
         inflater.inflate(R.menu.menu_detailed_search, menu)
         setUpSearchView(menu)
         setUpFilterButton(menu)
+        setUpBackButton()
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+    private fun setUpBackButton() {
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
+    }
+
 
     override fun onBackPressed() {
         if (threadAdapter.isFilterEnable()) {

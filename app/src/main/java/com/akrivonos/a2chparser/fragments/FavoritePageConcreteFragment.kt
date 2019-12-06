@@ -21,7 +21,7 @@ import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.database.BoardsDao
 import com.akrivonos.a2chparser.databinding.FragmentFavoritePageConcreteBinding
 import com.akrivonos.a2chparser.interfaces.OpenBoardListener
-import com.akrivonos.a2chparser.interfaces.PageDisplayModeListener
+import com.akrivonos.a2chparser.interfaces.NavBarDisplayModeListener
 import com.akrivonos.a2chparser.models.SaveTypeModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -31,7 +31,7 @@ import javax.inject.Inject
 class FavoritePageConcreteFragment : Fragment(), Injectable {
 
     private lateinit var binding: FragmentFavoritePageConcreteBinding
-    private lateinit var pageDisplayListener: PageDisplayModeListener
+    private lateinit var pageDisplayListener: NavBarDisplayModeListener
     private lateinit var disposable: Disposable
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyMessage: RelativeLayout
@@ -44,7 +44,7 @@ class FavoritePageConcreteFragment : Fragment(), Injectable {
     }
 
     private fun setUpListeners() {
-        pageDisplayListener = activity as PageDisplayModeListener
+        pageDisplayListener = activity as NavBarDisplayModeListener
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +57,7 @@ class FavoritePageConcreteFragment : Fragment(), Injectable {
     private fun setUpScreen() {
         recyclerView = binding.recViewConcreteSaves
         recyclerView.layoutManager = LinearLayoutManager(context)
-        pageDisplayListener.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
+        pageDisplayListener.setNavbarMode(MainActivity.Companion.NavbarMode.VISIBLE)
         emptyMessage = binding.empMes as RelativeLayout
         setUpTypePage()
     }

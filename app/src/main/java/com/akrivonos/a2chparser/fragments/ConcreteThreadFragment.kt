@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,11 +28,11 @@ import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
 import com.rxchainretrier.base.BaseFragment
+import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
 
 class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentConcreteThreadBinding>(), SearchView.OnQueryTextListener, Injectable, OnBackPressedFragmentsListener {
-    private var pageDisplayModeListener: PageDisplayModeListener? = null
-    private var toolbarModeListener: SetUpToolbarModeListener? = null
+    private var pageDisplayModeListener: NavBarDisplayModeListener? = null
     private lateinit var postAdapter: PostAdapter
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
@@ -47,8 +48,8 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
     override var progressBar: ProgressBar? = null
 
     override fun doAfterCreateView() {
-        setHasOptionsMenu(true)
         setUpScreen()
+        setHasOptionsMenu(true)
         startLoadPostsForThread()
     }
 
@@ -63,15 +64,14 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
             addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 50))
             adapter = postAdapter
         }
+        (activity as? MainActivity)?.setSupportActionBar(toolbar)
         progressBar = binding.progressBar
-        pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_TOOLBAR)
-        toolbarModeListener?.setMode(MainActivity.Companion.ToolbarMode.FULL, "")
+        pageDisplayModeListener?.setNavbarMode(MainActivity.Companion.NavbarMode.INVISIBLE)
     }
 
     private fun setUpAdapterAndListeners() {
         activity?.let {
-            pageDisplayModeListener = it as PageDisplayModeListener
-            toolbarModeListener = it as SetUpToolbarModeListener
+            pageDisplayModeListener = it as NavBarDisplayModeListener
             val showContentListener = it as ShowContentMediaListener
             postAdapter = PostAdapter(it, showContentListener)
         }
@@ -179,7 +179,12 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
         inflater.inflate(R.menu.menu_detailed_search, menu)
         setUpSearchView(menu)
         setUpFilterButton(menu)
+        setUpBackButton()
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun setUpBackButton() {
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
     }
 
     override fun onBackPressed() {

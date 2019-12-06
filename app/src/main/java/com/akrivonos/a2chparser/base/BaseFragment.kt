@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -48,7 +49,6 @@ abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(
 
     private val chainErrorReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            Timber.d("on REceive")
             if (intent?.action == ERROR_ACTION) {
                 if (snackBar == null) {
                     snackBar = Snackbar.make(binding.root, "Error happened", Snackbar.LENGTH_INDEFINITE)
@@ -68,7 +68,6 @@ abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("view created, snackBar null: ${snackBar == null}")
         doAfterCreateView()
         viewModel.messageEvent.nonNullObserve(this) {
             Timber.d("messageEvent")

@@ -20,8 +20,8 @@ import com.akrivonos.a2chparser.models.database.Board
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class MainActivity : BaseActivity<ActivityMainBinding>(), OpenBoardListener, SetUpToolbarModeListener,
-        PageDisplayModeListener, OpenDetailedSavePage, OpenThreadListener,
+class MainActivity : BaseActivity<ActivityMainBinding>(), OpenBoardListener,
+        NavBarDisplayModeListener, OpenDetailedSavePage, OpenThreadListener,
         ShowContentMediaListener {
 
     override val layoutId: Int
@@ -44,29 +44,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OpenBoardListener, Set
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
     }
 
-    override fun setMode(mode: ToolbarMode, title: String?) {
-        when (mode) {
-            ToolbarMode.FULL -> {
-                setToolbarMode(displayBackButton = true, displayTitle = true)
-                setTitleToolbar(title)
-            }
-            ToolbarMode.MODE_TITLE -> {
-                setToolbarMode(displayBackButton = false, displayTitle = true)
-                setTitleToolbar(title)
-            }
-            ToolbarMode.BACK_BUTTON -> setToolbarMode(displayBackButton = true, displayTitle = false)
-        }
-    }
-
-    private fun setToolbarMode(displayBackButton: Boolean, displayTitle: Boolean) {
-        val actionBar = supportActionBar
-        actionBar?.let {
-            it.setDisplayHomeAsUpEnabled(displayBackButton)
-            it.setDisplayShowHomeEnabled(displayBackButton)
-            it.setDisplayShowTitleEnabled(displayTitle)
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             navController.popBackStack()
@@ -75,25 +52,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OpenBoardListener, Set
         return false
     }
 
-    private fun setTitleToolbar(titleToolbar: String?) {
-        supportActionBar?.title = titleToolbar
-    }
-
-    override fun setPageMode(mode: PageMode) {
-        when (mode) {
-            PageMode.FULL -> setPageDisplay(isToolbar = true, isNavBar = true)
-            PageMode.ONLY_NAVBAR -> setPageDisplay(isToolbar = false, isNavBar = true)
-            PageMode.ONLY_TOOLBAR -> setPageDisplay(isToolbar = true, isNavBar = false)
-            PageMode.EMPTY -> setPageDisplay(isToolbar = false, isNavBar = false)
-        }
-    }
-
-    private fun setPageDisplay(isToolbar: Boolean, isNavBar: Boolean) {
-        toolbar?.visibility = if (isToolbar)
-            View.VISIBLE
-        else
-            View.GONE
-        bottomNavigationView.visibility = if (isNavBar)
+    override fun setNavbarMode(mode: NavbarMode) {
+        bottomNavigationView.visibility = if (mode == NavbarMode.VISIBLE)
             View.VISIBLE
         else
             View.GONE
@@ -154,12 +114,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OpenBoardListener, Set
     }
 
     companion object {
-        enum class ToolbarMode {
-            FULL, BACK_BUTTON, MODE_TITLE
-        }
 
-        enum class PageMode {
-            FULL, ONLY_TOOLBAR, ONLY_NAVBAR, EMPTY
+        enum class NavbarMode {
+            VISIBLE, INVISIBLE
         }
 
         const val ID_BOARD = "id_board"

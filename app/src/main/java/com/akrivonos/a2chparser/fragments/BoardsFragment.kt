@@ -32,7 +32,7 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
     private var sheetBehavior: BottomSheetBehavior<*>? = null
     private var bottomSheet: FrameLayout? = null
     private var boardAdapter: BoardThemeAdapter? = null
-    private var pageDisplayModeListener: PageDisplayModeListener? = null
+    private var pageDisplayModeListener: NavBarDisplayModeListener? = null
     private lateinit var boardConcreteAdapter: BoardConcreteAdapter
 
     override val viewModelClass: Class<BoardsViewModel>
@@ -55,7 +55,7 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
 
     private fun setUpAdapterAndListeners() {
         val boardsBottomSheetListener = this
-        pageDisplayModeListener = activity as PageDisplayModeListener?
+        pageDisplayModeListener = activity as NavBarDisplayModeListener?
         boardAdapter = BoardThemeAdapter(context, boardsBottomSheetListener)
     }
 
@@ -100,7 +100,7 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
         }
         progressBar = binding.progressBarBoardsTheme
         setUpBottomSheetCurrent()
-        pageDisplayModeListener?.setPageMode(MainActivity.Companion.PageMode.ONLY_NAVBAR)
+        pageDisplayModeListener?.setNavbarMode(MainActivity.Companion.NavbarMode.VISIBLE)
     }
 
     private fun startLoadBoards() {
