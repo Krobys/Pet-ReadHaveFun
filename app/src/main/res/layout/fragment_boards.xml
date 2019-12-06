@@ -39,6 +39,11 @@
             android:id="@+id/bottom_sheet_detailed_boards"
             layout="@layout/content_boards_for_theme" />
 
+        <include
+            android:id="@+id/error_downloading_message"
+            layout="@layout/error_message_404"
+            android:visibility="invisible" />
+
         <ProgressBar
             android:id="@+id/progressBarBoardsTheme"
             style="?android:attr/progressBarStyle"

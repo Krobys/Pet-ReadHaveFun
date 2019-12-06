@@ -17,6 +17,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <include
+            android:id="@+id/error_downloading_message"
+            layout="@layout/error_message_404"
+            android:visibility="invisible" />
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
