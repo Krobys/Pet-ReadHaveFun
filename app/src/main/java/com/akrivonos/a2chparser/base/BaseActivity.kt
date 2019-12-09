@@ -20,4 +20,5 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity(), BaseActi
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
+
 }

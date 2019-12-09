@@ -1,4 +1,4 @@
-package com.rxchainretrier.base
+package com.akrivonos.a2chparser.base
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -85,11 +84,9 @@ abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(
 
     override fun onPause() {
         super.onPause()
-        snackBar?.view?.visibility = View.INVISIBLE
         activity?.let {
             LocalBroadcastManager.getInstance(it).unregisterReceiver(chainErrorReceiver)
         }
-
     }
 
     override fun onAttach(context: Context) {
@@ -99,6 +96,7 @@ abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : Fragment(
 
     override fun onDetach() {
         super.onDetach()
+        snackBar?.dismiss()
         baseActionListener = null
     }
 

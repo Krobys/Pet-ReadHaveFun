@@ -78,10 +78,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/media_content_rec_view"
                 android:textIsSelectable="true"
+                android:linksClickable="true"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
-                android:padding="4dp"
-                android:text="@{HtmlCompat.fromHtml(post.comment, HtmlCompat.FROM_HTML_MODE_LEGACY)}" />
+                android:padding="4dp" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

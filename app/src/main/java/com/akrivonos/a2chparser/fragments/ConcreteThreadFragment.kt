@@ -27,11 +27,16 @@ import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
-import com.rxchainretrier.base.BaseFragment
+import com.akrivonos.a2chparser.base.BaseFragment
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_concrete_thread.*
 import javax.inject.Inject
 
-class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentConcreteThreadBinding>(), SearchView.OnQueryTextListener, Injectable, OnBackPressedFragmentsListener {
+class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentConcreteThreadBinding>(),
+        SearchView.OnQueryTextListener,
+        Injectable,
+        OnBackPressedFragmentsListener,
+        ScrollToPositionListener{
     private var pageDisplayModeListener: NavBarDisplayModeListener? = null
     private lateinit var postAdapter: PostAdapter
     @Inject
@@ -73,8 +78,13 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
         activity?.let {
             pageDisplayModeListener = it as NavBarDisplayModeListener
             val showContentListener = it as ShowContentMediaListener
-            postAdapter = PostAdapter(it, showContentListener)
+            val scrollToPositionListener : ScrollToPositionListener = this
+            postAdapter = PostAdapter(it, showContentListener, scrollToPositionListener)
         }
+    }
+
+    override fun scroll(pos: Int) {
+        concrete_thread_recycle_view.scrollToPosition(pos)
     }
 
     private fun startLoadPostsForThread() {
@@ -188,12 +198,15 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
     }
 
     override fun onBackPressed() {
-        if (postAdapter.isFilterEnable()) {
-            undoFilter()
-        } else {
-            (activity as MainActivity).pressBackSuper()
+        if (postAdapter.isSeqControllerEnable()){
+            postAdapter.seqControllerUndo()
+        }else{
+            if (postAdapter.isFilterEnable()) {
+                undoFilter()
+            }else{
+                (activity as MainActivity).pressBackSuper()
+            }
         }
     }
-
 
 }
