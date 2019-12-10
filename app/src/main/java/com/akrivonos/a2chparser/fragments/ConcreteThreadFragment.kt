@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +18,7 @@ import com.akrivonos.a2chparser.activities.MainActivity
 import com.akrivonos.a2chparser.activities.MainActivity.Companion.ID_BOARD
 import com.akrivonos.a2chparser.activities.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.adapters.recviewadapters.PostAdapter
+import com.akrivonos.a2chparser.base.BaseFragment
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteThreadBinding
 import com.akrivonos.a2chparser.dialogs.FilterSettingsDialog
@@ -27,9 +27,7 @@ import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
-import com.akrivonos.a2chparser.base.BaseFragment
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_concrete_thread.*
 import javax.inject.Inject
 
 class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentConcreteThreadBinding>(),
@@ -39,6 +37,7 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
         ScrollToPositionListener{
     private var pageDisplayModeListener: NavBarDisplayModeListener? = null
     private lateinit var postAdapter: PostAdapter
+    private var layoutManager: LinearLayoutManager? = LinearLayoutManager(context)
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
     @Inject
@@ -65,7 +64,7 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
 
     private fun setUpScreen() {
         binding.concreteThreadRecycleView.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = this.layoutManager
             addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 50))
             adapter = postAdapter
         }
@@ -84,7 +83,8 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
     }
 
     override fun scroll(pos: Int) {
-        concrete_thread_recycle_view.scrollToPosition(pos)
+        //concrete_thread_recycle_view.scrollToPosition(pos)
+        layoutManager?.scrollToPositionWithOffset(pos, 50)
     }
 
     private fun startLoadPostsForThread() {

@@ -1,18 +1,14 @@
 package com.akrivonos.a2chparser.viewholders
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.text.style.URLSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +17,6 @@ import com.akrivonos.a2chparser.adapters.recviewadapters.MediaAdapter
 import com.akrivonos.a2chparser.databinding.AdapteritemPostForThreadBinding
 import com.akrivonos.a2chparser.interfaces.ShowContentMediaListener
 import com.akrivonos.a2chparser.pojomodel.postmodel.Post
-import com.akrivonos.a2chparser.utils.CustomLinkMovementMethod
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.TransitionPostsSeq
 import org.jsoup.Jsoup
