@@ -88,6 +88,11 @@ class PostAdapter(private val context: Context,
 
     override fun getItemCount(): Int = postsList.size
 
+    override fun onBindViewHolder(holder: PostViewHolder, position: Int, payloads: MutableList<Any>) {
+        if(payloads.isNotEmpty() && payloads[0] == true) holder.startHighlighting()
+        else super.onBindViewHolder(holder, position, payloads)
+    }
+
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = postsList[position]
         if (holder.itemViewType == ThreadAdapter.TYPE_WITH_MEDIA) {
@@ -101,6 +106,7 @@ class PostAdapter(private val context: Context,
         postsList.forEachIndexed{index, post ->
             if (post.num.equals(num)){
                 scrollToPositionListener.scroll(index)
+                notifyItemChanged(index, true)
                 return
             }
         }
@@ -109,4 +115,5 @@ class PostAdapter(private val context: Context,
     fun isSeqControllerEnable(): Boolean = transitionSeqController.isActive()
 
     fun seqControllerUndo() = transitionSeqController.getBackStart()
+
 }

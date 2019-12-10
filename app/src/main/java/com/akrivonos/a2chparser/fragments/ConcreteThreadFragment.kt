@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -39,6 +40,7 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
         ScrollToPositionListener{
     private var pageDisplayModeListener: NavBarDisplayModeListener? = null
     private lateinit var postAdapter: PostAdapter
+    private var layoutManagerS: LinearLayoutManager? = null
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
     @Inject
@@ -65,7 +67,8 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
 
     private fun setUpScreen() {
         binding.concreteThreadRecycleView.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManagerS = LinearLayoutManager(context)
+            layoutManager = layoutManagerS
             addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 50))
             adapter = postAdapter
         }
@@ -84,7 +87,7 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
     }
 
     override fun scroll(pos: Int) {
-        concrete_thread_recycle_view.scrollToPosition(pos)
+        layoutManagerS?.scrollToPositionWithOffset(pos, 390)
     }
 
     private fun startLoadPostsForThread() {

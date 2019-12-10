@@ -6,4 +6,5 @@
     <color name="colorGrayLight">#efefef</color>
     <color name="colorGrayDark">#dedede</color>
     <color name="colorCarroty">#ff6703</color>
+    <color name="colorHighlightPost">#EEDACB</color>
 </resources>

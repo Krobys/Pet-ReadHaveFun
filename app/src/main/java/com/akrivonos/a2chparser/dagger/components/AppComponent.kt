@@ -1,5 +1,6 @@
 package com.akrivonos.a2chparser.dagger.components
 
+import android.app.Application
 import com.akrivonos.a2chparser.DvachApplication
 import com.akrivonos.a2chparser.dagger.modules.*
 import dagger.BindsInstance
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(application: DvachApplication)
 
-    fun getAppInstance(): DvachApplication
+    fun getAppInstance(): Application
 
     @Component.Builder
     interface Builder {
