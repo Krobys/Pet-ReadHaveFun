@@ -2,8 +2,8 @@ package com.akrivonos.a2chparser.retrofit
 
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.akrivonos.a2chparser.provider.AppProvider
 import com.akrivonos.a2chparser.base.BaseFragment.Companion.ERROR_ACTION
+import com.akrivonos.a2chparser.provider.AppProvider
 import io.reactivex.*
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
@@ -13,8 +13,7 @@ import java.lang.reflect.Type
 
 class RxRetryCallAdapter<R>(private val originalAdapter: CallAdapter<R, *>) : CallAdapter<R, Any> {
     override fun adapt(call: Call<R>): Any {
-        val adaptedValue = originalAdapter.adapt(call)
-        return when (adaptedValue) {
+        return when (val adaptedValue = originalAdapter.adapt(call)) {
             is Completable -> {
                 adaptedValue.doOnError(this::sendBroadcastError)
                         .retryWhen {

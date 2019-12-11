@@ -17,8 +17,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.akrivonos.a2chparser.BR
 import com.akrivonos.a2chparser.BuildConfig
-import com.akrivonos.a2chparser.base.BaseActionListener
-import com.akrivonos.a2chparser.base.BaseViewModel
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.nonNullObserve
 import com.akrivonos.a2chparser.provider.AppProvider

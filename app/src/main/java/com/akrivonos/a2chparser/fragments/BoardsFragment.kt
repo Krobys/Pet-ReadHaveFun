@@ -15,6 +15,7 @@ import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.activities.MainActivity
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardThemeAdapter
+import com.akrivonos.a2chparser.base.BaseFragment
 import com.akrivonos.a2chparser.databinding.FragmentBoardsBinding
 import com.akrivonos.a2chparser.dialogs.AdulthoodDialog
 import com.akrivonos.a2chparser.interfaces.*
@@ -23,7 +24,6 @@ import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.BoardsViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.akrivonos.a2chparser.base.BaseFragment
 import javax.inject.Inject
 
 class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), OpenDetailsBoardsBottomSheetListener,

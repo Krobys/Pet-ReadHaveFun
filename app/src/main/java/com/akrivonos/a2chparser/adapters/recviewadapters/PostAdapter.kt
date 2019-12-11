@@ -23,9 +23,9 @@ class PostAdapter(private val context: Context,
                   private val scrollToPositionListener: ScrollToPositionListener) : RecyclerView.Adapter<PostViewHolder>(),
         PostsMoverToListener {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
-    var postsList: List<Post> = ArrayList()
-    var fullPostList = ArrayList<Post>()
-    var filteredPostList = ArrayList<Post>()
+    private var postsList: List<Post> = ArrayList()
+    private var fullPostList = ArrayList<Post>()
+    private var filteredPostList = ArrayList<Post>()
     private var disposable: Disposable? = null
     private var filterStatus: Boolean = false
     private var transitionSeqController: TransitionPostsSeq = TransitionPostsSeq(this)
@@ -81,7 +81,7 @@ class PostAdapter(private val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = DataBindingUtil.inflate<AdapteritemPostForThreadBinding>(layoutInflater, R.layout.adapteritem_post_for_thread, parent, false)
         return if (viewType == ThreadAdapter.TYPE_WITH_MEDIA)
-            PostViewHolder(binding, context = context, layoutInflater = layoutInflater, contentMediaListener = contentMediaListener,transitionSeqController = transitionSeqController)
+            PostViewHolder(binding, context = context, layoutInflater = layoutInflater, contentMediaListener = contentMediaListener, transitionSeqController = transitionSeqController)
         else
             PostViewHolder(binding, transitionSeqController)
     }
@@ -103,9 +103,9 @@ class PostAdapter(private val context: Context,
     }
 
     override fun moveTo(num: String?) {
-        num?.let {numberMoveTo ->
-            postsList.forEachIndexed{index, post ->
-                if (post.num.equals(numberMoveTo)){
+        num?.let { numberMoveTo ->
+            postsList.forEachIndexed { index, post ->
+                if (post.num.equals(numberMoveTo)) {
                     scrollToPositionListener.scroll(index, num)
                     return
                 }

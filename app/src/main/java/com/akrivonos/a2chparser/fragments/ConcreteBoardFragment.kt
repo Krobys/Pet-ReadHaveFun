@@ -1,7 +1,6 @@
 package com.akrivonos.a2chparser.fragments
 
 
-import android.app.ActionBar
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -12,8 +11,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +19,7 @@ import com.akrivonos.a2chparser.activities.MainActivity
 import com.akrivonos.a2chparser.activities.MainActivity.Companion.ID_BOARD
 import com.akrivonos.a2chparser.activities.MainActivity.Companion.NAME_BOARD
 import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter
+import com.akrivonos.a2chparser.base.BaseFragment
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteBoardBinding
 import com.akrivonos.a2chparser.dialogs.FilterSettingsDialog
@@ -32,10 +30,7 @@ import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils.DecorationDirection
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteBoardViewModel
-import com.akrivonos.a2chparser.base.BaseFragment
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_concrete_board.*
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -155,12 +150,12 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
     }
 
     private fun setUpFilterButton(menu: Menu) {
-        menu.findItem(R.id.filter_button)?.let {
-            it.setOnMenuItemClickListener {
-                showFilterSettingsDialog(context, it)
+        menu.findItem(R.id.filter_button)?.let {mi ->
+            mi.setOnMenuItemClickListener {
+                showFilterSettingsDialog(context, mi)
                 true
             }
-            setUpFilterStateIcon(it, (sharedPreferenceUtils.isFilterEnable(context)))
+            setUpFilterStateIcon(mi, (sharedPreferenceUtils.isFilterEnable(context)))
         }
     }
 

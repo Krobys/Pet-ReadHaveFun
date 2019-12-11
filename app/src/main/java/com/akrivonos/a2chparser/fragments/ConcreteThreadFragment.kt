@@ -37,7 +37,7 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
         SearchView.OnQueryTextListener,
         Injectable,
         OnBackPressedFragmentsListener,
-        ScrollToPositionListener{
+        ScrollToPositionListener {
     private var pageDisplayModeListener: NavBarDisplayModeListener? = null
     private lateinit var postAdapter: PostAdapter
     private var layoutManagerS: LinearLayoutManager? = null
@@ -81,7 +81,7 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
         activity?.let {
             pageDisplayModeListener = it as NavBarDisplayModeListener
             val showContentListener = it as ShowContentMediaListener
-            val scrollToPositionListener : ScrollToPositionListener = this
+            val scrollToPositionListener: ScrollToPositionListener = this
             postAdapter = PostAdapter(it, showContentListener, scrollToPositionListener)
         }
     }
@@ -214,12 +214,12 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
     }
 
     override fun onBackPressed() {
-        if (postAdapter.isSeqControllerEnable()){
+        if (postAdapter.isSeqControllerEnable()) {
             postAdapter.seqControllerUndo()
-        }else{
+        } else {
             if (postAdapter.isFilterEnable()) {
                 undoFilter()
-            }else{
+            } else {
                 (activity as MainActivity).pressBackSuper()
             }
         }

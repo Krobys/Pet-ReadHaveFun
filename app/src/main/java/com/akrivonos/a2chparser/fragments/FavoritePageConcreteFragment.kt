@@ -20,8 +20,8 @@ import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Co
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.database.BoardsDao
 import com.akrivonos.a2chparser.databinding.FragmentFavoritePageConcreteBinding
-import com.akrivonos.a2chparser.interfaces.OpenBoardListener
 import com.akrivonos.a2chparser.interfaces.NavBarDisplayModeListener
+import com.akrivonos.a2chparser.interfaces.OpenBoardListener
 import com.akrivonos.a2chparser.models.SaveTypeModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

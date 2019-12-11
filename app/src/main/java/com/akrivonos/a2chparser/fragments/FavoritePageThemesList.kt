@@ -14,8 +14,8 @@ import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Co
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_NOVALUE
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentFavoritePageBinding
-import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage
 import com.akrivonos.a2chparser.interfaces.NavBarDisplayModeListener
+import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage
 import com.akrivonos.a2chparser.models.SaveTypeModel
 
 class FavoritePageThemesList : Fragment(), Injectable {

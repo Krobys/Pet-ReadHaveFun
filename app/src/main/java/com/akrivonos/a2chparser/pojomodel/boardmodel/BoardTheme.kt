@@ -10,7 +10,7 @@ class BoardTheme(boardConcretes: List<BoardConcrete>?) {
     var boardConcretes: List<BoardConcrete>? = null
 
     init {
-        if (boardConcretes != null && boardConcretes.size > 0) {
+        if (boardConcretes != null && boardConcretes.isNotEmpty()) {
             boardThemeName = boardConcretes[0].category
             this.boardConcretes = boardConcretes
         }
