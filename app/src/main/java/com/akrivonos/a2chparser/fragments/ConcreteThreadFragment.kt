@@ -4,6 +4,7 @@ package com.akrivonos.a2chparser.fragments
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -13,6 +14,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.activities.MainActivity
 import com.akrivonos.a2chparser.activities.MainActivity.Companion.ID_BOARD
@@ -29,6 +31,7 @@ import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
+
 
 class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentConcreteThreadBinding>(),
         SearchView.OnQueryTextListener,
@@ -83,9 +86,21 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
         }
     }
 
-    override fun scroll(pos: Int) {
-        //layoutManagerS?.scrollToPositionWithOffset(pos, 390)
-        layoutManagerS?.smoothScrollToPosition(binding.concreteThreadRecycleView, null, pos)
+    override fun scroll(pos: Int, num: String?) {
+        layoutManagerS?.scrollToPositionWithOffset(pos, 390)
+        postAndNotifyAdapter(binding.concreteThreadRecycleView.handler, binding.concreteThreadRecycleView, postAdapter, pos)
+    }
+
+    private fun postAndNotifyAdapter(handler: Handler, recyclerView: RecyclerView, adapter: PostAdapter, idx: Int) {
+        handler.post {
+            if (!recyclerView.isComputingLayout) {
+                adapter.apply {
+                    notifyItemChanged(idx, PostAdapter.Select.ANIMATE_SELECTED)
+                }
+            } else {
+                postAndNotifyAdapter(handler, recyclerView, adapter, idx)
+            }
+        }
     }
 
     private fun startLoadPostsForThread() {

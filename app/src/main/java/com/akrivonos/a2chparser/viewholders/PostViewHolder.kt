@@ -34,7 +34,7 @@ import timber.log.Timber
 class PostViewHolder(private var binder: AdapteritemPostForThreadBinding, private val transitionSeqController: TransitionPostsSeq) : RecyclerView.ViewHolder(binder.root) {
     private val mediaContentThreadRecView: RecyclerView = binder.root.findViewById(R.id.media_content_rec_view)
     private var itemDecoratorUtils: ItemDecoratorUtils = ItemDecoratorUtils()
-    private var currentNum: String? = null
+    var currentNum: String? = null
 
     constructor(binder: AdapteritemPostForThreadBinding,
                 context: Context,

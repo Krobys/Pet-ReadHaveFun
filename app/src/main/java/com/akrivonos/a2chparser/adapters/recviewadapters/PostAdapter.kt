@@ -102,12 +102,25 @@ class PostAdapter(private val context: Context,
         }
     }
 
+//    override fun onViewAttachedToWindow(holder: PostViewHolder) {
+//        super.onViewAttachedToWindow(holder)
+//        currNum?.let {
+//            if (holder.currentNum == it){
+//                currIdx?.let {idx->
+//                    notifyItemChanged(idx, Select.ANIMATE_SELECTED)
+//                    removeCurrentScrollNum()
+//                }
+//            }
+//        }
+//    }
+
     override fun moveTo(num: String?) {
-        postsList.forEachIndexed{index, post ->
-            if (post.num.equals(num)){
-                scrollToPositionListener.scroll(index)
-                notifyItemChanged(index, Select.ANIMATE_SELECTED)
-                return
+        num?.let {numberMoveTo ->
+            postsList.forEachIndexed{index, post ->
+                if (post.num.equals(numberMoveTo)){
+                    scrollToPositionListener.scroll(index, num)
+                    return
+                }
             }
         }
     }
