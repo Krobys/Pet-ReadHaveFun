@@ -10,8 +10,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +18,7 @@ import com.akrivonos.a2chparser.activities.MainActivity
 import com.akrivonos.a2chparser.activities.MainActivity.Companion.ID_BOARD
 import com.akrivonos.a2chparser.activities.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.adapters.recviewadapters.PostAdapter
+import com.akrivonos.a2chparser.base.BaseFragment
 import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteThreadBinding
 import com.akrivonos.a2chparser.dialogs.FilterSettingsDialog
@@ -28,9 +27,7 @@ import com.akrivonos.a2chparser.pojomodel.postmodel.Post
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
 import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
-import com.akrivonos.a2chparser.base.BaseFragment
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_concrete_thread.*
 import javax.inject.Inject
 
 class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentConcreteThreadBinding>(),
@@ -87,7 +84,8 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
     }
 
     override fun scroll(pos: Int) {
-        layoutManagerS?.scrollToPositionWithOffset(pos, 390)
+        //layoutManagerS?.scrollToPositionWithOffset(pos, 390)
+        layoutManagerS?.smoothScrollToPosition(binding.concreteThreadRecycleView, null, pos)
     }
 
     private fun startLoadPostsForThread() {
@@ -128,12 +126,12 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
     }
 
     private fun setUpFilterButton(menu: Menu) {
-        menu.findItem(R.id.filter_button)?.let {
-            it.setOnMenuItemClickListener {
-                showFilterSettingsDialog(context, it)
+        menu.findItem(R.id.filter_button)?.let { menuItem ->
+            menuItem.setOnMenuItemClickListener {
+                showFilterSettingsDialog(context, menuItem)
                 true
             }
-            setUpFilterStateIcon(it, (sharedPreferenceUtils.isFilterEnable(context)))
+            setUpFilterStateIcon(menuItem, (sharedPreferenceUtils.isFilterEnable(context)))
         }
     }
 
