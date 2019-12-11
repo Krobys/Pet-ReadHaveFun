@@ -41,7 +41,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:layout_toStartOf="@+id/id_thread"
                 android:text="@{thread.name}" />
 
@@ -62,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/name_thread"
-                android:layout_margin="5dp"
+                android:layout_margin="3dp"
                 android:text="@{thread.date}" />
 
             <androidx.recyclerview.widget.RecyclerView

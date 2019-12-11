@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/container_media"
             android:layout_alignParentTop="true"
-            android:paddingBottom="3dp"
+            android:paddingBottom="2dp"
             android:text="@{file.name}"
             android:textColor="@color/colorCarroty"
             android:textSize="10sp" />
