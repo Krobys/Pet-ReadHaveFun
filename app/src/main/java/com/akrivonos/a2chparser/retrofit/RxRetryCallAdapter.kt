@@ -2,7 +2,7 @@ package com.akrivonos.a2chparser.retrofit
 
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.akrivonos.a2chparser.base.BaseFragment.Companion.ERROR_ACTION
+import com.akrivonos.a2chparser.base.BaseFragmentWithoutViewModel.Companion.ERROR_ACTION
 import com.akrivonos.a2chparser.provider.AppProvider
 import io.reactivex.*
 import io.reactivex.schedulers.Schedulers

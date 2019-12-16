@@ -32,7 +32,7 @@ class BoardsViewModel @Inject constructor(private var retrofit: ApiRetrofitInter
                         messageEvent.postValue(it.message)
                     }
                     .subscribeBy(onSuccess = { boardModel ->
-                        boardModel.getBoardThemes(context)?.let {
+                        boardModel.getBoardThemes()?.let {
                             Timber.d("Success")
                             listBoardsTheme = it
                             mutableLiveData.value = it
@@ -42,4 +42,5 @@ class BoardsViewModel @Inject constructor(private var retrofit: ApiRetrofitInter
         }
         return mutableLiveData
     }
+
 }

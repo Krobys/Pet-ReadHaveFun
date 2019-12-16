@@ -1,13 +1,9 @@
 package com.akrivonos.a2chparser.fragments
 
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,8 +13,10 @@ import com.akrivonos.a2chparser.adapters.recviewadapters.BoardConcreteAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.BoardThemeAdapter
 import com.akrivonos.a2chparser.base.BaseFragment
 import com.akrivonos.a2chparser.databinding.FragmentBoardsBinding
-import com.akrivonos.a2chparser.dialogs.AdulthoodDialog
-import com.akrivonos.a2chparser.interfaces.*
+import com.akrivonos.a2chparser.interfaces.NavBarDisplayModeListener
+import com.akrivonos.a2chparser.interfaces.OnBackPressedFragmentsListener
+import com.akrivonos.a2chparser.interfaces.OpenBoardListener
+import com.akrivonos.a2chparser.interfaces.OpenDetailsBoardsBottomSheetListener
 import com.akrivonos.a2chparser.pojomodel.boardmodel.BoardTheme
 import com.akrivonos.a2chparser.utils.ItemDecoratorUtils
 import com.akrivonos.a2chparser.utils.SharedPreferenceUtils
@@ -37,8 +35,6 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
 
     override val viewModelClass: Class<BoardsViewModel>
         get() = BoardsViewModel::class.java
-
-    override var progressBar: ProgressBar? = null
 
     override val layoutId: Int
         get() = R.layout.fragment_boards
@@ -59,40 +55,12 @@ class BoardsFragment : BaseFragment<BoardsViewModel, FragmentBoardsBinding>(), O
         boardAdapter = BoardThemeAdapter(context, boardsBottomSheetListener)
     }
 
-    override fun doAfterCreateView() {
-        setUpScreen()
-        manageLoadBoardsInformation()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        startLoadBoards()
     }
 
-    private fun manageLoadBoardsInformation() {
-        boardAdapter?.let {
-            if (!it.isSet) {
-                context?.let {
-                    if (!sharedPreferenceUtils.isAdultSettingsSet(context)) {
-                        showAdultDialog(context)
-                    } else {
-                        startLoadBoards()
-                    }
-                }
-            }
-        }
-    }
-
-    private fun showAdultDialog(context: Context?) {
-        context?.let {
-            AdulthoodDialog(it, object : CallBack {
-                override fun call() {
-                    startLoadBoards()
-                }
-            }).apply {
-                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                setCanceledOnTouchOutside(false)
-                show()
-            }
-        }
-    }
-
-    private fun setUpScreen() {
+    override fun setUpScreen() {
         binding.boardsRecView.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(ItemDecoratorUtils.DecorationDirection.BOTTOM, 20))

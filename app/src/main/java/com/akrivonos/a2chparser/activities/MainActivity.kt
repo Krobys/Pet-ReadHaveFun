@@ -19,7 +19,6 @@ import com.akrivonos.a2chparser.models.SaveTypeModel
 import com.akrivonos.a2chparser.models.database.Board
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
 class MainActivity : BaseActivity<ActivityMainBinding>(), OpenBoardListener,
         NavBarDisplayModeListener, OpenDetailedSavePage, OpenThreadListener,
         ShowContentMediaListener {

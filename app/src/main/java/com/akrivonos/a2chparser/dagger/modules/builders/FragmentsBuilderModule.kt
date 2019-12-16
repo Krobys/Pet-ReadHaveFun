@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser.dagger.modules
+package com.akrivonos.a2chparser.dagger.modules.builders
 
 import com.akrivonos.a2chparser.fragments.*
 import dagger.Module

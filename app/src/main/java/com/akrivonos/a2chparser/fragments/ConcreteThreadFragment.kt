@@ -4,13 +4,13 @@ package com.akrivonos.a2chparser.fragments
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +21,6 @@ import com.akrivonos.a2chparser.activities.MainActivity.Companion.ID_BOARD
 import com.akrivonos.a2chparser.activities.MainActivity.Companion.NUMBER_THREAD
 import com.akrivonos.a2chparser.adapters.recviewadapters.PostAdapter
 import com.akrivonos.a2chparser.base.BaseFragment
-import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteThreadBinding
 import com.akrivonos.a2chparser.dialogs.FilterSettingsDialog
 import com.akrivonos.a2chparser.interfaces.*
@@ -35,7 +34,6 @@ import javax.inject.Inject
 
 class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentConcreteThreadBinding>(),
         SearchView.OnQueryTextListener,
-        Injectable,
         OnBackPressedFragmentsListener,
         ScrollToPositionListener {
     private var pageDisplayModeListener: NavBarDisplayModeListener? = null
@@ -52,10 +50,9 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
         get() = R.layout.fragment_concrete_thread
     override val viewModelClass: Class<ConcreteThreadViewModel>
         get() = ConcreteThreadViewModel::class.java
-    override var progressBar: ProgressBar? = null
 
-    override fun doAfterCreateView() {
-        setUpScreen()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         startLoadPostsForThread()
     }
@@ -65,7 +62,7 @@ class ConcreteThreadFragment : BaseFragment<ConcreteThreadViewModel, FragmentCon
         setUpAdapterAndListeners()
     }
 
-    private fun setUpScreen() {
+    override fun setUpScreen() {
         binding.concreteThreadRecycleView.apply {
             layoutManagerS = LinearLayoutManager(context)
             layoutManager = layoutManagerS

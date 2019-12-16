@@ -8,9 +8,14 @@ import com.akrivonos.a2chparser.viewmodels.ConcreteThreadViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import javax.inject.Singleton
 
 @Module
 abstract class ViewModelModule {
+    @Binds
+    abstract fun bindViewModelFactory(factory: AppViewModelFactory): ViewModelProvider.Factory
+
+    @Singleton
     @Binds
     @IntoMap
     @ViewModelKey(BoardsViewModel::class)
@@ -25,7 +30,4 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ConcreteThreadViewModel::class)
     abstract fun bindConcreteThreadViewModel(concreteThreadViewModel: ConcreteThreadViewModel): ViewModel
-
-    @Binds
-    abstract fun bindViewModelFactory(factory: AppViewModelFactory): ViewModelProvider.Factory
 }

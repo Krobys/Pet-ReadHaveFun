@@ -1,27 +1,27 @@
 package com.akrivonos.a2chparser.dagger.components
 
-import android.app.Application
 import com.akrivonos.a2chparser.DvachApplication
-import com.akrivonos.a2chparser.dagger.modules.*
-import dagger.BindsInstance
+import com.akrivonos.a2chparser.dagger.modules.AppModule
+import com.akrivonos.a2chparser.dagger.modules.DatabaseModule
+import com.akrivonos.a2chparser.dagger.modules.NetworkModule
+import com.akrivonos.a2chparser.dagger.modules.ViewModelModule
+import com.akrivonos.a2chparser.dagger.modules.builders.ActivityBuildersModule
+import com.akrivonos.a2chparser.dagger.modules.builders.FragmentsBuilderModule
 import dagger.Component
+import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, DatabaseModule::class, NetworkModule::class,
-    AppModule::class, ActivityBuildersModule::class, FragmentsBuilderModule::class,
+@Component(modules = [AndroidSupportInjectionModule::class,
+    DatabaseModule::class,
+    NetworkModule::class,
+    AppModule::class,
+    ActivityBuildersModule::class,
+    FragmentsBuilderModule::class,
     ViewModelModule::class])
-interface AppComponent {
-    fun inject(application: DvachApplication)
-
-    fun getAppInstance(): Application
+interface AppComponent : AndroidInjector<DvachApplication>{
 
     @Component.Builder
-    interface Builder {
-        @BindsInstance
-        fun application(application: DvachApplication): Builder
-
-        fun build(): AppComponent
-    }
+    abstract class Builder: AndroidInjector.Builder<DvachApplication>()
 }

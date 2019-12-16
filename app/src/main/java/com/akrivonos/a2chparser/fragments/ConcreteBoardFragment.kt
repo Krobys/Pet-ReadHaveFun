@@ -10,7 +10,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +19,6 @@ import com.akrivonos.a2chparser.activities.MainActivity.Companion.ID_BOARD
 import com.akrivonos.a2chparser.activities.MainActivity.Companion.NAME_BOARD
 import com.akrivonos.a2chparser.adapters.recviewadapters.ThreadAdapter
 import com.akrivonos.a2chparser.base.BaseFragment
-import com.akrivonos.a2chparser.dagger.Injectable
 import com.akrivonos.a2chparser.databinding.FragmentConcreteBoardBinding
 import com.akrivonos.a2chparser.dialogs.FilterSettingsDialog
 import com.akrivonos.a2chparser.interfaces.*
@@ -34,20 +32,16 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
 
 
-class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcreteBoardBinding>(), SearchView.OnQueryTextListener, Injectable, OnBackPressedFragmentsListener {
+class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcreteBoardBinding>(), SearchView.OnQueryTextListener, OnBackPressedFragmentsListener {
 
     private lateinit var threadAdapter: ThreadAdapter
     private var pageDisplayModeListener: NavBarDisplayModeListener? = null
     private var searchView: SearchView? = null
 
-
     override val viewModelClass: Class<ConcreteBoardViewModel>
         get() = ConcreteBoardViewModel::class.java
-
-    override var progressBar: ProgressBar? = null
     override val layoutId: Int
         get() = R.layout.fragment_concrete_board
-
 
     @Inject
     lateinit var itemDecoratorUtils: ItemDecoratorUtils
@@ -69,8 +63,8 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
         }
     }
 
-    override fun doAfterCreateView() {
-        setUpScreen()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         startLoadThreadsForBoard()
     }
@@ -113,7 +107,7 @@ class ConcreteBoardFragment : BaseFragment<ConcreteBoardViewModel, FragmentConcr
         binding.boardThreadsRecView.visibility = View.VISIBLE
     }
 
-    private fun setUpScreen() {
+    override fun setUpScreen() {
         binding.boardThreadsRecView.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(itemDecoratorUtils.createItemDecorationOffsets(DecorationDirection.BOTTOM, 50))

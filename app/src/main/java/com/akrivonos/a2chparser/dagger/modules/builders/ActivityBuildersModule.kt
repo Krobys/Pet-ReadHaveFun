@@ -1,4 +1,4 @@
-package com.akrivonos.a2chparser.dagger.modules
+package com.akrivonos.a2chparser.dagger.modules.builders
 
 import android.app.Application
 import com.akrivonos.a2chparser.DvachApplication

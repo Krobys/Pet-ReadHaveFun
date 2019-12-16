@@ -1,27 +1,25 @@
 package com.akrivonos.a2chparser.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akrivonos.a2chparser.R
 import com.akrivonos.a2chparser.activities.MainActivity
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_BOARD
 import com.akrivonos.a2chparser.adapters.recviewadapters.SaveListTypesAdapter.Companion.SAVE_TYPE_NOVALUE
-import com.akrivonos.a2chparser.dagger.Injectable
+import com.akrivonos.a2chparser.base.BaseFragmentWithoutViewModel
 import com.akrivonos.a2chparser.databinding.FragmentFavoritePageBinding
 import com.akrivonos.a2chparser.interfaces.NavBarDisplayModeListener
 import com.akrivonos.a2chparser.interfaces.OpenDetailedSavePage
 import com.akrivonos.a2chparser.models.SaveTypeModel
 
-class FavoritePageThemesList : Fragment(), Injectable {
+class FavoritePageThemesList : BaseFragmentWithoutViewModel<FragmentFavoritePageBinding>(){
 
-    private lateinit var binding: FragmentFavoritePageBinding
     private lateinit var pageDisplayListener: NavBarDisplayModeListener
+
+
+    override val layoutId: Int
+        get() = R.layout.fragment_favorite_page
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +30,7 @@ class FavoritePageThemesList : Fragment(), Injectable {
         pageDisplayListener = activity as NavBarDisplayModeListener
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite_page, container, false)
-        setUpScreen()
-        return binding.root
-    }
-
-    private fun setUpScreen() {
+    override fun setUpScreen() {
         binding.recViewSavedThemes.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = SaveListTypesAdapter(context, activity as OpenDetailedSavePage).apply {
@@ -62,4 +53,5 @@ class FavoritePageThemesList : Fragment(), Injectable {
         saveTypesArray.add(SaveTypeModel(getString(R.string.media_name_item), SAVE_TYPE_NOVALUE))
         return saveTypesArray
     }
+
 }

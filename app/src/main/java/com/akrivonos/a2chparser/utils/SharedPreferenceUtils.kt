@@ -6,25 +6,6 @@ import javax.inject.Inject
 
 class SharedPreferenceUtils @Inject constructor() {
 
-    fun setAdultSetting(context: Context?, isAdult: Boolean) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        sharedPreferences.edit()
-                .putBoolean(ADULT_PARAMETER, isAdult)
-                .putBoolean(ADULT_SET_FLAG, true)
-                .apply()
-
-    }
-
-    fun getAdultSetting(context: Context?): Boolean {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        return sharedPreferences.getBoolean(ADULT_PARAMETER, false)
-    }
-
-    fun isAdultSettingsSet(context: Context?): Boolean {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        return sharedPreferences.getBoolean(ADULT_SET_FLAG, false)
-    }
-
     fun setFilterStatusEnabled(context: Context?, boolean: Boolean) {
         PreferenceManager.getDefaultSharedPreferences(context).edit()
                 .putBoolean(THREAD_FILTER_STATUS, boolean)
@@ -40,8 +21,6 @@ class SharedPreferenceUtils @Inject constructor() {
     }
 
     companion object {
-        private const val ADULT_SET_FLAG = "adult_set_flag"
-        private const val ADULT_PARAMETER = "adult_parameter"
         private const val THREAD_FILTER_STATUS = "thread_filter_status"
     }
 }
